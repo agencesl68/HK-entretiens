@@ -1,0 +1,1520 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#0D0E10">
+<meta name="color-scheme" content="dark">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="HK Entretiens">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="icon.png">
+<link rel="icon" href="icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<title>HK Entretiens</title>
+<style>
+/* =============================================================================
+   HK TERRASSEMENT — ENTRETIENS DU PARC
+   Registre « atelier » : graphite, jaune engin, signalisation chantier.
+   Angles vifs, titres condensés, chiffres en police compteur.
+   ============================================================================= */
+:root{
+  --bg:#0D0E10; --bg-2:#111316; --panel:#16181B; --panel-2:#1C1F23; --panel-3:#23272C;
+  --line:#2A2E33; --line-2:#3A3F46;
+  --tx:#F2F0EA; --tx-2:#B3B6BC; --tx-3:#7A7F87;
+  --yel:#FFC400; --yel-2:#FFD84D; --yel-ink:#0D0E10; --yel-dim:rgba(255,196,0,.12);
+  --red:#FF4D3D; --red-dim:rgba(255,77,61,.14);
+  --amb:#FF9F1A; --amb-dim:rgba(255,159,26,.14);
+  --grn:#3DDC84; --grn-dim:rgba(61,220,132,.12);
+  --blu:#5AA9FF; --blu-dim:rgba(90,169,255,.14);
+  --gry:#8A9099; --gry-dim:rgba(138,144,153,.14);
+  --hk:#FE6001;
+  --cond:"Barlow Condensed","Arial Narrow",Impact,sans-serif;
+  --sans:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
+  --mono:"JetBrains Mono",ui-monospace,"SF Mono",Menlo,monospace;
+  --r:4px; --ease:cubic-bezier(.2,.8,.2,1);
+  --st:env(safe-area-inset-top); --sbm:env(safe-area-inset-bottom);
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;padding:0;min-height:100%}
+body{background:var(--bg);color:var(--tx);font:500 15px/1.45 var(--sans);-webkit-font-smoothing:antialiased;overflow-x:hidden}
+button,input,select,textarea{font:inherit;color:inherit}
+button{cursor:pointer;background:none;border:0;padding:0}
+:focus-visible{outline:2px solid var(--yel);outline-offset:2px}
+[hidden]{display:none!important}
+.mono{font-family:var(--mono);font-variant-numeric:tabular-nums;letter-spacing:-.02em}
+.cond{font-family:var(--cond);text-transform:uppercase;letter-spacing:.02em}
+svg.i{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:1.9;stroke-linecap:square;stroke-linejoin:miter;flex:0 0 auto}
+@keyframes in{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:none}}
+@keyframes blink{50%{opacity:.35}}
+@keyframes spin{to{transform:rotate(360deg)}}
+@keyframes slide{from{background-position:0 0}to{background-position:28px 0}}
+
+/* ---------- en-tête ---------- */
+.hd{position:sticky;top:0;z-index:40;background:var(--bg);border-bottom:1px solid var(--line);padding-top:var(--st)}
+.hd .bar{display:flex;align-items:center;gap:12px;height:58px;padding:0 16px;max-width:1180px;margin:0 auto}
+.mark{display:flex;align-items:center;gap:10px;min-width:0;flex:1}
+.mark .hk{width:34px;height:34px;flex:0 0 34px;background:var(--yel);color:var(--yel-ink);display:flex;align-items:center;justify-content:center;
+  font:800 17px/1 var(--cond);letter-spacing:.02em;clip-path:polygon(0 0,100% 0,100% 72%,72% 100%,0 100%)}
+.mark .t{min-width:0}
+.mark .t b{display:block;font:800 21px/1 var(--cond);text-transform:uppercase;letter-spacing:.03em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.mark .t small{display:block;font:600 10.5px/1 var(--mono);color:var(--tx-3);letter-spacing:.06em;margin-top:4px;text-transform:uppercase}
+.back{width:40px;height:40px;flex:0 0 40px;display:flex;align-items:center;justify-content:center;border:1px solid var(--line-2);border-radius:var(--r);color:var(--tx)}
+.back:active{background:var(--panel-2)}
+.hbtn{position:relative;width:40px;height:40px;flex:0 0 40px;display:flex;align-items:center;justify-content:center;border:1px solid var(--line-2);border-radius:var(--r);color:var(--tx-2)}
+.hbtn .dot{position:absolute;top:7px;right:7px;width:7px;height:7px;background:var(--yel);border-radius:50%}
+.tabs{display:flex;max-width:1180px;margin:0 auto;padding:0 8px;overflow-x:auto;scrollbar-width:none}
+.tabs::-webkit-scrollbar{display:none}
+.tabs a{flex:1 0 auto;display:flex;align-items:center;justify-content:center;gap:7px;height:44px;padding:0 12px;text-decoration:none;color:var(--tx-3);
+  font:700 15px/1 var(--cond);text-transform:uppercase;letter-spacing:.08em;border-bottom:3px solid transparent;transition:color .15s}
+.tabs a.on{color:var(--tx);border-bottom-color:var(--yel)}
+.tabs a .n{font:700 11px/1 var(--mono);padding:3px 5px;border-radius:3px;background:var(--red);color:#fff;letter-spacing:0}
+.tabs a .n.a{background:var(--amb);color:#111}
+
+main{max-width:1180px;margin:0 auto;padding:0 16px calc(96px + var(--sbm))}
+.view{animation:in .2s var(--ease) both}
+
+/* ---------- tableau de bord ---------- */
+.score{display:grid;grid-template-columns:repeat(3,1fr);border:1px solid var(--line);background:var(--panel);margin-top:16px}
+.score button{padding:14px 14px 12px;text-align:left;border-left:1px solid var(--line);position:relative}
+.score button:first-child{border-left:0}
+.score button:active{background:var(--panel-2)}
+.score b{display:block;font:700 36px/1 var(--mono);letter-spacing:-.04em}
+.score span{display:flex;align-items:center;gap:6px;margin-top:8px;font:700 12px/1 var(--cond);text-transform:uppercase;letter-spacing:.09em;color:var(--tx-2)}
+.score span i{width:8px;height:8px;display:block}
+.score .r b{color:var(--red)} .score .r i{background:var(--red);animation:blink 1.2s steps(2) infinite}
+.score .a b{color:var(--amb)} .score .a i{background:var(--amb)}
+.score .s b{color:var(--blu)} .score .s i{background:var(--blu)}
+.score .z b{color:var(--tx-3)}
+.health{display:flex;align-items:center;gap:12px;margin-top:10px;padding:10px 12px;background:var(--panel);border:1px solid var(--line)}
+.health .lbl{font:700 12px/1 var(--cond);text-transform:uppercase;letter-spacing:.09em;color:var(--tx-2);white-space:nowrap}
+.health .segs{flex:1;display:grid;gap:2px}
+.health .segs i{height:12px;display:block;background:var(--panel-3)}
+.health .pc{font:700 15px/1 var(--mono);min-width:44px;text-align:right}
+
+.hazard{height:6px;background:repeating-linear-gradient(-45deg,var(--yel) 0 10px,#111 10px 20px);animation:slide 1.6s linear infinite}
+
+.tools{display:flex;gap:8px;margin-top:16px;align-items:center}
+.find{flex:1;position:relative}
+.find input{width:100%;height:44px;background:var(--panel);border:1px solid var(--line-2);border-radius:var(--r);padding:0 12px 0 40px;font-size:16px;outline:none}
+.find input::placeholder{color:var(--tx-3)}
+.find input:focus{border-color:var(--yel)}
+.find svg{position:absolute;left:12px;top:12px;color:var(--tx-3)}
+.filters{display:flex;gap:6px;overflow-x:auto;margin:10px -16px 0;padding:0 16px 2px;scrollbar-width:none}
+.filters::-webkit-scrollbar{display:none}
+.filters button{flex:0 0 auto;height:34px;padding:0 12px;border:1px solid var(--line-2);border-radius:var(--r);font:700 13.5px/1 var(--cond);text-transform:uppercase;letter-spacing:.07em;color:var(--tx-2);display:flex;align-items:center;gap:7px}
+.filters button .c{font:600 11px/1 var(--mono);color:var(--tx-3)}
+.filters button.on{background:var(--tx);border-color:var(--tx);color:var(--bg)}
+.filters button.on .c{color:#555}
+
+.cap{display:flex;align-items:center;gap:10px;margin:22px 0 8px;font:700 13px/1 var(--cond);text-transform:uppercase;letter-spacing:.12em;color:var(--tx-3)}
+.cap::after{content:"";flex:1;height:1px;background:var(--line)}
+.cap .c{font:600 11px/1 var(--mono);color:var(--tx-3);order:2}
+.cap svg.i{width:16px;height:16px}
+
+/* ligne machine */
+.rows{display:grid;gap:1px;background:var(--line);border:1px solid var(--line)}
+@media (min-width:900px){.rows.cols{grid-template-columns:1fr 1fr}}
+.m{display:grid;grid-template-columns:5px 1fr auto;align-items:stretch;background:var(--panel);text-align:left;width:100%;min-height:76px;animation:in .2s var(--ease) both}
+.m:active{background:var(--panel-2)}
+@media (hover:hover){.m:hover{background:var(--panel-2)}}
+.m .st{background:var(--gry)}
+.m.retard .st{background:var(--red)} .m.bientot .st{background:var(--amb)} .m.ok .st{background:var(--grn)} .m.prog .st{background:var(--blu)}
+.m .body{padding:12px 12px 11px 13px;min-width:0}
+.m .nm{font:700 19px/1.05 var(--cond);text-transform:uppercase;letter-spacing:.02em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.m .sb{display:flex;align-items:center;gap:8px;margin-top:4px;font-size:12.5px;color:var(--tx-3);white-space:nowrap;overflow:hidden}
+.m .nx{display:flex;align-items:center;gap:8px;margin-top:9px}
+.m .nx .lb{font-size:12.5px;color:var(--tx-2);font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0;flex:1}
+.m .side{display:flex;flex-direction:column;align-items:flex-end;justify-content:space-between;padding:12px 14px 11px 6px;gap:8px}
+.cnt{font:700 15px/1 var(--mono);color:var(--tx);white-space:nowrap}
+.cnt em{font-style:normal;color:var(--tx-3);font-size:11px;margin-left:3px}
+
+.gauge{display:grid;grid-template-columns:repeat(10,1fr);gap:2px;width:90px;flex:0 0 90px}
+.gauge i{height:8px;background:var(--panel-3);display:block}
+.gauge.ok i.f{background:var(--grn)} .gauge.bientot i.f{background:var(--amb)} .gauge.retard i.f{background:var(--red)} .gauge.inconnu i.f{background:var(--gry)}
+.gauge.lg{width:100%;grid-template-columns:repeat(20,1fr)}
+.gauge.lg i{height:10px}
+
+.tg{display:inline-flex;align-items:center;gap:5px;height:22px;padding:0 7px;border-radius:3px;font:700 12px/1 var(--cond);text-transform:uppercase;letter-spacing:.07em;white-space:nowrap}
+.tg.retard{background:var(--red);color:#fff}
+.tg.bientot{background:var(--amb);color:#140B00}
+.tg.ok{background:var(--grn-dim);color:var(--grn)}
+.tg.inconnu{background:var(--gry-dim);color:var(--tx-2)}
+.tg.prog{background:var(--blu-dim);color:var(--blu)}
+.tg.vgp{background:var(--yel);color:var(--yel-ink)}
+.tg.line{border:1px solid var(--line-2);color:var(--tx-2)}
+
+.plate{display:inline-flex;align-items:stretch;height:20px;border-radius:3px;overflow:hidden;background:#F4F4F0;color:#111;font:700 11.5px/20px var(--mono);letter-spacing:.04em}
+.plate:before{content:"F";background:#1D3E9A;color:#fff;font-size:8px;padding:0 3px;line-height:22px}
+.plate span{padding:0 6px}
+
+/* liste d'échéances (tâches) */
+.task{display:grid;grid-template-columns:auto 1fr auto;gap:12px;align-items:center;background:var(--panel);padding:12px 14px;width:100%;text-align:left;min-height:64px}
+.task:active{background:var(--panel-2)}
+.task .d{width:50px;text-align:center;border:1px solid var(--line-2);padding:6px 0 5px;border-radius:3px}
+.task .d b{display:block;font:700 22px/1 var(--mono);letter-spacing:-.04em}
+.task .d small{display:block;font:700 11px/1 var(--cond);text-transform:uppercase;letter-spacing:.1em;color:var(--tx-3);margin-top:3px}
+.task .d.retard{border-color:var(--red);color:var(--red)} .task .d.retard small{color:var(--red)}
+.task .d.bientot{border-color:var(--amb);color:var(--amb)} .task .d.bientot small{color:var(--amb)}
+.task .d.prog{border-color:var(--blu);color:var(--blu)} .task .d.prog small{color:var(--blu)}
+.task .t1{display:block;font:700 17px/1.1 var(--cond);text-transform:uppercase;letter-spacing:.02em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.task .t2{display:block;font-size:12.5px;color:var(--tx-3);margin-top:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.task .t2 b{color:var(--tx-2);font-weight:600}
+
+/* ---------- fiche engin ---------- */
+.idp{margin-top:16px;border:1px solid var(--line);background:var(--panel)}
+.idp .top{display:flex;gap:14px;padding:16px;align-items:flex-start}
+.idp .ic{width:56px;height:56px;flex:0 0 56px;display:flex;align-items:center;justify-content:center;background:var(--yel);color:var(--yel-ink);clip-path:polygon(0 0,100% 0,100% 76%,76% 100%,0 100%)}
+.idp .ic svg.i{width:32px;height:32px;stroke-width:1.7}
+.idp h1{margin:0;font:800 30px/.98 var(--cond);text-transform:uppercase;letter-spacing:.01em}
+.idp .tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:9px;align-items:center}
+.idp .ed{margin-left:auto}
+.meter{display:grid;grid-template-columns:1fr auto;align-items:end;gap:12px;border-top:1px solid var(--line);padding:14px 16px;background:var(--bg-2)}
+.meter small{display:block;font:700 12px/1 var(--cond);text-transform:uppercase;letter-spacing:.12em;color:var(--tx-3)}
+.meter .v{font:700 40px/1 var(--mono);letter-spacing:-.05em;margin-top:8px;display:flex;align-items:baseline;gap:4px}
+.meter .v em{font-style:normal;font-size:15px;color:var(--tx-3);letter-spacing:0}
+.meter .mnote{font-size:12px;color:var(--tx-3);margin-top:6px}
+.odo{display:inline-flex;gap:2px}
+.odo span{display:inline-block;min-width:.72em;text-align:center;background:#000;border:1px solid var(--line-2);padding:4px 2px;border-radius:2px}
+
+.stabs{display:grid;grid-template-columns:repeat(4,1fr);margin-top:14px;border:1px solid var(--line);position:sticky;top:calc(103px + var(--st));z-index:5;background:var(--bg)}
+.stabs button{height:42px;font:700 14px/1 var(--cond);text-transform:uppercase;letter-spacing:.08em;color:var(--tx-3);border-left:1px solid var(--line)}
+.stabs button:first-child{border-left:0}
+.stabs button.on{background:var(--tx);color:var(--bg)}
+
+.svc{background:var(--panel);border:1px solid var(--line);margin-top:10px;animation:in .2s var(--ease) both}
+.svc .h{display:flex;align-items:center;gap:10px;padding:12px 14px 0}
+.svc .h .ti{flex:1;min-width:0}
+.svc .h .ti b{display:block;font:700 19px/1.05 var(--cond);text-transform:uppercase;letter-spacing:.02em}
+.svc .h .ti small{display:block;font-size:12px;color:var(--tx-3);margin-top:2px}
+.svc .ico{width:34px;height:34px;flex:0 0 34px;border:1px solid var(--line-2);display:flex;align-items:center;justify-content:center;color:var(--tx-2);border-radius:3px}
+.svc .ico svg.i{width:18px;height:18px}
+.svc .g{padding:12px 14px 4px}
+.svc .kv2{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--line);border-top:1px solid var(--line);margin-top:10px}
+.svc .kv2 div{background:var(--panel);padding:9px 14px}
+.svc .kv2 small{display:block;font:700 11px/1 var(--cond);text-transform:uppercase;letter-spacing:.11em;color:var(--tx-3)}
+.svc .kv2 b{display:block;font:700 14px/1.2 var(--mono);margin-top:5px;letter-spacing:-.02em}
+.svc .acts{display:grid;grid-template-columns:1fr 1fr auto;border-top:1px solid var(--line)}
+.svc .acts button{height:44px;display:flex;align-items:center;justify-content:center;gap:7px;font:700 14px/1 var(--cond);text-transform:uppercase;letter-spacing:.08em;color:var(--tx-2);border-left:1px solid var(--line)}
+.svc .acts button:first-child{border-left:0;color:var(--yel)}
+.svc .acts button:last-child{width:48px}
+.svc .acts button:active{background:var(--panel-2)}
+.svc .msg{padding:10px 14px 0;font-size:13px;color:var(--tx-3)}
+
+.log{border:1px solid var(--line);margin-top:10px}
+.log .e{display:grid;grid-template-columns:86px 1fr;gap:0;border-top:1px solid var(--line);background:var(--panel);width:100%;text-align:left}
+.log .e:first-child{border-top:0}
+.log .e:active{background:var(--panel-2)}
+.log .e .w{padding:12px 10px 12px 14px;border-right:1px solid var(--line)}
+.log .e .w b{display:block;font:700 13px/1.2 var(--mono)}
+.log .e .w small{display:block;font:600 11px/1.2 var(--mono);color:var(--tx-3);margin-top:3px}
+.log .e .x{padding:12px 14px;min-width:0}
+.log .e .x b{display:block;font:700 17px/1.1 var(--cond);text-transform:uppercase;letter-spacing:.02em}
+.log .e .x .p{display:flex;flex-wrap:wrap;gap:4px;margin-top:6px}
+.log .e .x .p span{font-size:11.5px;font-weight:600;color:var(--tx-2);border:1px solid var(--line-2);padding:2px 6px;border-radius:3px}
+.log .e .x .m2{font-size:12px;color:var(--tx-3);margin-top:6px}
+
+.spec{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--line);border:1px solid var(--line);margin-top:10px}
+.spec div{background:var(--panel);padding:11px 14px}
+.spec small{display:block;font:700 11px/1 var(--cond);text-transform:uppercase;letter-spacing:.11em;color:var(--tx-3)}
+.spec b{display:block;margin-top:5px;font-weight:600;font-size:14.5px;word-break:break-word}
+
+/* ---------- agenda ---------- */
+.mhead{display:flex;align-items:center;gap:8px;margin-top:16px}
+.mhead h2{flex:1;margin:0;font:800 26px/1 var(--cond);text-transform:uppercase;letter-spacing:.02em}
+.mhead button{width:40px;height:40px;border:1px solid var(--line-2);border-radius:var(--r);display:flex;align-items:center;justify-content:center}
+.mhead .auj{width:auto;padding:0 12px;font:700 13px/1 var(--cond);text-transform:uppercase;letter-spacing:.08em}
+.grid{display:grid;grid-template-columns:repeat(7,1fr);gap:1px;background:var(--line);border:1px solid var(--line);margin-top:12px}
+.grid .dw{background:var(--bg-2);text-align:center;padding:7px 0;font:700 11.5px/1 var(--cond);text-transform:uppercase;letter-spacing:.1em;color:var(--tx-3)}
+.grid .dd{background:var(--panel);min-height:56px;padding:5px;display:flex;flex-direction:column;align-items:flex-start;gap:4px;text-align:left;position:relative}
+.grid .dd.out{background:var(--bg-2);color:var(--tx-3)}
+.grid .dd .n{font:700 13px/1 var(--mono)}
+.grid .dd.today .n{background:var(--yel);color:var(--yel-ink);padding:3px 4px;margin:-3px}
+.grid .dd.sel{outline:2px solid var(--tx);outline-offset:-2px;z-index:1}
+.grid .dd .ds{display:flex;flex-wrap:wrap;gap:2px}
+.grid .dd .ds i{width:7px;height:7px;display:block}
+.grid .dd .ds i.retard{background:var(--red)} .grid .dd .ds i.bientot{background:var(--amb)} .grid .dd .ds i.ok{background:var(--grn)} .grid .dd .ds i.prog{background:var(--blu)}
+.grid .dd .k{position:absolute;right:5px;bottom:5px;font:700 11px/1 var(--mono);color:var(--tx-2)}
+.legend{display:flex;flex-wrap:wrap;gap:12px;margin-top:8px;font-size:11.5px;color:var(--tx-3)}
+.legend span{display:flex;align-items:center;gap:5px}
+.legend i{width:8px;height:8px;display:block}
+
+/* ---------- stock ---------- */
+.sk{display:grid;grid-template-columns:1fr auto;gap:10px;align-items:center;background:var(--panel);padding:10px 10px 10px 14px}
+.sk.low{background:linear-gradient(90deg,var(--red-dim),var(--panel) 55%)}
+.sk .tx{min-width:0;text-align:left}
+.sk .tx b{display:block;font:700 17px/1.1 var(--cond);text-transform:uppercase;letter-spacing:.02em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.sk .tx small{display:block;font-size:12px;color:var(--tx-3);margin-top:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.qty{display:grid;grid-template-columns:42px 62px 42px;height:44px;border:1px solid var(--line-2);border-radius:var(--r);overflow:hidden}
+.qty button{font:600 22px/1 var(--mono);color:var(--tx-2);display:flex;align-items:center;justify-content:center}
+.qty button:active{background:var(--panel-3)}
+.qty b{display:flex;flex-direction:column;align-items:center;justify-content:center;border-left:1px solid var(--line-2);border-right:1px solid var(--line-2);font:700 16px/1 var(--mono);background:#000}
+.qty b small{font:600 9.5px/1 var(--mono);color:var(--tx-3);margin-top:3px}
+.qty.low b{color:var(--red)}
+
+/* ---------- barre d'action ---------- */
+.dock{position:fixed;left:0;right:0;bottom:0;z-index:50;background:var(--bg);border-top:1px solid var(--line);padding:10px 16px calc(10px + var(--sbm))}
+.dock .in{max-width:1180px;margin:0 auto;display:grid;grid-template-columns:1fr 1.4fr;gap:10px}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;height:50px;padding:0 16px;border-radius:var(--r);border:1px solid var(--line-2);
+  font:700 16px/1 var(--cond);text-transform:uppercase;letter-spacing:.09em;color:var(--tx);transition:transform .1s}
+.btn:active{transform:translateY(1px);background:var(--panel-2)}
+.btn.y{background:var(--yel);border-color:var(--yel);color:var(--yel-ink)}
+.btn.y:active{background:var(--yel-2)}
+.btn.w{background:var(--tx);border-color:var(--tx);color:var(--bg)}
+.btn.red{color:var(--red);border-color:rgba(255,77,61,.45)}
+.btn.sm{height:38px;font-size:14px;padding:0 12px}
+.btn.full{width:100%}
+.btn[disabled]{opacity:.5;pointer-events:none}
+.spin{width:18px;height:18px;border:2px solid rgba(0,0,0,.25);border-top-color:currentColor;border-radius:50%;animation:spin .7s linear infinite}
+
+/* ---------- panneau plein écran ---------- */
+.pnl-bg{position:fixed;inset:0;z-index:90;background:rgba(0,0,0,.6);opacity:0;transition:opacity .2s}
+.pnl-bg.on{opacity:1}
+.pnl{position:fixed;top:0;right:0;bottom:0;z-index:91;width:100%;max-width:560px;background:var(--bg);display:flex;flex-direction:column;
+  transform:translateX(100%);transition:transform .28s var(--ease);border-left:1px solid var(--line)}
+.pnl.on{transform:none}
+.pnl .ph{display:flex;align-items:center;gap:12px;padding:calc(10px + var(--st)) 16px 10px;border-bottom:1px solid var(--line)}
+.pnl .ph h3{flex:1;margin:0;font:800 23px/1 var(--cond);text-transform:uppercase;letter-spacing:.02em;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.pnl .ph small{display:block;font:600 11px/1 var(--mono);color:var(--tx-3);text-transform:uppercase;letter-spacing:.06em;margin-bottom:5px}
+.pnl .pb{flex:1;overflow-y:auto;padding:4px 16px 24px;-webkit-overflow-scrolling:touch;overscroll-behavior:contain}
+.pnl .pf{display:flex;gap:10px;padding:10px 16px calc(10px + var(--sbm));border-top:1px solid var(--line)}
+.pnl .pf .btn{flex:1}
+
+.fl{margin-top:16px}
+.fl>label,.lab{display:block;font:700 13px/1 var(--cond);text-transform:uppercase;letter-spacing:.11em;color:var(--tx-2);margin-bottom:7px}
+.fl input,.fl select,.fl textarea{width:100%;height:48px;background:var(--panel);border:1px solid var(--line-2);border-radius:var(--r);padding:0 12px;font-size:16px;outline:none;-webkit-appearance:none;appearance:none;color-scheme:dark}
+.fl textarea{height:auto;min-height:84px;padding:12px;resize:vertical}
+.fl select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23B3B6BC' stroke-width='2' fill='none'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 13px center;padding-right:36px}
+.fl input:focus,.fl select:focus,.fl textarea:focus{border-color:var(--yel)}
+.fl .help{font-size:12px;color:var(--tx-3);margin-top:6px}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.u{position:relative}
+.u input{padding-right:46px}
+.u em{position:absolute;right:12px;top:16px;font:600 13px/1 var(--mono);font-style:normal;color:var(--tx-3);pointer-events:none}
+.big input{height:64px;font:700 28px/1 var(--mono);letter-spacing:-.03em}
+.big em{top:25px}
+
+.pick{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line);border:1px solid var(--line)}
+.pick button{background:var(--panel);display:flex;flex-direction:column;align-items:center;gap:6px;padding:12px 2px 10px;font:700 12.5px/1 var(--cond);text-transform:uppercase;letter-spacing:.06em;color:var(--tx-2)}
+.pick button svg.i{width:26px;height:26px;stroke-width:1.6}
+.pick button.on{background:var(--yel);color:var(--yel-ink)}
+
+.chk{display:flex;flex-wrap:wrap;gap:6px}
+.chk button{min-height:42px;padding:0 12px;border:1px solid var(--line-2);border-radius:var(--r);display:flex;align-items:center;gap:8px;font:700 14.5px/1 var(--cond);text-transform:uppercase;letter-spacing:.05em;color:var(--tx-2)}
+.chk button i{width:16px;height:16px;border:2px solid var(--line-2);display:block;position:relative}
+.chk button.on{border-color:var(--yel);color:var(--tx)}
+.chk button.on i{background:var(--yel);border-color:var(--yel)}
+.chk button.on i::after{content:"";position:absolute;left:3px;top:0;width:5px;height:9px;border:solid var(--yel-ink);border-width:0 2px 2px 0;transform:rotate(45deg)}
+
+.sw{display:flex;align-items:center;gap:12px;padding:13px 14px;border:1px solid var(--line-2);border-radius:var(--r);margin-top:16px;cursor:pointer}
+.sw .tx{flex:1}
+.sw .tx b{display:block;font:700 16px/1.1 var(--cond);text-transform:uppercase;letter-spacing:.05em}
+.sw .tx span{display:block;font-size:12.5px;color:var(--tx-3);margin-top:3px}
+.sw input{position:absolute;opacity:0;width:0;height:0}
+.sw .k{width:46px;height:26px;flex:0 0 46px;border:1px solid var(--line-2);position:relative;background:var(--panel-3);transition:background .15s}
+.sw .k::after{content:"";position:absolute;top:3px;left:3px;width:18px;height:18px;background:var(--tx-3);transition:transform .15s,background .15s}
+.sw input:checked+.k{background:var(--yel-dim);border-color:var(--yel)}
+.sw input:checked+.k::after{transform:translateX(20px);background:var(--yel)}
+
+.part{display:grid;grid-template-columns:1fr 64px 96px 40px;gap:6px;align-items:center;background:var(--panel);border:1px solid var(--line);padding:8px;margin-top:6px}
+.part .pn{min-width:0;font-weight:600;font-size:14px}
+.part .pn small{display:block;font-size:11.5px;color:var(--tx-3);font-weight:500}
+.part input,.part select{height:40px;background:#000;border:1px solid var(--line-2);border-radius:3px;padding:0 8px;font-size:15px;width:100%;-webkit-appearance:none;appearance:none}
+.part .x{width:40px;height:40px;border:1px solid var(--line-2);border-radius:3px;display:flex;align-items:center;justify-content:center;color:var(--tx-3)}
+.alert{display:flex;gap:10px;align-items:flex-start;padding:10px 12px;margin-top:6px;border-left:3px solid var(--amb);background:var(--amb-dim);font-size:13px;color:#FFD9A8}
+.alert.g{border-color:var(--grn);background:var(--grn-dim);color:#BDF2D3}
+.alert svg.i{width:18px;height:18px;margin-top:1px}
+.drop{border:1px solid var(--line-2);margin-top:6px;max-height:260px;overflow-y:auto}
+.drop button{display:flex;align-items:center;gap:10px;width:100%;text-align:left;padding:11px 12px;border-top:1px solid var(--line);background:var(--panel);min-height:48px}
+.drop button:first-child{border-top:0}
+.drop button small{color:var(--tx-3)}
+
+.rl{display:grid;grid-template-columns:1fr 150px;gap:10px;align-items:center;padding:10px 0;border-top:1px solid var(--line)}
+.rl:first-child{border-top:0}
+.rl b{display:block;font:700 17px/1.1 var(--cond);text-transform:uppercase;letter-spacing:.02em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.rl small{display:block;font:500 12px/1.2 var(--mono);color:var(--tx-3);margin-top:3px}
+.rl input{width:100%;height:46px;background:var(--panel);border:1px solid var(--line-2);border-radius:var(--r);padding:0 40px 0 10px;font:700 17px/1 var(--mono);outline:none}
+.rl input:focus{border-color:var(--yel)}
+.rl input.err{border-color:var(--red);color:var(--red)}
+.rl .u em{top:16px}
+
+.menu{border:1px solid var(--line)}
+.menu button,.menu .r{display:flex;align-items:center;gap:12px;width:100%;text-align:left;padding:14px;border-top:1px solid var(--line);background:var(--panel);min-height:58px}
+.menu>*:first-child{border-top:0}
+.menu button:active{background:var(--panel-2)}
+.menu .tx{flex:1;min-width:0}
+.menu .tx b{display:block;font:700 17px/1.1 var(--cond);text-transform:uppercase;letter-spacing:.03em}
+.menu .tx span{display:block;font-size:12.5px;color:var(--tx-3);margin-top:3px}
+
+.void{border:1px dashed var(--line-2);padding:30px 20px;text-align:center;margin-top:14px}
+.void b{display:block;font:800 22px/1 var(--cond);text-transform:uppercase;letter-spacing:.03em}
+.void p{margin:8px auto 16px;max-width:34ch;color:var(--tx-3);font-size:14px}
+.void .btn+.btn{margin-top:8px}
+.ghost{height:74px;margin-top:1px;background:linear-gradient(90deg,var(--panel) 0,var(--panel-2) 40%,var(--panel) 80%);background-size:400px 100%;animation:slide 1s linear infinite}
+
+.toast{position:fixed;left:50%;bottom:calc(84px + var(--sbm));transform:translate(-50%,12px);opacity:0;z-index:200;background:var(--tx);color:var(--bg);
+  padding:12px 16px;border-radius:var(--r);font:700 15px/1.1 var(--cond);text-transform:uppercase;letter-spacing:.06em;display:flex;align-items:center;gap:9px;
+  transition:opacity .2s,transform .2s;max-width:92vw;box-shadow:0 10px 30px rgba(0,0,0,.5)}
+.toast.on{opacity:1;transform:translate(-50%,0)}
+.toast svg.i{color:#0A8A45}
+.toast.err{background:var(--red);color:#fff}
+.toast.err svg.i{color:#fff}
+
+.note{display:flex;align-items:center;gap:10px;margin-top:14px;padding:10px 12px;border:1px solid rgba(90,169,255,.35);background:var(--blu-dim);color:#CFE4FF;font-size:13px}
+.note svg.i{width:18px;height:18px;color:var(--blu)}
+
+/* ---------- connexion ---------- */
+.login{min-height:100vh;display:grid;grid-template-rows:auto 1fr auto;max-width:460px;margin:0 auto;padding:calc(24px + var(--st)) 20px calc(20px + var(--sbm))}
+.login .hk{width:52px;height:52px;background:var(--yel);color:var(--yel-ink);display:flex;align-items:center;justify-content:center;font:800 26px/1 var(--cond);clip-path:polygon(0 0,100% 0,100% 72%,72% 100%,0 100%)}
+.login h1{margin:40px 0 0;font:800 64px/.86 var(--cond);text-transform:uppercase;letter-spacing:-.01em}
+.login h1 span{color:var(--yel)}
+.login p.s{margin:16px 0 0;color:var(--tx-2);max-width:32ch}
+.login form{margin-top:28px}
+.login .err{color:var(--red);font-weight:600;font-size:13.5px;margin-top:10px;min-height:20px}
+.login .demo{margin-top:6px;color:var(--tx-2);font:700 14px/1 var(--cond);text-transform:uppercase;letter-spacing:.09em;padding:14px 0;width:100%;text-align:center;border-top:1px solid var(--line)}
+.login .foot{font:600 10.5px/1.4 var(--mono);color:var(--tx-3);text-transform:uppercase;letter-spacing:.06em;margin-top:20px}
+
+@media (min-width:900px){
+  .score b{font-size:44px}
+  .dock .in{grid-template-columns:220px 280px;justify-content:end}
+}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<div id="app"></div>
+<div id="toast" class="toast" role="status" aria-live="polite"></div>
+<script src="echeances.js"></script>
+<script>
+"use strict";
+const CFG = {
+  supabaseUrl: "https://voxtcptopwnautnxsmia.supabase.co",
+  supabaseKey: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZveHRjcHRvcHduYXV0bnhzbWlhIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODY5Njc3MTMsImV4cCI6MjEwMjU0MzcxM30.Vg0qIfEaitIJ3bdWCT6D0SF_OtUTrp5gKGw0HuWRDcY",
+  domaine: "@hk.local",
+  vapidPublic: "BEx3Fw-lSV6EB3_8PvyiKgQxwyP5xia-vP4kbB33QDHQAO0xZmEt9oTVaMERHOExwblth_T7j2MS7aMQMuYmzBM"
+};
+const E = window.Echeances;
+
+/* =============================================================================
+   ICÔNES (traits fins, style Lucide)
+   ============================================================================= */
+const P = {
+  pelle:'<path d="M2 19h11"/><rect x="3" y="15" width="9" height="4" rx="2"/><path d="M5 15v-4h5l1 4"/><path d="M10 11l5-6 5 4-2 3"/><path d="M18 12l-1 4h4z"/>',
+  camion:'<path d="M2 7h11v9H2z"/><path d="M13 10h4l3 3v3h-7z"/><circle cx="6" cy="17.5" r="2"/><circle cx="17" cy="17.5" r="2"/>',
+  camionnette:'<path d="M2 16V8a2 2 0 0 1 2-2h10l4 4h2a2 2 0 0 1 2 2v4h-2"/><path d="M14 6v4h4"/><circle cx="7" cy="17" r="2"/><circle cx="17" cy="17" r="2"/><path d="M9 17h6"/>',
+  benne:'<path d="M3 7l2 8h12l3-8z"/><path d="M17 15h4"/><circle cx="8" cy="18" r="2"/><circle cx="14" cy="18" r="2"/>',
+  porte_char:'<path d="M2 14h16l4-3"/><path d="M6 14V9h7l2 5"/><circle cx="5" cy="17.5" r="1.8"/><circle cx="10" cy="17.5" r="1.8"/><circle cx="15" cy="17.5" r="1.8"/>',
+  chargeur:'<path d="M2 18h12"/><rect x="5" y="9" width="8" height="6" rx="1.5"/><path d="M7 9V5h4l2 4"/><path d="M13 12l5-3 3 5h-5z"/><circle cx="6" cy="18" r="2.2"/><circle cx="13" cy="18" r="2.2"/>',
+  autre:'<path d="M14.7 6.3a4 4 0 0 0-5.4 5.4L3 18l3 3 6.3-6.3a4 4 0 0 0 5.4-5.4l-2.5 2.5-2.5-.5-.5-2.5z"/>',
+  home:'<path d="M3 10.5 12 3l9 7.5"/><path d="M5 9.5V20h14V9.5"/><path d="M10 20v-6h4v6"/>',
+  parc:'<rect x="3" y="4" width="7" height="7" rx="2"/><rect x="14" y="4" width="7" height="7" rx="2"/><rect x="3" y="14" width="7" height="7" rx="2"/><rect x="14" y="14" width="7" height="7" rx="2"/>',
+  cal:'<rect x="3" y="5" width="18" height="16" rx="3"/><path d="M3 10h18M8 3v4M16 3v4"/>',
+  box:'<path d="M21 8 12 3 3 8v8l9 5 9-5z"/><path d="M3 8l9 5 9-5M12 13v8"/>',
+  plus:'<path d="M12 5v14M5 12h14"/>',
+  chev:'<path d="m9 6 6 6-6 6"/>',
+  backa:'<path d="m15 6-6 6 6 6"/>',
+  search:'<circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/>',
+  gauge:'<path d="M12 14l4-4"/><path d="M3.5 18a9 9 0 1 1 17 0"/>',
+  wrench:'<path d="M14.7 6.3a4 4 0 0 0-5.4 5.4L3 18l3 3 6.3-6.3a4 4 0 0 0 5.4-5.4l-2.5 2.5-2.5-.5-.5-2.5z"/>',
+  drop:'<path d="M12 3s6 6.5 6 11a6 6 0 0 1-12 0c0-4.5 6-11 6-11z"/>',
+  shield:'<path d="M12 3 4 6v6c0 5 3.5 8 8 9 4.5-1 8-4 8-9V6z"/><path d="m9 12 2 2 4-4"/>',
+  tire:'<circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="3.5"/><path d="M12 3v5.5M12 15.5V21M3 12h5.5M15.5 12H21"/>',
+  clip:'<rect x="5" y="4" width="14" height="17" rx="2"/><path d="M9 4V3h6v1"/><path d="M9 11h6M9 15h4"/>',
+  clock:'<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>',
+  bell:'<path d="M6 8a6 6 0 1 1 12 0c0 7 3 8 3 8H3s3-1 3-8"/><path d="M10 20a2 2 0 0 0 4 0"/>',
+  gear:'<circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/>',
+  check:'<path d="m5 12 5 5 9-10"/>',
+  x:'<path d="M6 6l12 12M18 6 6 18"/>',
+  alert:'<path d="M12 3 2 20h20z"/><path d="M12 10v4M12 17.5v.01"/>',
+  edit:'<path d="M4 20h4L19 9l-4-4L4 16z"/><path d="m13.5 6.5 4 4"/>',
+  trash:'<path d="M4 7h16M10 11v6M14 11v6M6 7l1 13h10l1-13M9 7V4h6v3"/>',
+  filter:'<path d="M4 5h16l-6 8v6l-4-2v-4z"/>',
+  cog:'<circle cx="12" cy="12" r="3.2"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9 7 7M17 17l2.1 2.1M4.9 19.1 7 17M17 7l2.1-2.1"/>',
+  zap:'<path d="M13 2 4 14h7l-1 8 9-12h-7z"/>',
+  logout:'<path d="M15 4h4v16h-4"/><path d="M10 8l-4 4 4 4M6 12h10"/>',
+  play:'<path d="M5 12h14M13 6l6 6-6 6"/>'
+};
+const ico = (n, c) => `<svg class="i${c ? " " + c : ""}" viewBox="0 0 24 24" aria-hidden="true">${P[n] || P.autre}</svg>`;
+
+/* =============================================================================
+   RÉFÉRENTIELS
+   ============================================================================= */
+const CATS = [
+  { id: "pelle",       nom: "Pelle",        pluriel: "Pelles",        cpt: "heures" },
+  { id: "camion",      nom: "Camion",       pluriel: "Camions",       cpt: "km" },
+  { id: "chargeur",    nom: "Chargeuse",    pluriel: "Chargeuses",    cpt: "heures" },
+  { id: "camionnette", nom: "Camionnette",  pluriel: "Camionnettes",  cpt: "km" },
+  { id: "benne",       nom: "Benne",        pluriel: "Bennes",        cpt: "aucun" },
+  { id: "porte_char",  nom: "Porte-char",   pluriel: "Porte-chars",   cpt: "aucun" },
+  { id: "autre",       nom: "Autre",        pluriel: "Autres",        cpt: "heures" }
+];
+const CAT = Object.fromEntries(CATS.map(c => [c.id, c]));
+
+const TYPES = {
+  revision:    { nom: "Révision",            ic: "wrench" },
+  vidange:     { nom: "Vidange",             ic: "drop" },
+  hydraulique: { nom: "Hydraulique",         ic: "drop" },
+  graissage:   { nom: "Graissage",           ic: "drop" },
+  vgp:         { nom: "VGP",                 ic: "shield" },
+  ct:          { nom: "Contrôle technique",  ic: "clip" },
+  pneus:       { nom: "Pneus",               ic: "tire" },
+  freins:      { nom: "Freins",              ic: "gauge" },
+  tachy:       { nom: "Chronotachygraphe",   ic: "clock" },
+  reparation:  { nom: "Réparation",          ic: "wrench" },
+  autre:       { nom: "Autre",               ic: "cog" }
+};
+const STOCK_CATS = ["Filtres", "Huiles & fluides", "Pièces", "Pneus", "Usure (dents, lames…)", "Autre"];
+const VGP_SEUIL = 8; // tonnes
+
+/* Programme d'entretien créé automatiquement à l'ajout d'un engin.
+   Tout reste modifiable ensuite dans la fiche. */
+function plansParDefaut(cat, vgp) {
+  const p = (type, libelle, cpt, mois) => ({ type, libelle, intervalle_cpt: cpt || null, intervalle_mois: mois || null });
+  const L = {
+    pelle:       [p("revision", "Révision 500 h", 500, 12), p("hydraulique", "Vidange hydraulique", 2000, 24)],
+    chargeur:    [p("revision", "Révision 500 h", 500, 12), p("hydraulique", "Vidange hydraulique", 2000, 24), p("pneus", "Pneus", 0, 24)],
+    camion:      [p("revision", "Révision / vidange", 30000, 12), p("pneus", "Pneus", 60000, 12), p("ct", "Contrôle technique", 0, 12), p("tachy", "Chronotachygraphe", 0, 24)],
+    camionnette: [p("revision", "Révision / vidange", 20000, 12), p("pneus", "Pneus", 40000, 24), p("ct", "Contrôle technique", 0, 24)],
+    benne:       [p("graissage", "Graissage & freins", 0, 6), p("pneus", "Pneus", 0, 12), p("ct", "Contrôle technique", 0, 12)],
+    porte_char:  [p("graissage", "Graissage & freins", 0, 6), p("pneus", "Pneus", 0, 12), p("ct", "Contrôle technique", 0, 12)],
+    autre:       [p("revision", "Révision", 0, 12)]
+  }[cat] || [];
+  if (vgp) L.push(p("vgp", "VGP", 0, cat === "pelle" ? 6 : 12));
+  return L;
+}
+
+/* =============================================================================
+   OUTILS
+   ============================================================================= */
+const $ = (s, r = document) => r.querySelector(s);
+const $$ = (s, r = document) => Array.from(r.querySelectorAll(s));
+const esc = s => String(s == null ? "" : s).replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+const uid = () => (crypto.randomUUID ? crypto.randomUUID() : "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g, c => { const r = Math.random() * 16 | 0; return (c === "x" ? r : (r & 3 | 8)).toString(16); }));
+const nf = new Intl.NumberFormat("fr-FR", { maximumFractionDigits: 1 });
+const nfe = new Intl.NumberFormat("fr-FR", { style: "currency", currency: "EUR" });
+const fmtN = v => v == null || v === "" ? "—" : nf.format(+v);
+const unite = e => e.compteur_type === "km" ? "km" : e.compteur_type === "heures" ? "h" : "";
+const todayISO = () => E.iso(E.aujourdhui());
+const MOIS = ["janv.", "févr.", "mars", "avr.", "mai", "juin", "juil.", "août", "sept.", "oct.", "nov.", "déc."];
+function fmtD(s, an) {
+  const d = typeof s === "string" ? E.versDate(s) : s; if (!d) return "—";
+  const a = d.getUTCFullYear();
+  return d.getUTCDate() + " " + MOIS[d.getUTCMonth()] + (an || a !== E.aujourdhui().getUTCFullYear() ? " " + a : "");
+}
+function rel(j) {
+  if (j == null) return "";
+  if (j === 0) return "aujourd'hui";
+  if (j === 1) return "demain";
+  if (j < 0) return "retard " + (-j) + " j";
+  if (j < 14) return "dans " + j + " j";
+  if (j < 60) return "dans " + Math.round(j / 7) + " sem.";
+  return "dans " + Math.round(j / 30.4) + " mois";
+}
+const sortNom = (a, b) => a.nom.localeCompare(b.nom, "fr", { numeric: true, sensitivity: "base" });
+
+let toastT;
+function toast(msg, err) {
+  const t = $("#toast");
+  t.className = "toast" + (err ? " err" : "");
+  t.innerHTML = ico(err ? "alert" : "check") + "<span>" + esc(msg) + "</span>";
+  requestAnimationFrame(() => t.classList.add("on"));
+  clearTimeout(toastT); toastT = setTimeout(() => t.classList.remove("on"), 2600);
+}
+
+/* =============================================================================
+   DONNÉES — Supabase (en ligne) ou navigateur (mode démo)
+   ============================================================================= */
+const CLE_SESSION = "hke_session", CLE_DEMO = "hke_demo";
+let session = null;
+const TABLES = ["engins", "entretien_plans", "entretien_interventions", "entretien_releves", "stock_articles"];
+
+const SB = {
+  base: () => CFG.supabaseUrl.replace(/\/+$/, ""),
+  async auth(corps, type) {
+    const r = await fetch(SB.base() + "/auth/v1/token?grant_type=" + type, {
+      method: "POST", headers: { apikey: CFG.supabaseKey, "Content-Type": "application/json" }, body: JSON.stringify(corps) });
+    return r.ok ? r.json() : null;
+  },
+  async q(chemin, opt = {}, rejoue) {
+    const h = { apikey: CFG.supabaseKey, Authorization: "Bearer " + (session ? session.accessToken : CFG.supabaseKey), "Content-Type": "application/json" };
+    if (opt.prefer) h.Prefer = opt.prefer;
+    const r = await fetch(SB.base() + "/rest/v1/" + chemin, { method: opt.method || "GET", headers: h, body: opt.body ? JSON.stringify(opt.body) : undefined });
+    if (r.status === 401 && !rejoue && session && session.refreshToken) {
+      const n = await SB.auth({ refresh_token: session.refreshToken }, "refresh_token");
+      if (n && n.access_token) {
+        session.accessToken = n.access_token; session.refreshToken = n.refresh_token;
+        localStorage.setItem(CLE_SESSION, JSON.stringify(session));
+        return SB.q(chemin, opt, true);
+      }
+      deconnexion(); throw new Error("Session expirée");
+    }
+    if (!r.ok) { let m = "Erreur " + r.status; try { const j = await r.json(); m = j.message || m; } catch (e) {} throw new Error(m); }
+    if (r.status === 204) return null;
+    const t = await r.text(); return t ? JSON.parse(t) : null;
+  }
+};
+
+const Store = {
+  demo: false,
+  local() { try { return JSON.parse(localStorage.getItem(CLE_DEMO)) || null; } catch (e) { return null; } },
+  saveLocal(db) { try { localStorage.setItem(CLE_DEMO, JSON.stringify(db)); } catch (e) {} },
+  async all(t) {
+    if (this.demo) return (this.local() || {})[t] || [];
+    return SB.q(t + "?select=*");
+  },
+  async ins(t, row) {
+    if (this.demo) { const db = this.local(); db[t].push(row); this.saveLocal(db); return row; }
+    const r = await SB.q(t, { method: "POST", body: row, prefer: "return=representation" }); return r[0];
+  },
+  async upd(t, id, patch) {
+    if (this.demo) { const db = this.local(); const x = db[t].find(r => r.id === id); Object.assign(x, patch); this.saveLocal(db); return x; }
+    const r = await SB.q(t + "?id=eq." + id, { method: "PATCH", body: patch, prefer: "return=representation" }); return r[0];
+  },
+  async del(t, id) {
+    if (this.demo) { const db = this.local(); db[t] = db[t].filter(r => r.id !== id); this.saveLocal(db); return; }
+    await SB.q(t + "?id=eq." + id, { method: "DELETE" });
+  }
+};
+
+/* État en mémoire : tout le parc tient dans quelques centaines de lignes. */
+const S = { engins: [], plans: [], inter: [], releves: [], stock: [], moi: null, charge: false };
+
+async function chargerTout() {
+  const [en, pl, it, re, st] = await Promise.all(TABLES.map(t => Store.all(t)));
+  S.engins = en; S.plans = pl; S.inter = it; S.releves = re; S.stock = st; S.charge = true;
+  recalc();
+}
+
+/* Recalcul de toutes les échéances */
+let ETATS = [];
+function recalc() {
+  const auj = E.aujourdhui();
+  const taux = {};
+  for (const e of S.engins) taux[e.id] = E.tauxJour(S.releves.filter(r => r.engin_id === e.id), auj);
+  S.taux = taux;
+  const actifs = new Map(S.engins.filter(e => e.actif !== false).map(e => [e.id, e]));
+  ETATS = S.plans.filter(p => actifs.has(p.engin_id)).map(p => {
+    const e = actifs.get(p.engin_id);
+    return { plan: p, engin: e, etat: E.calculer(p, e, taux[e.id], auj) };
+  });
+}
+const etatsDe = id => ETATS.filter(x => x.engin.id === id).sort(triEtat);
+function triEtat(a, b) {
+  const o = E.ORDRE[a.etat.statut] - E.ORDRE[b.etat.statut]; if (o) return o;
+  const ja = a.etat.resteJours == null ? 1e9 : a.etat.resteJours, jb = b.etat.resteJours == null ? 1e9 : b.etat.resteJours;
+  return ja - jb;
+}
+function pireEtat(id) { const l = etatsDe(id); return l[0] || null; }
+const stockBas = () => S.stock.filter(a => a.seuil != null && +a.quantite <= +a.seuil);
+
+/* =============================================================================
+   PARC HK — d'après la liste manuscrite du patron (octobre 2026)
+   Plaques, n° de série et poids manquants : à compléter dans chaque fiche.
+   ============================================================================= */
+const PARC_HK = [
+  ["Pelle 8 T Wacker Neuson", "pelle", { marque: "Wacker Neuson", poids_t: 8 }],
+  ["Pelle 9 T Case", "pelle", { marque: "Case", poids_t: 9 }],
+  ["Pelle 2,5 T", "pelle", { poids_t: 2.5 }],
+  ["Pelle 2,7 T Case", "pelle", { marque: "Case", poids_t: 2.7 }],
+  ["Micro-pelle", "pelle", {}],
+  ["Camion 8x4 MAN", "camion", { marque: "MAN", modele: "8x4" }],
+  ["Camion 8x4 DAF", "camion", { marque: "DAF", modele: "8x4" }],
+  ["Camion 4x2 MAN (1)", "camion", { marque: "MAN", modele: "4x2" }],
+  ["Camion 4x2 MAN (2)", "camion", { marque: "MAN", modele: "4x2" }],
+  ["Camion 4x2 Volvo", "camion", { marque: "Volvo", modele: "4x2" }],
+  ["Chargeuse Volvo", "chargeur", { marque: "Volvo" }],
+  ["Camionnette MAN", "camionnette", { marque: "MAN" }],
+  ["Camionnette Nissan", "camionnette", { marque: "Nissan" }],
+  ["Renault Kangoo", "camionnette", { marque: "Renault", modele: "Kangoo" }],
+  ["Volkswagen Transporter", "camionnette", { marque: "Volkswagen", modele: "Transporter" }],
+  ["Ford Transit", "camionnette", { marque: "Ford", modele: "Transit" }],
+  ["Benne céréalière 1", "benne", { modele: "Céréalière" }],
+  ["Benne céréalière 2", "benne", { modele: "Céréalière" }],
+  ["Benne TP 1", "benne", { modele: "TP" }],
+  ["Benne TP 2", "benne", { modele: "TP" }],
+  ["Porte-char", "porte_char", {}]
+];
+function ligneEngin(nom, categorie, o) {
+  const vgp = o.poids_t != null && o.poids_t >= VGP_SEUIL && categorie !== "camionnette";
+  return Object.assign({ id: uid(), nom, categorie, immat: "", marque: "", modele: "", numero_serie: "", annee: null, poids_t: null,
+    compteur_type: CAT[categorie].cpt, compteur: null, compteur_le: null, vgp, notes: "", actif: true }, o);
+}
+async function importerParc() {
+  for (const [nom, cat, o] of PARC_HK) {
+    if (S.engins.some(e => e.nom === nom)) continue;
+    const e = await Store.ins("engins", ligneEngin(nom, cat, o)); S.engins.push(e);
+    for (const p of plansParDefaut(cat, e.vgp))
+      S.plans.push(await Store.ins("entretien_plans", Object.assign({ id: uid(), engin_id: e.id, derniere_date: null, dernier_cpt: null, programme_le: null, alerte_cle: null }, p, { intervalle_cpt: e.compteur_type === "aucun" ? null : p.intervalle_cpt })));
+  }
+  recalc();
+}
+
+/* =============================================================================
+   DONNÉES DE DÉMONSTRATION — le vrai parc, avec un historique fictif
+   ============================================================================= */
+function creerDemo() {
+  const auj = E.aujourdhui();
+  const j = n => E.iso(E.ajouterJours(auj, n));
+  const db = { engins: [], entretien_plans: [], entretien_interventions: [], entretien_releves: [], stock_articles: [] };
+  let graine = 7; const rnd = () => (graine = (graine * 9301 + 49297) % 233280) / 233280;
+  const usage = { pelle: 5, chargeur: 6, camion: 170, camionnette: 70 };
+  const base = { pelle: 3200, chargeur: 5400, camion: 240000, camionnette: 85000 };
+  const plaques = ["FT-482-QS", "GA-118-KM", "EZ-905-PL", "FB-330-ZR", "GD-718-MC", "GK-217-LB", "FR-640-TN", "GH-052-AV", "EX-771-RD", "GF-409-HC", "FL-283-JS", "EB-214-KT", "EH-517-PN", "FA-962-WD", "GC-345-BX", "DZ-561-HN"];
+  let k = 0;
+  for (const [nom, cat, o] of PARC_HK) {
+    const e = ligneEngin(nom, cat, Object.assign({}, o));
+    if (["camion", "camionnette", "benne", "porte_char"].includes(cat)) e.immat = plaques[k++ % plaques.length];
+    if (e.compteur_type !== "aucun") {
+      const u = usage[cat] * (0.6 + rnd() * 0.8);
+      e.compteur = Math.round(base[cat] * (0.4 + rnd()) / 10) * 10; e.compteur_le = j(0);
+      db.entretien_releves.push({ id: uid(), engin_id: e.id, date: j(-42), valeur: Math.round(e.compteur - u * 42) }, { id: uid(), engin_id: e.id, date: j(0), valeur: e.compteur });
+    }
+    db.engins.push(e);
+    plansParDefaut(cat, e.vgp).forEach((p, n) => {
+      const ilYa = Math.round(((p.intervalle_mois || 12) * 30.4) * (0.2 + rnd() * 0.78));
+      const inconnu = rnd() < 0.05;
+      let dc = null;
+      if (p.intervalle_cpt && e.compteur != null) dc = Math.max(0, Math.round(e.compteur - p.intervalle_cpt * (0.2 + rnd() * 0.76)));
+      db.entretien_plans.push(Object.assign({ id: uid(), engin_id: e.id, programme_le: null, alerte_cle: null,
+        derniere_date: inconnu ? null : j(-ilYa), dernier_cpt: inconnu || e.compteur_type === "aucun" ? null : dc }, p,
+        { intervalle_cpt: e.compteur_type === "aucun" ? null : p.intervalle_cpt }));
+    });
+  }
+  // quelques situations typiques pour la démonstration
+  const regle = (nom, type, f) => { const e = db.engins.find(x => x.nom === nom), pl = e && db.entretien_plans.find(x => x.engin_id === e.id && x.type === type); if (pl) f(pl, e); };
+  regle("Pelle 9 T Case", "vgp", pl => { pl.derniere_date = j(-176); });
+  regle("Camion 8x4 MAN", "revision", (pl, e) => { pl.dernier_cpt = e.compteur - 30400; pl.derniere_date = j(-200); });
+  regle("Benne céréalière 1", "ct", pl => { pl.derniere_date = j(-369); });
+  regle("Ford Transit", "revision", (pl, e) => { pl.dernier_cpt = e.compteur - 19450; pl.derniere_date = j(-240); });
+  regle("Pelle 8 T Wacker Neuson", "revision", (pl, e) => { pl.dernier_cpt = e.compteur - 478; pl.derniere_date = j(-80); pl.programme_le = j(3); });
+  const p8 = db.engins[0];
+  db.entretien_interventions.push({ id: uid(), engin_id: p8.id, plans: [], type: "revision", libelle: "Révision 500 h", date: j(-60), compteur: p8.compteur - 300,
+    pieces: [{ nom: "Filtre à huile moteur", reference: "WN-1000082", quantite: 1, garantie_mois: 0 }, { nom: "Filtre à gasoil", reference: "WN-1000105", quantite: 1, garantie_mois: 0 }],
+    cout: 520, prestataire: "Atelier HK", notes: "" });
+  db.entretien_interventions.push({ id: uid(), engin_id: p8.id, plans: [], type: "reparation", libelle: "Remplacement vérin de godet", date: j(-25), compteur: p8.compteur - 120,
+    pieces: [{ nom: "Vérin de godet", reference: "WN-5100634", quantite: 1, garantie_mois: 12, garantie_fin: j(340) }],
+    cout: 2380, prestataire: "Concession Wacker Neuson", notes: "Fuite au joint de tige." });
+  const art = (nom, reference, categorie, quantite, seuil, unite, emplacement, compatible) =>
+    db.stock_articles.push({ id: uid(), nom, reference, categorie, quantite, seuil, unite, emplacement, compatible, prix: null, notes: "" });
+  art("Filtre à huile moteur", "WN-1000082", "Filtres", 3, 2, "pcs", "Atelier · Étagère A", "Pelle 8 T Wacker Neuson");
+  art("Filtre à gasoil", "WN-1000105", "Filtres", 1, 2, "pcs", "Atelier · Étagère A", "Pelle 8 T Wacker Neuson");
+  art("Filtre à air", "CASE-84217", "Filtres", 2, 1, "pcs", "Atelier · Étagère A", "Pelle 9 T Case");
+  art("Huile moteur 15W40", "15W40", "Huiles & fluides", 140, 60, "L", "Fût atelier", "Tous");
+  art("Huile hydraulique HV46", "HV46", "Huiles & fluides", 38, 50, "L", "Fût atelier", "Pelles, chargeuse");
+  art("Dents de godet", "ESCO-V29", "Usure (dents, lames…)", 8, 4, "pcs", "Container", "Pelle 9 T Case");
+  art("Graisse EP2", "EP2-400", "Huiles & fluides", 12, 6, "cart.", "Atelier", "Tous");
+  return db;
+}
+
+
+/* =============================================================================
+   AFFICHAGE — éléments communs
+   ============================================================================= */
+const LIB = { retard: "Retard", bientot: "Bientôt", ok: "À jour", inconnu: "À renseigner", prog: "Programmé" };
+const RANG = { retard: 0, bientot: 1, prog: 2, inconnu: 3, ok: 4 };
+function statutAff(x) { return x.plan.programme_le && x.etat.statut !== "ok" ? "prog" : x.etat.statut; }
+function etiquette(x) {
+  const s = x.etat, st = statutAff(x);
+  if (st === "prog") return `<span class="tg prog">Prévu ${fmtD(x.plan.programme_le)}</span>`;
+  if (st === "inconnu") return `<span class="tg inconnu">À renseigner</span>`;
+  if (st === "ok") return `<span class="tg ok">À jour</span>`;
+  const txt = st === "retard" && (s.resteJours == null || s.resteJours >= 0) ? "Dépassé" : rel(s.resteJours) || LIB[st];
+  return `<span class="tg ${st}">${esc(txt)}</span>`;
+}
+function jauge(x, lg) {
+  const n = lg ? 20 : 10, st = x ? x.etat.statut : "inconnu";
+  const f = !x || st === "inconnu" ? 0 : Math.min(n, Math.max(1, Math.round(x.etat.progression * n)));
+  return `<span class="gauge ${lg ? "lg " : ""}${st}" aria-hidden="true">${Array.from({ length: n }, (_, k) => `<i class="${k < f ? "f" : ""}"></i>`).join("")}</span>`;
+}
+function echeanceTxt(x) {
+  const s = x.etat, e = x.engin, out = [];
+  if (s.statut === "inconnu") return "Dernier entretien à saisir";
+  if (s.resteCpt != null) out.push(s.resteCpt <= 0 ? `+${fmtN(-s.resteCpt)} ${unite(e)} dépassés` : `${fmtN(s.resteCpt)} ${unite(e)} restants`);
+  if (s.echeance) out.push((s.estimee ? "≈ " : "") + fmtD(s.echeance));
+  return out.join(" · ");
+}
+const plaque = t => t ? `<span class="plate"><span>${esc(t)}</span></span>` : "";
+const actifs = () => S.engins.filter(e => e.actif !== false);
+function pireAff(id) {
+  const l = etatsDe(id).slice().sort((a, b) => RANG[statutAff(a)] - RANG[statutAff(b)] || (a.etat.resteJours ?? 1e9) - (b.etat.resteJours ?? 1e9));
+  return l[0] || null;
+}
+
+/* =============================================================================
+   CONNEXION
+   ============================================================================= */
+function deconnexion() {
+  localStorage.removeItem(CLE_SESSION); session = null; Store.demo = false; S.charge = false; S.moi = null;
+  location.hash = ""; vueLogin();
+}
+function vueLogin() {
+  $("#app").innerHTML = `
+  <div class="login">
+    <div class="hk">HK</div>
+    <div>
+      <h1>Carnet<br>d'entre&shy;tien<br><span>du parc.</span></h1>
+      <p class="s">Révisions, VGP, contrôles, pneus, pièces sous garantie et stock atelier — HK Terrassement.</p>
+      <form id="fLogin" autocomplete="on">
+        <div class="fl"><label for="lid">Identifiant</label><input id="lid" autocomplete="username" autocapitalize="none" spellcheck="false" required></div>
+        <div class="fl"><label for="lpw">Mot de passe</label><input id="lpw" type="password" autocomplete="current-password" required></div>
+        <button class="btn y full" style="margin-top:18px" id="bLog">Entrer</button>
+        <div class="err" id="lerr" role="alert"></div>
+      </form>
+    </div>
+    <div><button class="demo" id="bDemo">Essayer avec le parc de démonstration →</button>
+    <div class="foot">Mêmes identifiants que la feuille d'heures</div></div>
+  </div>`;
+  $("#fLogin").onsubmit = async ev => {
+    ev.preventDefault();
+    const b = $("#bLog"); b.disabled = true; b.innerHTML = '<span class="spin"></span>';
+    const r = await SB.auth({ email: $("#lid").value.trim().toLowerCase() + CFG.domaine, password: $("#lpw").value }, "password").catch(() => null);
+    if (!r || !r.access_token) { $("#lerr").textContent = "Identifiant ou mot de passe incorrect."; b.disabled = false; b.textContent = "Entrer"; return; }
+    session = { accessToken: r.access_token, refreshToken: r.refresh_token, uid: r.user && r.user.id, identifiant: $("#lid").value.trim().toLowerCase() };
+    localStorage.setItem(CLE_SESSION, JSON.stringify(session));
+    demarrer();
+  };
+  $("#bDemo").onclick = () => {
+    if (!Store.local()) Store.saveLocal(creerDemo());
+    localStorage.setItem(CLE_SESSION, JSON.stringify({ demo: true }));
+    demarrer();
+  };
+}
+async function demarrer() {
+  try { session = JSON.parse(localStorage.getItem(CLE_SESSION)); } catch (e) { session = null; }
+  if (!session) return vueLogin();
+  Store.demo = !!session.demo;
+  if (Store.demo && !Store.local()) Store.saveLocal(creerDemo());
+  coquille();
+  $("#view").innerHTML = '<div style="height:16px"></div>' + '<div class="ghost"></div>'.repeat(6);
+  try {
+    if (!Store.demo && !S.moi) {
+      const m = await SB.q("employes?select=id,nom,role&auth_id=eq." + session.uid).catch(() => null);
+      S.moi = m && m[0] ? m[0] : { nom: session.identifiant };
+    }
+    await chargerTout();
+  } catch (e) {
+    $("#view").innerHTML = `<div class="void"><b>Accès impossible</b><p>${esc(e.message)}. Le script SQL des entretiens est-il installé, et ce compte a-t-il l'accès ?</p><button class="btn" onclick="deconnexion()">Se déconnecter</button></div>`;
+    return;
+  }
+  route();
+  verifierAlertesLocales();
+}
+
+/* =============================================================================
+   COQUILLE
+   ============================================================================= */
+function coquille() {
+  if ($("#view")) return;
+  $("#app").innerHTML = `
+  <header class="hd">
+    <div class="bar">
+      <button class="back" id="bBack" hidden aria-label="Retour">${ico("backa")}</button>
+      <div class="mark"><span class="hk" id="hMark">HK</span><div class="t"><b id="hT">Entretiens</b><small id="hS">HK Terrassement</small></div></div>
+      <button class="hbtn" id="bSet" aria-label="Notifications et réglages">${ico("bell")}<span class="dot" id="bDot" hidden></span></button>
+    </div>
+    <nav class="tabs" aria-label="Sections">
+      <a href="#/parc" data-r="parc">Parc</a>
+      <a href="#/agenda" data-r="agenda">Agenda</a>
+      <a href="#/stock" data-r="stock">Stock</a>
+      <a href="#/journal" data-r="journal">Journal</a>
+    </nav>
+  </header>
+  <main id="view"></main>
+  <div class="dock"><div class="in">
+    <button class="btn" id="dCpt">${ico("gauge")} Compteurs</button>
+    <button class="btn y" id="dSai">${ico("wrench")} Saisir un entretien</button>
+  </div></div>`;
+  $("#dCpt").onclick = panReleves;
+  $("#dSai").onclick = () => panIntervention({});
+  $("#bSet").onclick = panReglages;
+  $("#bBack").onclick = () => history.length > 1 ? history.back() : (location.hash = "#/parc");
+}
+function entete(t, s, retour) {
+  $("#hT").textContent = t; $("#hS").textContent = s || "HK Terrassement";
+  $("#bBack").hidden = !retour; $("#hMark").hidden = !!retour;
+}
+function compteurs() {
+  const r = ETATS.filter(x => x.etat.statut === "retard").length, b = ETATS.filter(x => x.etat.statut === "bientot").length, sb = stockBas().length;
+  const put = (k, n, a) => { const t = $(`.tabs a[data-r="${k}"]`); if (!t) return; const o = t.querySelector(".n"); if (o) o.remove(); if (n) t.insertAdjacentHTML("beforeend", `<span class="n${a ? " a" : ""}">${n}</span>`); };
+  put("agenda", r || b, !r); put("stock", sb, false);
+  const d = $("#bDot"); if (d) d.hidden = !(window.Notification && Notification.permission === "default");
+}
+
+/* =============================================================================
+   ROUTAGE
+   ============================================================================= */
+const UI = { cat: "tout", q: "", scat: "tout", sq: "", jq: "", onglet: "suivi", mois: null, jour: null };
+function route() {
+  if (!S.charge) return;
+  const h = location.hash.replace(/^#\/?/, "").split("/"), r = h[0] || "parc";
+  $$(".tabs a").forEach(a => a.classList.toggle("on", a.dataset.r === r || (r === "engin" && a.dataset.r === "parc")));
+  const v = $("#view"); v.classList.remove("view"); void v.offsetWidth; v.classList.add("view");
+  if (r === "engin") vueEngin(h[1]);
+  else if (r === "agenda") vueAgenda();
+  else if (r === "stock") vueStock();
+  else if (r === "journal") vueJournal();
+  else vueParc();
+  compteurs();
+}
+window.addEventListener("hashchange", () => { route(); window.scrollTo(0, 0); });
+
+/* =============================================================================
+   PARC — tableau de bord
+   ============================================================================= */
+function ligneTache(x) {
+  const st = statutAff(x), d = x.plan.programme_le ? E.versDate(x.plan.programme_le) : x.etat.echeance;
+  return `<button class="task" data-plan="${x.plan.id}">
+    <span class="d ${st}">${d ? `<b>${String(d.getUTCDate()).padStart(2, "0")}</b><small>${MOIS[d.getUTCMonth()].replace(".", "")}</small>` : "<b>—</b><small>date</small>"}</span>
+    <span style="min-width:0"><span class="t1">${esc(x.engin.nom)}</span><span class="t2"><b>${esc(x.plan.libelle)}</b> · ${esc(echeanceTxt(x))}</span></span>
+    ${etiquette(x)}</button>`;
+}
+function vueParc() {
+  const A = actifs();
+  entete("Parc matériel", `${A.length} engins · ${new Date().toLocaleDateString("fr-FR", { weekday: "short", day: "numeric", month: "short" })}`);
+  const nR = ETATS.filter(x => x.etat.statut === "retard").length, nB = ETATS.filter(x => x.etat.statut === "bientot").length, nS = stockBas().length;
+  const etatEng = A.slice().sort(sortNom).map(e => { const w = pireAff(e.id); return [e, w ? statutAff(w) : "inconnu"]; });
+  const okN = etatEng.filter(([, s]) => s === "ok").length;
+  const urg = ETATS.filter(x => x.etat.statut === "retard" || x.etat.statut === "bientot").sort((a, b) => RANG[statutAff(a)] - RANG[statutAff(b)] || (a.etat.resteJours ?? 1e9) - (b.etat.resteJours ?? 1e9));
+  const col = { retard: "var(--red)", bientot: "var(--amb)", ok: "var(--grn)", prog: "var(--blu)", inconnu: "var(--panel-3)" };
+
+  $("#view").innerHTML = `
+  ${Store.demo ? `<div class="note">${ico("zap")}<span>Démo : vrai parc HK, historique fictif. Rien n'est envoyé.</span></div>` : ""}
+  <div class="score">
+    <button class="${nR ? "r" : "z"}" data-go="agenda"><b>${String(nR).padStart(2, "0")}</b><span><i></i>En retard</span></button>
+    <button class="${nB ? "a" : "z"}" data-go="agenda"><b>${String(nB).padStart(2, "0")}</b><span><i></i>Sous ${E.ALERTE_JOURS} j</span></button>
+    <button class="${nS ? "s" : "z"}" data-go="stock"><b>${String(nS).padStart(2, "0")}</b><span><i></i>Stock bas</span></button>
+  </div>
+  ${A.length ? `<div class="health" title="Un segment par engin">
+    <span class="lbl">État parc</span>
+    <span class="segs" style="grid-template-columns:repeat(${etatEng.length},1fr)">${etatEng.map(([e, s]) => `<i style="background:${col[s]}" title="${esc(e.nom)}"></i>`).join("")}</span>
+    <span class="pc mono">${Math.round(okN / A.length * 100)}%</span></div>` : ""}
+  ${urg.length ? `<div class="cap">${ico("alert")} À traiter<span class="c">${urg.length}</span></div>${nR ? '<div class="hazard"></div>' : ""}
+    <div class="rows">${urg.slice(0, 6).map(ligneTache).join("")}</div>
+    ${urg.length > 6 ? `<button class="btn full sm" style="margin-top:8px" data-go="agenda">Voir les ${urg.length} échéances</button>` : ""}` : ""}
+  <div class="tools"><div class="find">${ico("search")}<input id="q" type="search" placeholder="Nom, plaque, marque…" value="${esc(UI.q)}" aria-label="Rechercher"></div>
+    <button class="btn sm" id="bAdd" aria-label="Ajouter un engin" style="height:44px">${ico("plus")}</button></div>
+  <div class="filters" id="flt"></div>
+  <div id="lst"></div>`;
+  $$("[data-go]").forEach(b => b.onclick = () => location.hash = "#/" + b.dataset.go);
+  $$("[data-plan]").forEach(b => b.onclick = () => panActions(b.dataset.plan));
+  $("#bAdd").onclick = () => panEngin(null);
+  const cnt = c => A.filter(e => e.categorie === c).length;
+  const filtres = () => {
+    $("#flt").innerHTML = `<button data-c="tout" class="${UI.cat === "tout" ? "on" : ""}">Tout <span class="c">${A.length}</span></button>` +
+      CATS.filter(c => cnt(c.id)).map(c => `<button data-c="${c.id}" class="${UI.cat === c.id ? "on" : ""}">${c.pluriel} <span class="c">${cnt(c.id)}</span></button>`).join("");
+    $$("#flt button").forEach(b => b.onclick = () => { UI.cat = b.dataset.c; filtres(); liste(); });
+  };
+  const liste = () => {
+    const box = $("#lst"), q = UI.q.trim().toLowerCase();
+    if (!A.length) {
+      box.innerHTML = `<div class="void"><b>Parc vide</b><p>Importez les ${PARC_HK.length} engins de la liste HK (pelles, camions, chargeuse, camionnettes, bennes, porte-char) : leur programme d'entretien se crée tout seul.</p>
+        <button class="btn y full" id="bImp">${ico("zap")} Importer le parc HK</button><button class="btn full" id="bMan">Ajouter un engin à la main</button></div>`;
+      $("#bImp").onclick = ev => occupe(ev.currentTarget, async () => { await importerParc(); route(); toast(PARC_HK.length + " engins importés"); });
+      $("#bMan").onclick = () => panEngin(null);
+      return;
+    }
+    let l = A.filter(e => !q || [e.nom, e.immat, e.marque, e.modele, e.numero_serie].join(" ").toLowerCase().includes(q));
+    if (UI.cat !== "tout") l = l.filter(e => e.categorie === UI.cat);
+    if (!l.length) { box.innerHTML = `<div class="void"><b>Aucun engin</b><p>Rien ne correspond à « ${esc(UI.q)} ».</p></div>`; return; }
+    l.sort(sortNom);
+    const grp = UI.cat === "tout" && !q ? CATS.map(c => [c, l.filter(e => e.categorie === c.id)]).filter(g => g[1].length) : [[null, l]];
+    box.innerHTML = grp.map(([c, es]) => `${c ? `<div class="cap">${ico(c.id)} ${c.pluriel}<span class="c">${es.length}</span></div>` : '<div style="height:12px"></div>'}
+      <div class="rows cols">${es.map(ligneMachine).join("")}</div>`).join("");
+    $$("[data-e]", box).forEach(b => b.onclick = () => { UI.onglet = "suivi"; location.hash = "#/engin/" + b.dataset.e; });
+  };
+  $("#q").oninput = ev => { UI.q = ev.target.value; liste(); };
+  filtres(); liste();
+}
+function ligneMachine(e) {
+  const w = pireAff(e.id), st = w ? statutAff(w) : "inconnu";
+  const sub = [e.immat ? plaque(e.immat) : "", esc([e.marque, e.modele].filter(Boolean).join(" ") || CAT[e.categorie].nom)].filter(Boolean).join("");
+  return `<button class="m ${st}" data-e="${e.id}">
+    <span class="st"></span>
+    <span class="body"><span class="nm" style="display:block">${esc(e.nom)}</span>
+      <span class="sb">${sub}${e.vgp ? '<span class="tg vgp" style="height:18px">VGP</span>' : ""}</span>
+      ${w ? `<span class="nx">${jauge(w)}<span class="lb">${esc(w.plan.libelle)}${w.etat.echeance ? " · " + (w.etat.estimee ? "≈" : "") + fmtD(w.etat.echeance) : ""}</span></span>` : ""}</span>
+    <span class="side">${e.compteur_type !== "aucun" ? `<span class="cnt">${e.compteur != null ? fmtN(e.compteur) : "—"}<em>${unite(e)}</em></span>` : '<span class="cnt" style="color:var(--tx-3)">—</span>'}
+      ${w ? etiquette(w) : '<span class="tg inconnu">Aucun suivi</span>'}</span></button>`;
+}
+
+/* =============================================================================
+   FICHE ENGIN
+   ============================================================================= */
+function vueEngin(id) {
+  const e = S.engins.find(x => x.id === id);
+  if (!e) { location.hash = "#/parc"; return; }
+  entete(e.nom, CAT[e.categorie].nom + (e.immat ? " · " + e.immat : ""), true);
+  const u = unite(e), taux = S.taux[e.id];
+  const der = S.releves.filter(r => r.engin_id === e.id).sort((a, b) => a.date < b.date ? 1 : -1)[0];
+  const odo = e.compteur != null ? String(Math.round(e.compteur)).split("").map(c => `<span>${c}</span>`).join("") : "<span>—</span>";
+  $("#view").innerHTML = `
+  <section class="idp">
+    <div class="top"><span class="ic">${ico(e.categorie)}</span>
+      <div style="flex:1;min-width:0"><h1>${esc(e.nom)}</h1>
+        <div class="tags">${plaque(e.immat)}<span class="tg line">${CAT[e.categorie].nom}${e.poids_t ? " · " + fmtN(e.poids_t) + " t" : ""}</span>${e.vgp ? '<span class="tg vgp">Soumis VGP</span>' : ""}</div></div>
+      <button class="hbtn ed" id="bEd" aria-label="Modifier la fiche">${ico("edit")}</button></div>
+    ${e.compteur_type !== "aucun" ? `<div class="meter"><div><small>${e.compteur_type === "km" ? "Odomètre" : "Horamètre"}</small>
+        <div class="v mono"><span class="odo">${odo}</span><em>${u}</em></div>
+        <div class="mnote mono">${der ? "Relevé " + fmtD(der.date, true) : "Aucun relevé"}${taux ? ` · ${fmtN(taux * (e.compteur_type === "km" ? 30 : 7))} ${u}/${e.compteur_type === "km" ? "mois" : "sem"}` : ""}</div></div>
+      <button class="btn y sm" id="bCp">${ico("gauge")} Relever</button></div>` : ""}
+  </section>
+  <div class="stabs" role="tablist">${[["suivi", "Suivi"], ["carnet", "Carnet"], ["garanties", "Garanties"], ["fiche", "Fiche"]].map(([k, l]) => `<button role="tab" data-o="${k}" class="${UI.onglet === k ? "on" : ""}">${l}</button>`).join("")}</div>
+  <div id="ong"></div>`;
+  $("#bEd").onclick = () => panEngin(e);
+  if ($("#bCp")) $("#bCp").onclick = () => panCompteur(e);
+  $$(".stabs button").forEach(b => b.onclick = () => { UI.onglet = b.dataset.o; $$(".stabs button").forEach(x => x.classList.toggle("on", x === b)); onglet(e); });
+  onglet(e);
+}
+function onglet(e) {
+  const box = $("#ong"), u = unite(e);
+  if (UI.onglet === "suivi") {
+    const l = etatsDe(e.id).slice().sort((a, b) => RANG[statutAff(a)] - RANG[statutAff(b)] || (a.etat.resteJours ?? 1e9) - (b.etat.resteJours ?? 1e9));
+    box.innerHTML = (l.length ? l.map(x => {
+      const { plan: p, etat: s } = x, t = TYPES[p.type] || TYPES.autre;
+      const regle = [p.intervalle_cpt && e.compteur_type !== "aucun" ? fmtN(p.intervalle_cpt) + " " + u : "", p.intervalle_mois ? p.intervalle_mois + " mois" : ""].filter(Boolean).join(" ou ");
+      return `<div class="svc">
+        <div class="h"><span class="ico">${ico(t.ic)}</span><span class="ti"><b>${esc(p.libelle)}</b><small>${regle ? "Tous les " + regle : "Sans périodicité"}</small></span>${etiquette(x)}</div>
+        ${s.statut === "inconnu" ? `<div class="msg">Saisissez la date${s.parCompteur ? " ou le compteur" : ""} du dernier entretien pour lancer le suivi.</div>` : `<div class="g">${jauge(x, true)}</div>`}
+        <div class="kv2"><div><small>Dernier</small><b>${p.derniere_date ? fmtD(p.derniere_date, true) : "—"}${p.dernier_cpt != null && s.parCompteur ? " · " + fmtN(p.dernier_cpt) : ""}</b></div>
+          <div><small>Prochain</small><b>${s.prochainCpt != null ? fmtN(s.prochainCpt) + " " + u : ""}${s.prochainCpt != null && s.echeance ? " · " : ""}${s.echeance ? (s.estimee ? "≈" : "") + fmtD(s.echeance) : s.prochainCpt == null ? "—" : ""}</b></div></div>
+        <div class="acts"><button data-f="${p.id}">${ico("check")} Fait</button><button data-p="${p.id}">${ico("cal")} Programmer</button><button data-m="${p.id}" aria-label="Modifier ce suivi">${ico("edit")}</button></div>
+      </div>`;
+    }).join("") : `<div class="void"><b>Aucun suivi</b><p>Ajoutez ce qu'il faut surveiller : révision, VGP, CT, pneus…</p></div>`) +
+      `<button class="btn full" style="margin-top:10px" id="bNP">${ico("plus")} Ajouter un suivi</button>`;
+    $$("[data-f]", box).forEach(b => b.onclick = () => panIntervention({ engin: e.id, plans: [b.dataset.f] }));
+    $$("[data-p]", box).forEach(b => b.onclick = () => panProgrammer(b.dataset.p));
+    $$("[data-m]", box).forEach(b => b.onclick = () => panPlan(e, S.plans.find(p => p.id === b.dataset.m)));
+    $("#bNP").onclick = () => panPlan(e, null);
+  } else if (UI.onglet === "carnet") {
+    const l = S.inter.filter(i => i.engin_id === e.id).sort((a, b) => a.date < b.date ? 1 : a.date > b.date ? -1 : 0);
+    const tot = l.reduce((s, i) => s + (+i.cout || 0), 0);
+    box.innerHTML = l.length ? `<div class="spec"><div><small>Interventions</small><b class="mono">${l.length}</b></div><div><small>Coût cumulé</small><b class="mono">${tot ? nfe.format(tot) : "—"}</b></div></div>
+      <div class="log">${l.map(i => ligneLog(i, e)).join("")}</div>`
+      : `<div class="void"><b>Carnet vide</b><p>Chaque entretien saisi s'inscrit ici avec ses pièces, son coût et le compteur.</p><button class="btn y" id="bI0">${ico("wrench")} Saisir un entretien</button></div>`;
+    $$("[data-i]", box).forEach(b => b.onclick = () => panDetail(S.inter.find(i => i.id === b.dataset.i)));
+    if ($("#bI0")) $("#bI0").onclick = () => panIntervention({ engin: e.id });
+  } else if (UI.onglet === "garanties") {
+    const auj = todayISO(), l = [];
+    S.inter.filter(i => i.engin_id === e.id).forEach(i => (i.pieces || []).forEach(pc => { if (pc.garantie_fin) l.push({ pc, i }); }));
+    l.sort((a, b) => a.pc.garantie_fin < b.pc.garantie_fin ? 1 : -1);
+    box.innerHTML = l.length ? `<div class="rows" style="margin-top:10px">${l.map(({ pc, i }) => {
+      const on = pc.garantie_fin >= auj, j = E.ecartJours(E.aujourdhui(), E.versDate(pc.garantie_fin));
+      return `<div class="task" style="cursor:default"><span class="d ${on ? (j < 45 ? "bientot" : "") : ""}" style="${on && j >= 45 ? "border-color:var(--grn);color:var(--grn)" : ""}"><b>${on ? Math.max(0, Math.round(j / 30.4)) : 0}</b><small>mois</small></span>
+        <span style="min-width:0"><span class="t1">${esc(pc.nom)}</span><span class="t2">Posée ${fmtD(i.date, true)}${pc.reference ? " · " + esc(pc.reference) : ""}${i.prestataire ? " · " + esc(i.prestataire) : ""}</span></span>
+        <span class="tg ${on ? "ok" : "inconnu"}">${on ? "→ " + fmtD(pc.garantie_fin, true) : "Expirée"}</span></div>`;
+    }).join("")}</div>` : `<div class="void"><b>Aucune garantie</b><p>Indiquez la durée de garantie quand vous changez une pièce : si elle casse avant la fin, l'app vous le signale au moment de la remplacer.</p></div>`;
+  } else {
+    const kv = [["Catégorie", CAT[e.categorie].nom], ["Plaque", e.immat], ["Marque", e.marque], ["Modèle", e.modele], ["N° de série", e.numero_serie], ["Année", e.annee], ["Poids", e.poids_t ? fmtN(e.poids_t) + " t" : ""], ["VGP", e.vgp ? "Oui" : "Non"], ["Compteur", e.compteur_type === "aucun" ? "Aucun" : e.compteur_type === "km" ? "Kilomètres" : "Heures"], ["Suivis", String(S.plans.filter(p => p.engin_id === e.id).length)]];
+    box.innerHTML = `<div class="spec">${kv.map(([k, v]) => `<div><small>${k}</small><b>${esc(v || "—")}</b></div>`).join("")}</div>
+      ${e.notes ? `<div class="spec" style="grid-template-columns:1fr"><div><small>Notes</small><b style="white-space:pre-wrap;font-weight:500">${esc(e.notes)}</b></div></div>` : ""}
+      <button class="btn full" style="margin-top:10px" id="bE2">${ico("edit")} Modifier la fiche</button>`;
+    $("#bE2").onclick = () => panEngin(e);
+  }
+}
+function ligneLog(i, e, avecEngin) {
+  const d = E.versDate(i.date);
+  return `<button class="e" data-i="${i.id}"><span class="w"><b>${String(d.getUTCDate()).padStart(2, "0")}.${String(d.getUTCMonth() + 1).padStart(2, "0")}.${String(d.getUTCFullYear()).slice(2)}</b>
+    ${i.compteur != null && e && e.compteur_type !== "aucun" ? `<small>${fmtN(i.compteur)} ${unite(e)}</small>` : ""}</span>
+    <span class="x">${avecEngin && e ? `<span style="display:block;font:600 11px/1 var(--mono);color:var(--yel);text-transform:uppercase;letter-spacing:.05em;margin-bottom:5px">${esc(e.nom)}</span>` : ""}<b>${esc(i.libelle || (TYPES[i.type] || TYPES.autre).nom)}</b>
+    ${(i.pieces || []).length ? `<span class="p">${i.pieces.map(pc => `<span>${esc(pc.nom)}${+pc.quantite > 1 ? " ×" + fmtN(pc.quantite) : ""}</span>`).join("")}</span>` : ""}
+    ${i.prestataire || i.cout ? `<span class="m2" style="display:block">${[i.prestataire, i.cout ? nfe.format(i.cout) : ""].filter(Boolean).map(esc).join(" · ")}</span>` : ""}</span></button>`;
+}
+
+/* =============================================================================
+   AGENDA — calendrier mensuel
+   ============================================================================= */
+function vueAgenda() {
+  const auj = E.aujourdhui();
+  if (!UI.mois) UI.mois = { a: auj.getUTCFullYear(), m: auj.getUTCMonth() };
+  if (!UI.jour) UI.jour = E.iso(auj);
+  entete("Agenda", "Programmation des entretiens");
+  const dateDe = x => x.plan.programme_le || (x.etat.echeance ? E.iso(x.etat.statut === "retard" ? auj : x.etat.echeance) : null);
+  const parJour = {};
+  ETATS.forEach(x => { if (x.etat.statut === "inconnu" && !x.plan.programme_le) return; const d = dateDe(x); if (d) (parJour[d] = parJour[d] || []).push(x); });
+  const { a, m } = UI.mois, premier = new Date(Date.UTC(a, m, 1)), decal = (premier.getUTCDay() + 6) % 7;
+  const debut = E.ajouterJours(premier, -decal), cases = [];
+  for (let k = 0; k < 42; k++) { const d = E.ajouterJours(debut, k); if (k >= 35 && d.getUTCMonth() !== m) break; cases.push(d); }
+  const retard = ETATS.filter(x => x.etat.statut === "retard" && !x.plan.programme_le);
+  const inconnus = ETATS.filter(x => x.etat.statut === "inconnu");
+  const nomMois = premier.toLocaleDateString("fr-FR", { month: "long", year: "numeric", timeZone: "UTC" });
+  const sel = (parJour[UI.jour] || []).filter(x => !(x.etat.statut === "retard" && !x.plan.programme_le)).sort((p, q) => RANG[statutAff(p)] - RANG[statutAff(q)]);
+  // 30 prochains jours (hors retard)
+  const prochains = ETATS.filter(x => { const d = dateDe(x); if (!d || (x.etat.statut === "retard" && !x.plan.programme_le) || x.etat.statut === "inconnu" && !x.plan.programme_le) return false; const j = E.ecartJours(auj, E.versDate(d)); return j >= 0 && j <= 30; })
+    .sort((p, q) => dateDe(p) < dateDe(q) ? -1 : 1);
+
+  $("#view").innerHTML = `
+  <div class="mhead"><h2>${esc(nomMois)}</h2>
+    <button class="auj" id="mA">Auj.</button><button id="mP" aria-label="Mois précédent">${ico("backa")}</button><button id="mN" aria-label="Mois suivant">${ico("chev")}</button></div>
+  <div class="grid">${["Lun", "Mar", "Mer", "Jeu", "Ven", "Sam", "Dim"].map(d => `<div class="dw">${d}</div>`).join("")}
+    ${cases.map(d => { const k = E.iso(d), l = parJour[k] || [];
+      return `<button class="dd ${d.getUTCMonth() !== m ? "out" : ""} ${k === E.iso(auj) ? "today" : ""} ${k === UI.jour ? "sel" : ""}" data-d="${k}" aria-label="${fmtD(d, true)} : ${l.length} entretien(s)">
+        <span class="n">${d.getUTCDate()}</span><span class="ds">${l.slice(0, 6).map(x => `<i class="${statutAff(x)}"></i>`).join("")}</span>${l.length > 1 ? `<span class="k">${l.length}</span>` : ""}</button>`; }).join("")}
+  </div>
+  <div class="legend"><span><i style="background:var(--red)"></i>Retard</span><span><i style="background:var(--amb)"></i>Sous ${E.ALERTE_JOURS} j</span><span><i style="background:var(--blu)"></i>Programmé</span><span><i style="background:var(--grn)"></i>Échéance</span></div>
+  ${retard.length ? `<div class="cap">${ico("alert")} En retard<span class="c">${retard.length}</span></div><div class="hazard"></div><div class="rows">${retard.sort((p, q) => (p.etat.resteJours ?? 0) - (q.etat.resteJours ?? 0)).map(ligneTache).join("")}</div>` : ""}
+  <div class="cap">${fmtD(UI.jour, true)}<span class="c">${sel.length}</span></div>
+  ${sel.length ? `<div class="rows">${sel.map(ligneTache).join("")}</div>` : `<div style="color:var(--tx-3);font-size:13.5px;padding:4px 0 2px">Rien de prévu ce jour-là.</div>`}
+  <div class="cap">30 prochains jours<span class="c">${prochains.length}</span></div>
+  ${prochains.length ? `<div class="rows">${prochains.map(ligneTache).join("")}</div>` : `<div style="color:var(--tx-3);font-size:13.5px">Aucune échéance d'ici un mois.</div>`}
+  ${inconnus.length ? `<div class="cap">À renseigner<span class="c">${inconnus.length}</span></div><div class="rows">${inconnus.slice(0, 30).map(ligneTache).join("")}</div>` : ""}`;
+  const go = dm => { let mm = m + dm, aa = a; if (mm < 0) { mm = 11; aa--; } if (mm > 11) { mm = 0; aa++; } UI.mois = { a: aa, m: mm }; vueAgenda(); };
+  $("#mP").onclick = () => go(-1); $("#mN").onclick = () => go(1);
+  $("#mA").onclick = () => { UI.mois = null; UI.jour = null; vueAgenda(); };
+  $$("[data-d]").forEach(b => b.onclick = () => { UI.jour = b.dataset.d; const d = E.versDate(UI.jour); UI.mois = { a: d.getUTCFullYear(), m: d.getUTCMonth() }; vueAgenda(); });
+  $$("[data-plan]").forEach(b => b.onclick = () => panActions(b.dataset.plan));
+}
+
+/* =============================================================================
+   STOCK
+   ============================================================================= */
+function vueStock() {
+  entete("Stock atelier", S.stock.length + " références");
+  $("#view").innerHTML = `
+  <div class="tools"><div class="find">${ico("search")}<input id="sq" type="search" placeholder="Filtre, référence, engin…" value="${esc(UI.sq)}" aria-label="Rechercher un article"></div>
+    <button class="btn y sm" id="bNA" style="height:44px">${ico("plus")} Article</button></div>
+  <div class="filters" id="sf"></div><div id="sl"></div>`;
+  const filtres = () => {
+    const nb = stockBas().length;
+    $("#sf").innerHTML = `<button data-c="tout" class="${UI.scat === "tout" ? "on" : ""}">Tout <span class="c">${S.stock.length}</span></button>` +
+      `<button data-c="bas" class="${UI.scat === "bas" ? "on" : ""}" style="${nb && UI.scat !== "bas" ? "border-color:var(--red);color:var(--red)" : ""}">À commander <span class="c">${nb}</span></button>` +
+      STOCK_CATS.filter(c => S.stock.some(a => a.categorie === c)).map(c => `<button data-c="${esc(c)}" class="${UI.scat === c ? "on" : ""}">${esc(c)}</button>`).join("");
+    $$("#sf button").forEach(b => b.onclick = () => { UI.scat = b.dataset.c; filtres(); liste(); });
+  };
+  const liste = () => {
+    const box = $("#sl"), q = UI.sq.trim().toLowerCase();
+    if (!S.stock.length) { box.innerHTML = `<div class="void"><b>Stock vide</b><p>Entrez filtres, huiles et pièces de rechange. Les quantités baissent toutes seules quand une pièce est utilisée dans un entretien.</p><button class="btn y" id="bA0">${ico("plus")} Premier article</button></div>`; $("#bA0").onclick = () => panArticle(null); return; }
+    let l = S.stock.filter(a => !q || [a.nom, a.reference, a.compatible, a.emplacement].join(" ").toLowerCase().includes(q));
+    if (UI.scat === "bas") l = l.filter(a => a.seuil != null && +a.quantite <= +a.seuil);
+    else if (UI.scat !== "tout") l = l.filter(a => a.categorie === UI.scat);
+    if (!l.length) { box.innerHTML = `<div class="void"><b>Aucun article</b><p>Rien ne correspond à ce filtre.</p></div>`; return; }
+    l.sort(sortNom);
+    const grp = UI.scat === "tout" && !q ? STOCK_CATS.map(c => [c, l.filter(a => (a.categorie || "Autre") === c)]).filter(g => g[1].length) : [[null, l]];
+    box.innerHTML = grp.map(([c, as]) => `${c ? `<div class="cap">${esc(c)}<span class="c">${as.length}</span></div>` : '<div style="height:12px"></div>'}
+      <div class="rows cols">${as.map(a => { const bas = a.seuil != null && +a.quantite <= +a.seuil;
+        return `<div class="sk ${bas ? "low" : ""}"><button class="tx" data-a="${a.id}"><b>${esc(a.nom)}</b><small class="mono">${[a.reference, a.emplacement].filter(Boolean).map(esc).join(" · ") || "—"}</small>
+          ${a.compatible || bas ? `<small>${bas ? `<span style="color:var(--red);font-weight:700">Seuil ${fmtN(a.seuil)}</span>${a.compatible ? " · " : ""}` : ""}${esc(a.compatible || "")}</small>` : ""}</button>
+          <div class="qty ${bas ? "low" : ""}"><button data-m="${a.id}" aria-label="Retirer 1">−</button><b id="q-${a.id}">${fmtN(a.quantite)}<small>${esc(a.unite || "")}</small></b><button data-p="${a.id}" aria-label="Ajouter 1">+</button></div></div>`; }).join("")}</div>`).join("");
+    $$("[data-a]", box).forEach(b => b.onclick = () => panArticle(S.stock.find(a => a.id === b.dataset.a)));
+    $$("[data-m],[data-p]", box).forEach(b => b.onclick = () => ajuster(b.dataset.m || b.dataset.p, b.dataset.m ? -1 : 1));
+  };
+  $("#sq").oninput = ev => { UI.sq = ev.target.value; liste(); };
+  $("#bNA").onclick = () => panArticle(null);
+  filtres(); liste();
+}
+const attente = {};
+function ajuster(id, d) {
+  const a = S.stock.find(x => x.id === id); if (!a) return;
+  a.quantite = Math.max(0, (+a.quantite || 0) + d);
+  const q = $("#q-" + id); if (q) q.innerHTML = fmtN(a.quantite) + `<small>${esc(a.unite || "")}</small>`;
+  if (navigator.vibrate) navigator.vibrate(6);
+  clearTimeout(attente[id]);
+  attente[id] = setTimeout(async () => {
+    try { await Store.upd("stock_articles", id, { quantite: a.quantite }); compteurs(); }
+    catch (e) { toast("Stock non enregistré : " + e.message, true); }
+  }, 600);
+}
+
+/* =============================================================================
+   JOURNAL — tous les entretiens
+   ============================================================================= */
+function vueJournal() {
+  entete("Journal", "Toutes les interventions");
+  $("#view").innerHTML = `<div class="tools"><div class="find">${ico("search")}<input id="jq" type="search" placeholder="Engin, pièce, garage…" value="${esc(UI.jq)}" aria-label="Rechercher"></div></div><div id="jl"></div>`;
+  const liste = () => {
+    const q = UI.jq.trim().toLowerCase(), byId = new Map(S.engins.map(e => [e.id, e]));
+    const l = S.inter.filter(i => { const e = byId.get(i.engin_id); return !q || [e && e.nom, i.libelle, i.prestataire, i.notes, (i.pieces || []).map(p => p.nom + " " + (p.reference || "")).join(" ")].join(" ").toLowerCase().includes(q); })
+      .sort((a, b) => a.date < b.date ? 1 : a.date > b.date ? -1 : 0);
+    const an = String(E.aujourdhui().getUTCFullYear()), mo = todayISO().slice(0, 7);
+    const tA = S.inter.filter(i => i.date.startsWith(an)).reduce((s, i) => s + (+i.cout || 0), 0), tM = S.inter.filter(i => i.date.startsWith(mo)).reduce((s, i) => s + (+i.cout || 0), 0);
+    const box = $("#jl");
+    if (!S.inter.length) { box.innerHTML = `<div class="void"><b>Journal vide</b><p>Les entretiens, réparations et pièces changées apparaîtront ici, tous engins confondus.</p></div>`; return; }
+    const parMois = {}; l.forEach(i => (parMois[i.date.slice(0, 7)] = parMois[i.date.slice(0, 7)] || []).push(i));
+    box.innerHTML = `<div class="spec" style="margin-top:14px"><div><small>Dépenses ${new Date().toLocaleDateString("fr-FR", { month: "long" })}</small><b class="mono">${nfe.format(tM)}</b></div><div><small>Dépenses ${an}</small><b class="mono">${nfe.format(tA)}</b></div></div>` +
+      (l.length ? Object.entries(parMois).map(([k, is]) => `<div class="cap">${new Date(k + "-01T12:00:00Z").toLocaleDateString("fr-FR", { month: "long", year: "numeric" })}<span class="c">${is.length}</span></div>
+      <div class="log">${is.map(i => ligneLog(i, byId.get(i.engin_id), true)).join("")}</div>`).join("") : `<div class="void"><b>Aucun résultat</b></div>`);
+    $$("[data-i]", box).forEach(b => b.onclick = () => panDetail(S.inter.find(i => i.id === b.dataset.i)));
+  };
+  $("#jq").oninput = ev => { UI.jq = ev.target.value; liste(); };
+  liste();
+}
+
+/* =============================================================================
+   PANNEAUX
+   ============================================================================= */
+let pile = [];
+function ouvrir(titre, sur, corps, pied, monter) {
+  const bg = document.createElement("div"); bg.className = "pnl-bg";
+  const p = document.createElement("div"); p.className = "pnl"; p.setAttribute("role", "dialog"); p.setAttribute("aria-modal", "true"); p.setAttribute("aria-label", titre);
+  p.innerHTML = `<div class="ph"><button class="back" data-x aria-label="Fermer">${ico("backa")}</button><div style="flex:1;min-width:0">${sur ? `<small>${esc(sur)}</small>` : ""}<h3>${esc(titre)}</h3></div></div>
+    <div class="pb">${corps}</div>${pied ? `<div class="pf">${pied}</div>` : ""}`;
+  document.body.append(bg, p); document.body.style.overflow = "hidden";
+  requestAnimationFrame(() => { bg.classList.add("on"); p.classList.add("on"); });
+  const fermer = () => {
+    bg.classList.remove("on"); p.classList.remove("on");
+    setTimeout(() => { bg.remove(); p.remove(); if (!$(".pnl")) document.body.style.overflow = ""; }, 280);
+    pile = pile.filter(f => f !== fermer);
+  };
+  pile.push(fermer); bg.onclick = fermer; $("[data-x]", p).onclick = fermer;
+  $$("[data-annuler]", p).forEach(b => b.onclick = fermer);
+  if (monter) monter(p, fermer);
+  return { p, fermer };
+}
+document.addEventListener("keydown", ev => { if (ev.key === "Escape" && pile.length) pile[pile.length - 1](); });
+function confirmer(titre, texte, libelle, danger) {
+  return new Promise(res => {
+    let ok = false;
+    const { fermer } = ouvrir(titre, "Confirmation", `<p style="margin:16px 0 0;color:var(--tx-2)">${esc(texte)}</p>`,
+      `<button class="btn" data-annuler>Annuler</button><button class="btn ${danger ? "red" : "y"}" data-ok>${esc(libelle)}</button>`,
+      (p, f) => { $("[data-ok]", p).onclick = () => { ok = true; f(); }; });
+    const t = setInterval(() => { if (!pile.includes(fermer)) { clearInterval(t); res(ok); } }, 100);
+  });
+}
+async function occupe(btn, fn) {
+  const h = btn.innerHTML; btn.disabled = true; btn.innerHTML = '<span class="spin"></span>';
+  try { await fn(); } catch (e) { toast(e.message || "Erreur", true); btn.disabled = false; btn.innerHTML = h; }
+}
+const val = (p, id) => { const x = $("#" + id, p); return x ? x.value.trim() : ""; };
+const nb = v => v === "" || v == null ? null : +String(v).replace(",", ".").replace(/\s/g, "");
+const PIED = l => `<button class="btn" data-annuler>Annuler</button><button class="btn y" id="ok">${l}</button>`;
+
+/* ---------- engin ---------- */
+function panEngin(e) {
+  const neuf = !e;
+  e = e || { categorie: CAT[UI.cat] ? UI.cat : "pelle", vgp: false, compteur_type: CAT[CAT[UI.cat] ? UI.cat : "pelle"].cpt };
+  let cat = e.categorie, vgpMain = !neuf;
+  ouvrir(neuf ? "Nouvel engin" : "Modifier", neuf ? "Parc" : e.nom, `
+    <div class="fl"><span class="lab">Type</span><div class="pick" id="cat">${CATS.map(c => `<button type="button" data-c="${c.id}" class="${c.id === cat ? "on" : ""}">${ico(c.id)}${c.nom}</button>`).join("")}</div></div>
+    <div class="fl"><label for="eN">Nom affiché</label><input id="eN" value="${esc(e.nom || "")}" placeholder="ex. Pelle 9 T Case"><div class="help" id="eH">Le parc est classé par nom.</div></div>
+    <div class="two"><div class="fl"><label for="eI">Plaque</label><input id="eI" value="${esc(e.immat || "")}" placeholder="AB-123-CD" autocapitalize="characters" class="mono"></div>
+      <div class="fl"><label for="eP">Poids</label><div class="u"><input id="eP" inputmode="decimal" value="${e.poids_t ?? ""}"><em>t</em></div></div></div>
+    <div class="two"><div class="fl"><label for="eM">Marque</label><input id="eM" value="${esc(e.marque || "")}"></div><div class="fl"><label for="eO">Modèle</label><input id="eO" value="${esc(e.modele || "")}"></div></div>
+    <div class="two"><div class="fl"><label for="eS">N° de série</label><input id="eS" value="${esc(e.numero_serie || "")}" class="mono"></div><div class="fl"><label for="eA">Année</label><input id="eA" inputmode="numeric" value="${e.annee ?? ""}"></div></div>
+    <div class="two"><div class="fl"><label for="eC">Compteur</label><select id="eC"><option value="heures">Heures</option><option value="km">Kilomètres</option><option value="aucun">Aucun</option></select></div>
+      <div class="fl" id="fV"><label for="eV">Valeur actuelle</label><div class="u"><input id="eV" inputmode="decimal" value="${e.compteur ?? ""}" class="mono"><em id="eU">h</em></div></div></div>
+    <label class="sw"><span class="tx"><b>Soumis à la VGP</b><span>Coché d'office à partir de ${VGP_SEUIL} t</span></span><input type="checkbox" id="eG" ${e.vgp ? "checked" : ""}><span class="k"></span></label>
+    ${neuf ? `<div class="alert g" style="margin-top:12px">${ico("check")}<span id="eX"></span></div>` : ""}
+    <div class="fl"><label for="eT">Notes</label><textarea id="eT">${esc(e.notes || "")}</textarea></div>
+    ${neuf ? "" : `<button class="btn red full" style="margin-top:20px" id="eD">${ico("trash")} Retirer du parc</button>`}`,
+    PIED(neuf ? "Ajouter" : "Enregistrer"), (p, fermer) => {
+      $("#eC", p).value = e.compteur_type || CAT[cat].cpt;
+      const maj = () => {
+        const ct = $("#eC", p).value; $("#fV", p).hidden = ct === "aucun"; $("#eU", p).textContent = ct === "km" ? "km" : "h";
+        const t = nb($("#eP", p).value);
+        if (!vgpMain) $("#eG", p).checked = t != null && t >= VGP_SEUIL && cat !== "camionnette";
+        $("#eH", p).textContent = cat === "benne" || cat === "porte_char" ? "Bennes et porte-char : la plaque peut servir de nom." : "Le parc est classé par nom.";
+        if ($("#eX", p)) $("#eX", p).textContent = "Suivi créé d'office : " + plansParDefaut(cat, $("#eG", p).checked).map(x => x.libelle).join(", ") + ".";
+      };
+      $$("#cat button", p).forEach(b => b.onclick = () => { cat = b.dataset.c; $$("#cat button", p).forEach(x => x.classList.toggle("on", x === b)); if (neuf) $("#eC", p).value = CAT[cat].cpt; maj(); });
+      $("#eP", p).oninput = maj; $("#eC", p).onchange = maj; $("#eG", p).onchange = () => { vgpMain = true; maj(); };
+      maj();
+      if ($("#eD", p)) $("#eD", p).onclick = async () => {
+        if (!(await confirmer("Retirer du parc ?", `« ${e.nom} » disparaît du parc et de l'agenda. Son carnet est conservé.`, "Retirer", true))) return;
+        await Store.upd("engins", e.id, { actif: false }); e.actif = false; recalc(); fermer(); toast("Engin retiré"); location.hash = "#/parc";
+      };
+      $("#ok", p).onclick = ev => occupe(ev.currentTarget, async () => {
+        const ct = $("#eC", p).value, nom = val(p, "eN") || val(p, "eI").toUpperCase();
+        if (!nom) { $("#eN", p).focus(); throw new Error("Donnez un nom"); }
+        const row = { nom, categorie: cat, immat: val(p, "eI").toUpperCase(), marque: val(p, "eM"), modele: val(p, "eO"), numero_serie: val(p, "eS"),
+          annee: nb(val(p, "eA")), poids_t: nb(val(p, "eP")), compteur_type: ct, vgp: $("#eG", p).checked, notes: val(p, "eT") };
+        const cv = ct === "aucun" ? null : nb(val(p, "eV"));
+        if (neuf) {
+          Object.assign(row, { id: uid(), compteur: cv, compteur_le: cv != null ? todayISO() : null, actif: true });
+          const r = await Store.ins("engins", row); S.engins.push(r);
+          if (cv != null) S.releves.push(await Store.ins("entretien_releves", { id: uid(), engin_id: r.id, date: todayISO(), valeur: cv }));
+          for (const x of plansParDefaut(cat, row.vgp))
+            S.plans.push(await Store.ins("entretien_plans", Object.assign({ id: uid(), engin_id: r.id, derniere_date: null, dernier_cpt: null, programme_le: null, alerte_cle: null }, x, { intervalle_cpt: ct === "aucun" ? null : x.intervalle_cpt })));
+          recalc(); fermer(); toast("Engin ajouté"); UI.onglet = "suivi"; location.hash = "#/engin/" + r.id;
+        } else {
+          if (cv != null && cv !== +e.compteur) { row.compteur = cv; row.compteur_le = todayISO(); S.releves.push(await Store.ins("entretien_releves", { id: uid(), engin_id: e.id, date: todayISO(), valeur: cv })); }
+          if (row.vgp && !S.plans.some(x => x.engin_id === e.id && x.type === "vgp"))
+            S.plans.push(await Store.ins("entretien_plans", { id: uid(), engin_id: e.id, type: "vgp", libelle: "VGP", intervalle_cpt: null, intervalle_mois: cat === "pelle" ? 6 : 12, derniere_date: null, dernier_cpt: null, programme_le: null, alerte_cle: null }));
+          Object.assign(e, await Store.upd("engins", e.id, row)); recalc(); fermer(); toast("Fiche enregistrée"); route();
+        }
+      });
+    });
+}
+
+/* ---------- suivi (programme) ---------- */
+function panPlan(e, pl) {
+  const neuf = !pl; pl = pl || { type: "revision", libelle: "", intervalle_cpt: null, intervalle_mois: 12 };
+  const u = unite(e), cpt = e.compteur_type !== "aucun";
+  ouvrir(neuf ? "Nouveau suivi" : "Modifier le suivi", e.nom, `
+    <div class="fl"><label for="pT">Type</label><select id="pT">${Object.entries(TYPES).filter(([k]) => k !== "reparation").map(([k, t]) => `<option value="${k}" ${pl.type === k ? "selected" : ""}>${t.nom}</option>`).join("")}</select></div>
+    <div class="fl"><label for="pL">Libellé</label><input id="pL" value="${esc(pl.libelle)}" placeholder="ex. Révision 500 h"></div>
+    <div class="cap">Périodicité — le premier atteint</div>
+    <div class="two">${cpt ? `<div class="fl" style="margin-top:0"><label for="pC">Tous les</label><div class="u"><input id="pC" inputmode="decimal" value="${pl.intervalle_cpt ?? ""}" class="mono"><em>${u}</em></div></div>` : ""}
+      <div class="fl" style="margin-top:0"><label for="pM">Tous les</label><div class="u"><input id="pM" inputmode="numeric" value="${pl.intervalle_mois ?? ""}" class="mono"><em>mois</em></div></div></div>
+    <div class="cap">Dernier entretien fait</div>
+    <div class="two"><div class="fl" style="margin-top:0"><label for="pD">Date</label><input id="pD" type="date" value="${pl.derniere_date || ""}"></div>
+      ${cpt ? `<div class="fl" style="margin-top:0"><label for="pK">Compteur</label><div class="u"><input id="pK" inputmode="decimal" value="${pl.dernier_cpt ?? ""}" class="mono"><em>${u}</em></div></div>` : ""}</div>
+    ${neuf ? "" : `<button class="btn red full" style="margin-top:20px" id="pX">${ico("trash")} Supprimer ce suivi</button>`}`,
+    PIED("Enregistrer"), (p, fermer) => {
+      $("#pT", p).onchange = ev => { const l = $("#pL", p); if (!l.value || l.dataset.a) { l.value = TYPES[ev.target.value].nom; l.dataset.a = 1; } };
+      if ($("#pX", p)) $("#pX", p).onclick = async () => {
+        if (!(await confirmer("Supprimer le suivi ?", `« ${pl.libelle} » ne sera plus surveillé. Le carnet reste intact.`, "Supprimer", true))) return;
+        await Store.del("entretien_plans", pl.id); S.plans = S.plans.filter(x => x.id !== pl.id); recalc(); fermer(); route(); toast("Suivi supprimé");
+      };
+      $("#ok", p).onclick = ev => occupe(ev.currentTarget, async () => {
+        const ty = $("#pT", p).value;
+        const row = { type: ty, libelle: val(p, "pL") || TYPES[ty].nom, intervalle_cpt: nb(val(p, "pC")), intervalle_mois: nb(val(p, "pM")), derniere_date: val(p, "pD") || null, dernier_cpt: nb(val(p, "pK")) };
+        if (!row.intervalle_cpt && !row.intervalle_mois) throw new Error("Indiquez une périodicité");
+        if (neuf) S.plans.push(await Store.ins("entretien_plans", Object.assign({ id: uid(), engin_id: e.id, programme_le: null, alerte_cle: null }, row)));
+        else Object.assign(pl, await Store.upd("entretien_plans", pl.id, row));
+        recalc(); fermer(); route(); toast("Suivi enregistré");
+      });
+    });
+}
+
+/* ---------- actions sur une échéance ---------- */
+function panActions(id) {
+  const pl = S.plans.find(x => x.id === id), e = S.engins.find(x => x.id === pl.engin_id), x = ETATS.find(y => y.plan.id === id);
+  ouvrir(pl.libelle, e.nom, `
+    <div class="svc" style="margin-top:16px"><div class="h"><span class="ico">${ico((TYPES[pl.type] || TYPES.autre).ic)}</span><span class="ti"><b>${esc(pl.libelle)}</b><small>${esc(echeanceTxt(x))}</small></span>${etiquette(x)}</div>
+      ${x.etat.statut !== "inconnu" ? `<div class="g" style="padding-bottom:14px">${jauge(x, true)}</div>` : '<div style="height:12px"></div>'}</div>
+    <div class="menu" style="margin-top:12px">
+      <button id="aF"><span class="svc ico" style="border:0;margin:0;background:var(--yel);color:var(--yel-ink);width:38px;height:38px;display:flex;align-items:center;justify-content:center">${ico("check")}</span><span class="tx"><b>C'est fait</b><span>Saisir l'entretien, les pièces et le compteur</span></span>${ico("chev")}</button>
+      <button id="aP"><span style="width:38px;height:38px;display:flex;align-items:center;justify-content:center;border:1px solid var(--blu);color:var(--blu)">${ico("cal")}</span><span class="tx"><b>Programmer</b><span>${pl.programme_le ? "Prévu le " + fmtD(pl.programme_le, true) : "Bloquer une date atelier / garage"}</span></span>${ico("chev")}</button>
+      <button id="aV"><span style="width:38px;height:38px;display:flex;align-items:center;justify-content:center;border:1px solid var(--line-2)">${ico(e.categorie)}</span><span class="tx"><b>Fiche de l'engin</b><span>Suivi, carnet, garanties</span></span>${ico("chev")}</button>
+    </div>`, "", (p, fermer) => {
+      $("#aF", p).onclick = () => { fermer(); panIntervention({ engin: e.id, plans: [id] }); };
+      $("#aP", p).onclick = () => { fermer(); panProgrammer(id); };
+      $("#aV", p).onclick = () => { fermer(); UI.onglet = "suivi"; location.hash = "#/engin/" + e.id; };
+    });
+}
+function panProgrammer(id) {
+  const pl = S.plans.find(x => x.id === id), e = S.engins.find(x => x.id === pl.engin_id), x = ETATS.find(y => y.plan.id === id);
+  const sug = pl.programme_le || (x.etat.echeance ? E.iso(x.etat.echeance < E.aujourdhui() ? E.aujourdhui() : x.etat.echeance) : todayISO());
+  ouvrir("Programmer", e.nom + " · " + pl.libelle, `
+    <div class="fl"><label for="gD">Date de l'intervention</label><input id="gD" type="date" value="${sug}"></div>
+    <div class="chk" style="margin-top:10px">${[0, 1, 3, 7, 14].map(n => `<button type="button" data-n="${n}">${n === 0 ? "Aujourd'hui" : n === 1 ? "Demain" : "+" + n + " j"}</button>`).join("")}</div>
+    ${x.etat.echeance ? `<div class="alert g" style="margin-top:16px">${ico("clock")}<span>Échéance ${x.etat.estimee ? "estimée " : ""}: ${fmtD(x.etat.echeance, true)}</span></div>` : ""}
+    ${pl.programme_le ? `<button class="btn full" style="margin-top:20px" id="gX">Retirer la date prévue</button>` : ""}`,
+    PIED("Programmer"), (p, fermer) => {
+      $$("[data-n]", p).forEach(b => b.onclick = () => { $("#gD", p).value = E.iso(E.ajouterJours(E.aujourdhui(), +b.dataset.n)); });
+      if ($("#gX", p)) $("#gX", p).onclick = async () => { Object.assign(pl, await Store.upd("entretien_plans", pl.id, { programme_le: null })); recalc(); fermer(); route(); toast("Date retirée"); };
+      $("#ok", p).onclick = ev => occupe(ev.currentTarget, async () => {
+        const d = val(p, "gD"); if (!d) throw new Error("Choisissez une date");
+        Object.assign(pl, await Store.upd("entretien_plans", pl.id, { programme_le: d })); recalc(); fermer(); route(); toast("Prévu le " + fmtD(d, true));
+      });
+    });
+}
+
+/* ---------- compteurs ---------- */
+async function releve(e, v, date) {
+  S.releves.push(await Store.ins("entretien_releves", { id: uid(), engin_id: e.id, date, valeur: v }));
+  if (!e.compteur_le || date >= e.compteur_le) Object.assign(e, await Store.upd("engins", e.id, { compteur: v, compteur_le: date }));
+}
+function panCompteur(e) {
+  const u = unite(e);
+  ouvrir(e.compteur_type === "km" ? "Kilométrage" : "Heures", e.nom, `
+    <div class="fl big"><label for="cV">Nouvelle valeur</label><div class="u"><input id="cV" inputmode="decimal" placeholder="${fmtN(e.compteur)}"><em>${u}</em></div>
+      <div class="help mono">Précédent : ${fmtN(e.compteur)} ${u}${e.compteur_le ? " · " + fmtD(e.compteur_le, true) : ""}</div></div>
+    <div class="fl"><label for="cD">Date</label><input id="cD" type="date" value="${todayISO()}"></div>`,
+    PIED("Enregistrer"), (p, fermer) => {
+      setTimeout(() => $("#cV", p).focus(), 300);
+      $("#ok", p).onclick = ev => occupe(ev.currentTarget, async () => {
+        const v = nb(val(p, "cV")); if (v == null) throw new Error("Entrez une valeur");
+        if (e.compteur != null && v < +e.compteur && !(await confirmer("Valeur plus basse", `${fmtN(v)} ${u} est sous le dernier relevé (${fmtN(e.compteur)} ${u}). Compteur remplacé ?`, "Enregistrer"))) throw new Error("Annulé");
+        await releve(e, v, val(p, "cD") || todayISO()); recalc(); fermer(); route(); toast("Compteur à jour");
+      });
+    });
+}
+function panReleves() {
+  const l = actifs().filter(e => e.compteur_type !== "aucun").sort(sortNom);
+  if (!l.length) return toast("Aucun engin avec compteur", true);
+  ouvrir("Relevé des compteurs", "Tournée du parc", `
+    <p style="margin:14px 0 6px;color:var(--tx-3);font-size:13.5px">Ne remplissez que ce que vous avez relevé. Heures et kilomètres servent à prévoir la date des prochaines révisions.</p>
+    ${CATS.filter(c => l.some(e => e.categorie === c.id)).map(c => `<div class="cap">${ico(c.id)} ${c.pluriel}</div>${l.filter(e => e.categorie === c.id).map(e => `<div class="rl">
+      <div style="min-width:0"><b>${esc(e.nom)}</b><small>${e.compteur != null ? fmtN(e.compteur) + " " + unite(e) : "jamais relevé"}${e.compteur_le ? " · " + fmtD(e.compteur_le) : ""}</small></div>
+      <div class="u"><input data-r="${e.id}" inputmode="decimal" aria-label="${esc(e.nom)}"><em>${unite(e)}</em></div></div>`).join("")}`).join("")}`,
+    PIED("Enregistrer"), (p, fermer) => {
+      $$("[data-r]", p).forEach(i => i.oninput = () => { const e = S.engins.find(x => x.id === i.dataset.r), v = nb(i.value); i.classList.toggle("err", v != null && e.compteur != null && v < +e.compteur); });
+      $("#ok", p).onclick = ev => occupe(ev.currentTarget, async () => {
+        const s = $$("[data-r]", p).map(i => [S.engins.find(x => x.id === i.dataset.r), nb(i.value)]).filter(x => x[1] != null);
+        if (!s.length) throw new Error("Aucune valeur saisie");
+        if (s.some(([e, v]) => e.compteur != null && v < +e.compteur) && !(await confirmer("Valeurs plus basses", "Les valeurs en rouge sont sous le dernier relevé. Enregistrer quand même ?", "Enregistrer"))) throw new Error("Annulé");
+        for (const [e, v] of s) await releve(e, v, todayISO());
+        recalc(); fermer(); route(); toast(s.length + " compteur" + (s.length > 1 ? "s" : "") + " à jour");
+      });
+    });
+}
+
+/* ---------- saisie d'un entretien ---------- */
+function panIntervention(o) {
+  let eid = o.engin || null, sel = new Set(o.plans || []), rep = false, pcs = [];
+  const A = actifs().sort(sortNom);
+  if (!A.length) return toast("Ajoutez d'abord un engin", true);
+  ouvrir("Saisir un entretien", "Carnet", `
+    <div class="fl"><label for="iE">Engin</label><select id="iE"><option value="">— Choisir —</option>${CATS.map(c => { const es = A.filter(e => e.categorie === c.id); return es.length ? `<optgroup label="${c.pluriel}">${es.map(e => `<option value="${e.id}" ${e.id === eid ? "selected" : ""}>${esc(e.nom)}</option>`).join("")}</optgroup>` : ""; }).join("")}</select></div>
+    <div id="iB"></div>`, PIED("Enregistrer"), (p, fermer) => {
+      const corps = () => {
+        const e = S.engins.find(x => x.id === eid), b = $("#iB", p);
+        if (!e) { b.innerHTML = `<p style="color:var(--tx-3);font-size:13.5px;margin-top:12px">Choisissez l'engin pour voir ses suivis.</p>`; return; }
+        const u = unite(e), pl = S.plans.filter(x => x.engin_id === e.id);
+        b.innerHTML = `
+          <div class="fl"><span class="lab">Travaux réalisés</span><div class="chk" id="iP">${pl.map(x => `<button type="button" data-p="${x.id}" class="${sel.has(x.id) ? "on" : ""}"><i></i>${esc(x.libelle)}</button>`).join("")}
+            <button type="button" data-rep class="${rep ? "on" : ""}"><i></i>Réparation / autre</button></div></div>
+          <div class="fl" id="fL" ${rep ? "" : "hidden"}><label for="iL">Description</label><input id="iL" placeholder="ex. Remplacement flexible hydraulique"></div>
+          <div class="two"><div class="fl"><label for="iD">Date</label><input id="iD" type="date" value="${todayISO()}"></div>
+            ${e.compteur_type !== "aucun" ? `<div class="fl"><label for="iC">Compteur</label><div class="u"><input id="iC" inputmode="decimal" value="${e.compteur ?? ""}" class="mono"><em>${u}</em></div></div>` : ""}</div>
+          <div class="fl"><span class="lab">Pièces & consommables</span><div id="iX"></div>
+            <div class="find" style="margin-top:6px">${ico("search")}<input id="iQ" placeholder="Chercher dans le stock ou taper un nom" autocomplete="off"></div><div id="iK"></div></div>
+          <div class="two"><div class="fl"><label for="iR">Fait par</label><input id="iR" list="dlR" placeholder="Atelier HK, garage…"><datalist id="dlR">${[...new Set(S.inter.map(i => i.prestataire).filter(Boolean))].map(x => `<option value="${esc(x)}">`).join("")}</datalist></div>
+            <div class="fl"><label for="iM">Coût</label><div class="u"><input id="iM" inputmode="decimal" class="mono"><em>€</em></div></div></div>
+          <div class="fl"><label for="iN">Remarques</label><textarea id="iN" placeholder="Observations, pièces à prévoir…"></textarea></div>`;
+        $$("#iP [data-p]", b).forEach(x => x.onclick = () => { sel.has(x.dataset.p) ? sel.delete(x.dataset.p) : sel.add(x.dataset.p); x.classList.toggle("on"); });
+        $("#iP [data-rep]", b).onclick = ev => { rep = !rep; ev.currentTarget.classList.toggle("on", rep); $("#fL", b).hidden = !rep; if (rep) $("#iL", b).focus(); };
+        const pieces = () => {
+          const auj = todayISO();
+          $("#iX", b).innerHTML = pcs.map((pc, k) => {
+            const ant = [];
+            S.inter.filter(i => i.engin_id === e.id).forEach(i => (i.pieces || []).forEach(x => {
+              if (x.garantie_fin && x.garantie_fin >= auj && ((pc.reference && x.reference && x.reference.toLowerCase() === pc.reference.toLowerCase()) || x.nom.toLowerCase() === pc.nom.toLowerCase())) ant.push({ x, i });
+            }));
+            const art = pc.article_id ? S.stock.find(a => a.id === pc.article_id) : null;
+            return `<div class="part"><div class="pn">${esc(pc.nom)}<small class="mono">${art ? "stock " + fmtN(art.quantite) + " " + esc(art.unite || "") : "hors stock"}</small></div>
+              <input data-q="${k}" inputmode="decimal" value="${pc.quantite}" class="mono" aria-label="Quantité">
+              <select data-g="${k}" aria-label="Garantie">${[0, 3, 6, 12, 24, 36].map(m => `<option value="${m}" ${+pc.garantie_mois === m ? "selected" : ""}>${m ? "Gar. " + m + "m" : "Sans gar."}</option>`).join("")}</select>
+              <button class="x" data-d="${k}" aria-label="Retirer">${ico("x")}</button></div>
+              ${ant.map(({ x, i }) => `<div class="alert">${ico("shield")}<span><b>Sous garantie jusqu'au ${fmtD(x.garantie_fin, true)}</b> — posée le ${fmtD(i.date, true)}${i.prestataire ? " par " + esc(i.prestataire) : ""}. Faites jouer la garantie.</span></div>`).join("")}
+              ${art && +pc.quantite > +art.quantite ? `<div class="alert">${ico("alert")}<span>Stock insuffisant : ${fmtN(art.quantite)} ${esc(art.unite || "")} en rayon.</span></div>` : ""}`;
+          }).join("");
+          $$("[data-q]", b).forEach(i => i.onchange = () => { pcs[+i.dataset.q].quantite = nb(i.value) || 1; pieces(); });
+          $$("[data-g]", b).forEach(i => i.onchange = () => { pcs[+i.dataset.g].garantie_mois = +i.value; });
+          $$("[data-d]", b).forEach(i => i.onclick = () => { pcs.splice(+i.dataset.d, 1); pieces(); });
+        };
+        const chercher = () => {
+          const q = $("#iQ", b).value.trim(), box = $("#iK", b);
+          if (!q) { box.innerHTML = ""; return; }
+          const l = S.stock.filter(a => [a.nom, a.reference, a.compatible].join(" ").toLowerCase().includes(q.toLowerCase())).sort(sortNom).slice(0, 8);
+          box.innerHTML = `<div class="drop">${l.map(a => `<button type="button" data-ad="${a.id}">${ico("box")}<span style="flex:1">${esc(a.nom)}<br><small class="mono">${esc(a.reference || "")} · ${fmtN(a.quantite)} ${esc(a.unite || "")}</small></span></button>`).join("")}
+            <button type="button" data-lib>${ico("plus")}<span>Ajouter « ${esc(q)} » hors stock</span></button></div>`;
+          $$("[data-ad]", box).forEach(x => x.onclick = () => { const a = S.stock.find(y => y.id === x.dataset.ad); pcs.push({ article_id: a.id, nom: a.nom, reference: a.reference || "", quantite: 1, garantie_mois: /pièce/i.test(a.categorie || "") ? 12 : 0 }); $("#iQ", b).value = ""; box.innerHTML = ""; pieces(); });
+          $("[data-lib]", box).onclick = () => { pcs.push({ article_id: null, nom: q, reference: "", quantite: 1, garantie_mois: 12 }); $("#iQ", b).value = ""; box.innerHTML = ""; pieces(); };
+        };
+        $("#iQ", b).oninput = chercher;
+        $("#iQ", b).onkeydown = ev => { if (ev.key === "Enter") { ev.preventDefault(); const f = $("#iK button", b); if (f) f.click(); } };
+        pieces();
+      };
+      $("#iE", p).onchange = ev => { eid = ev.target.value; sel = new Set(); pcs = []; rep = false; corps(); };
+      corps();
+      $("#ok", p).onclick = ev => occupe(ev.currentTarget, async () => {
+        const e = S.engins.find(x => x.id === eid); if (!e) throw new Error("Choisissez un engin");
+        if (!sel.size && !rep && !pcs.length) throw new Error("Cochez ce qui a été fait");
+        const date = val(p, "iD") || todayISO(), cpt = e.compteur_type === "aucun" ? null : nb(val(p, "iC"));
+        const faits = [...sel].map(id => S.plans.find(x => x.id === id)).filter(Boolean);
+        const libelle = [...faits.map(x => x.libelle), rep ? val(p, "iL") : ""].filter(Boolean).join(" + ") || "Remplacement de pièces";
+        const pieces = pcs.map(pc => Object.assign({}, pc, { garantie_fin: +pc.garantie_mois ? E.iso(E.ajouterMois(date, +pc.garantie_mois)) : null }));
+        S.inter.push(await Store.ins("entretien_interventions", { id: uid(), engin_id: e.id, plans: faits.map(x => x.id), type: faits[0] ? faits[0].type : "reparation", libelle, date, compteur: cpt,
+          pieces, cout: nb(val(p, "iM")), prestataire: val(p, "iR"), notes: val(p, "iN") }));
+        for (const x of faits) { if (x.derniere_date && date < x.derniere_date) continue; Object.assign(x, await Store.upd("entretien_plans", x.id, { derniere_date: date, dernier_cpt: cpt, programme_le: null, alerte_cle: null })); }
+        if (cpt != null && (e.compteur == null || cpt > +e.compteur)) await releve(e, cpt, date);
+        for (const pc of pieces) if (pc.article_id) { const a = S.stock.find(x => x.id === pc.article_id); if (a) Object.assign(a, await Store.upd("stock_articles", a.id, { quantite: Math.max(0, (+a.quantite || 0) - (+pc.quantite || 0)) })); }
+        recalc(); fermer(); route(); toast("Entretien enregistré");
+      });
+    });
+}
+function panDetail(i) {
+  const e = S.engins.find(x => x.id === i.engin_id);
+  ouvrir(i.libelle || "Entretien", e ? e.nom : "", `
+    <div class="spec" style="margin-top:16px"><div><small>Date</small><b class="mono">${fmtD(i.date, true)}</b></div><div><small>Compteur</small><b class="mono">${i.compteur != null && e ? fmtN(i.compteur) + " " + unite(e) : "—"}</b></div>
+      <div><small>Fait par</small><b>${esc(i.prestataire || "—")}</b></div><div><small>Coût</small><b class="mono">${i.cout ? nfe.format(i.cout) : "—"}</b></div></div>
+    ${(i.pieces || []).length ? `<div class="cap">Pièces</div><div class="rows">${i.pieces.map(pc => `<div class="sk"><div class="tx"><b>${esc(pc.nom)}${+pc.quantite > 1 ? " ×" + fmtN(pc.quantite) : ""}</b><small class="mono">${esc(pc.reference || "—")}</small></div>${pc.garantie_fin ? `<span class="tg ${pc.garantie_fin >= todayISO() ? "ok" : "inconnu"}">Gar. → ${fmtD(pc.garantie_fin, true)}</span>` : ""}</div>`).join("")}</div>` : ""}
+    ${i.notes ? `<div class="spec" style="grid-template-columns:1fr"><div><small>Remarques</small><b style="white-space:pre-wrap;font-weight:500">${esc(i.notes)}</b></div></div>` : ""}
+    <button class="btn red full" style="margin-top:20px" id="dX">${ico("trash")} Supprimer la saisie</button>`, "", (p, fermer) => {
+      $("#dX", p).onclick = async () => {
+        if (!(await confirmer("Supprimer la saisie ?", "Les dates des suivis ne bougent pas et le stock n'est pas réintégré.", "Supprimer", true))) return;
+        await Store.del("entretien_interventions", i.id); S.inter = S.inter.filter(x => x.id !== i.id); fermer(); route(); toast("Saisie supprimée");
+      };
+    });
+}
+
+/* ---------- article ---------- */
+function panArticle(a) {
+  const neuf = !a; a = a || { categorie: "Filtres", unite: "pcs", quantite: 0, seuil: 1 };
+  ouvrir(neuf ? "Nouvel article" : "Article", "Stock atelier", `
+    <div class="fl"><label for="aN">Désignation</label><input id="aN" value="${esc(a.nom || "")}" placeholder="ex. Filtre à huile moteur"></div>
+    <div class="two"><div class="fl"><label for="aR">Référence</label><input id="aR" value="${esc(a.reference || "")}" class="mono"></div>
+      <div class="fl"><label for="aC">Catégorie</label><select id="aC">${STOCK_CATS.map(c => `<option ${a.categorie === c ? "selected" : ""}>${esc(c)}</option>`).join("")}</select></div></div>
+    <div class="two"><div class="fl"><label for="aQ">Quantité</label><input id="aQ" inputmode="decimal" value="${a.quantite ?? 0}" class="mono"></div>
+      <div class="fl"><label for="aU">Unité</label><select id="aU">${["pcs", "L", "kg", "cart.", "jeu", "m"].map(u => `<option ${a.unite === u ? "selected" : ""}>${u}</option>`).join("")}</select></div></div>
+    <div class="two"><div class="fl"><label for="aS">Alerte sous</label><input id="aS" inputmode="decimal" value="${a.seuil ?? ""}" class="mono"></div>
+      <div class="fl"><label for="aP">Prix unitaire</label><div class="u"><input id="aP" inputmode="decimal" value="${a.prix ?? ""}" class="mono"><em>€</em></div></div></div>
+    <div class="fl"><label for="aK">Pour quels engins</label><input id="aK" value="${esc(a.compatible || "")}" placeholder="ex. Pelle 9 T Case, Camion 8x4 MAN"></div>
+    <div class="fl"><label for="aE">Emplacement</label><input id="aE" value="${esc(a.emplacement || "")}" placeholder="ex. Atelier · Étagère A"></div>
+    ${neuf ? "" : `<button class="btn red full" style="margin-top:20px" id="aX">${ico("trash")} Supprimer l'article</button>`}`,
+    PIED("Enregistrer"), (p, fermer) => {
+      if ($("#aX", p)) $("#aX", p).onclick = async () => {
+        if (!(await confirmer("Supprimer l'article ?", `« ${a.nom} » sera retiré du stock.`, "Supprimer", true))) return;
+        await Store.del("stock_articles", a.id); S.stock = S.stock.filter(x => x.id !== a.id); fermer(); route(); toast("Article supprimé");
+      };
+      $("#ok", p).onclick = ev => occupe(ev.currentTarget, async () => {
+        const row = { nom: val(p, "aN"), reference: val(p, "aR"), categorie: $("#aC", p).value, quantite: nb(val(p, "aQ")) || 0, unite: $("#aU", p).value,
+          seuil: nb(val(p, "aS")), prix: nb(val(p, "aP")), compatible: val(p, "aK"), emplacement: val(p, "aE") };
+        if (!row.nom) throw new Error("Donnez une désignation");
+        if (neuf) S.stock.push(await Store.ins("stock_articles", Object.assign({ id: uid(), notes: "" }, row)));
+        else Object.assign(a, await Store.upd("stock_articles", a.id, row));
+        fermer(); route(); toast("Article enregistré");
+      });
+    });
+}
+
+/* =============================================================================
+   NOTIFICATIONS
+   ============================================================================= */
+function b64(s) { const p = "=".repeat((4 - s.length % 4) % 4); const r = atob((s + p).replace(/-/g, "+").replace(/_/g, "/")); return Uint8Array.from([...r].map(c => c.charCodeAt(0))); }
+async function activerNotifs() {
+  if (!("serviceWorker" in navigator) || !window.Notification) throw new Error("Notifications indisponibles. Sur iPhone : ajoutez l'app à l'écran d'accueil");
+  if ((await Notification.requestPermission()) !== "granted") throw new Error("Notifications refusées dans les réglages du téléphone");
+  const reg = await navigator.serviceWorker.ready;
+  if (!Store.demo && "PushManager" in window) {
+    let sub = await reg.pushManager.getSubscription();
+    if (!sub) sub = await reg.pushManager.subscribe({ userVisibleOnly: true, applicationServerKey: b64(CFG.vapidPublic) });
+    const j = sub.toJSON();
+    await SB.q("entretien_abonnements?on_conflict=endpoint", { method: "POST", body: { endpoint: j.endpoint, p256dh: j.keys.p256dh, auth: j.keys.auth }, prefer: "resolution=merge-duplicates" });
+  }
+  localStorage.removeItem("hke_vus"); verifierAlertesLocales();
+}
+async function verifierAlertesLocales() {
+  if (!window.Notification || Notification.permission !== "granted" || !("serviceWorker" in navigator)) return;
+  let vus = {}; try { vus = JSON.parse(localStorage.getItem("hke_vus")) || {}; } catch (e) {}
+  const nv = ETATS.filter(x => (x.etat.statut === "bientot" || x.etat.statut === "retard") && vus[x.plan.id] !== E.cleAlerte(x.plan, x.etat));
+  if (!nv.length) return;
+  nv.forEach(x => vus[x.plan.id] = E.cleAlerte(x.plan, x.etat));
+  try { localStorage.setItem("hke_vus", JSON.stringify(vus)); } catch (e) {}
+  const reg = await navigator.serviceWorker.ready.catch(() => null); if (!reg) return;
+  const l = nv.sort(triEtat).slice(0, 4).map(x => `${x.engin.nom} : ${x.plan.libelle} ${x.etat.statut === "retard" ? "en retard" : rel(x.etat.resteJours)}`);
+  reg.showNotification(nv.length > 1 ? nv.length + " entretiens à prévoir" : "Entretien à prévoir", { body: l.join("\n") + (nv.length > 4 ? "\n…" : ""), icon: "icon.png", badge: "icon.png", tag: "hke-local" });
+}
+function panReglages() {
+  const perm = window.Notification ? Notification.permission : "indisponible";
+  ouvrir("Réglages", Store.demo ? "Mode démo" : (S.moi && S.moi.nom) || "", `
+    <div class="menu" style="margin-top:16px">
+      <div class="r"><span style="width:38px;height:38px;display:flex;align-items:center;justify-content:center;background:var(--yel);color:var(--yel-ink)">${ico("bell")}</span>
+        <span class="tx"><b>Alertes 1,5 semaine avant</b><span>${perm === "granted" ? "Actives sur ce téléphone" : perm === "denied" ? "Bloquées dans les réglages du téléphone" : "Révisions, VGP, CT, pneus, tachy"}</span></span>
+        ${perm === "granted" ? '<span class="tg ok">Actives</span>' : '<button class="btn y sm" id="nOn">Activer</button>'}</div>
+      <div class="r"><span style="width:38px;height:38px;display:flex;align-items:center;justify-content:center;border:1px solid var(--line-2)">${ico("zap")}</span>
+        <span class="tx"><b>${Store.demo ? "Démonstration" : esc((S.moi && S.moi.nom) || "Compte HK")}</b><span>${Store.demo ? "Données sur ce téléphone uniquement" : "Connecté à HK Terrassement"}</span></span></div>
+    </div>
+    <p style="color:var(--tx-3);font-size:12.5px;margin-top:12px">Sur iPhone, les notifications ne marchent qu'après « Partager → Sur l'écran d'accueil ».</p>
+    ${Store.demo ? `<button class="btn full" style="margin-top:16px" id="dR">${ico("trash")} Réinitialiser la démo</button>` : ""}
+    <button class="btn full" style="margin-top:10px" id="lO">${ico("logout")} ${Store.demo ? "Quitter la démo" : "Se déconnecter"}</button>`, "", (p, fermer) => {
+      if ($("#nOn", p)) $("#nOn", p).onclick = ev => occupe(ev.currentTarget, async () => { await activerNotifs(); fermer(); compteurs(); toast("Alertes activées"); });
+      if ($("#dR", p)) $("#dR", p).onclick = async () => { Store.saveLocal(creerDemo()); await chargerTout(); fermer(); route(); toast("Démo réinitialisée"); };
+      $("#lO", p).onclick = () => { fermer(); deconnexion(); };
+    });
+}
+
+/* =============================================================================
+   DÉMARRAGE
+   ============================================================================= */
+if ("serviceWorker" in navigator) navigator.serviceWorker.register("sw.js").catch(() => {});
+document.addEventListener("visibilitychange", () => { if (document.visibilityState === "visible" && S.charge) { recalc(); route(); } });
+demarrer();
+
+</script>
+</body>
+</html>

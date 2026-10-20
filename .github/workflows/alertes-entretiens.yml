@@ -1,0 +1,29 @@
+name: Alertes entretiens
+
+# Tous les matins : prévient 1,5 semaine avant chaque révision, VGP, CT,
+# changement de pneus… (et une seconde fois si l'échéance est dépassée).
+# GitHub peut décaler le départ d'une heure ou deux : sans importance ici.
+on:
+  schedule:
+    - cron: "0 5 * * *"        # 7 h en été, 6 h en hiver (heure de Paris)
+  workflow_dispatch: {}
+
+jobs:
+  alertes:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Envoyer les alertes
+        env:
+          SUPABASE_URL: https://voxtcptopwnautnxsmia.supabase.co
+          SUPABASE_SERVICE_KEY: ${{ secrets.SUPABASE_SERVICE_KEY }}
+          VAPID_PRIVATE_KEY: ${{ secrets.VAPID_PRIVATE_KEY }}
+          VAPID_PUBLIC_KEY: BEx3Fw-lSV6EB3_8PvyiKgQxwyP5xia-vP4kbB33QDHQAO0xZmEt9oTVaMERHOExwblth_T7j2MS7aMQMuYmzBM
+          SUBJECT: mailto:sachamuller79@gmail.com
+          APP_URL: https://agencesl68.github.io/HK-entretiens/
+        run: |
+          npm install --silent --no-save web-push@3.6.7
+          node scripts/notifier.js
