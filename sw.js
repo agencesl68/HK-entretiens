@@ -1,8 +1,8 @@
 /* HK Entretiens — service worker
    . ouverture hors ligne (réseau d'abord, copie locale en secours)
    . notifications push envoyées par la GitHub Action « alertes-entretiens » */
-var CACHE = "hke-v6";
-var COQUILLE = ["./", "index.html", "echeances.js", "manifest.webmanifest", "icon.png"];
+var CACHE = "hke-v7";
+var COQUILLE = ["./", "index.html", "echeances.js", "manifest.webmanifest", "icon.png?v=2"];
 
 self.addEventListener("install", function (e) {
   e.waitUntil(caches.open(CACHE).then(function (c) { return c.addAll(COQUILLE); }).then(function () { return self.skipWaiting(); }));
@@ -26,7 +26,7 @@ self.addEventListener("push", function (event) {
   try { d = event.data ? event.data.json() : {}; } catch (e) { d = { body: event.data ? event.data.text() : "" }; }
   event.waitUntil(self.registration.showNotification(d.title || "HK Entretiens", {
     body: d.body || "Un entretien est à prévoir.",
-    icon: "icon.png", badge: "icon.png", tag: d.tag || "hke", renotify: true,
+    icon: "icon.png?v=2", badge: "icon.png?v=2", tag: d.tag || "hke", renotify: true,
     data: { url: d.url || self.registration.scope + "#/planning" }
   }));
 });
