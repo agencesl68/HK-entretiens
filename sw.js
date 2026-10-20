@@ -1,7 +1,7 @@
 /* HK Entretiens — service worker
    . ouverture hors ligne (réseau d'abord, copie locale en secours)
    . notifications push envoyées par la GitHub Action « alertes-entretiens » */
-var CACHE = "hke-v7";
+var CACHE = "hke-v8";
 var COQUILLE = ["./", "index.html", "echeances.js", "manifest.webmanifest", "icon.png?v=2"];
 
 self.addEventListener("install", function (e) {
