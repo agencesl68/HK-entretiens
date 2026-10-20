@@ -24,7 +24,7 @@
 :root{
   --bg:#0D0E10; --bg-2:#111316; --panel:#16181B; --panel-2:#1C1F23; --panel-3:#23272C;
   --line:#2A2E33; --line-2:#3A3F46;
-  --tx:#F2F0EA; --tx-2:#B3B6BC; --tx-3:#7A7F87;
+  --tx:#F5F3EE; --tx-2:#D2D5DA; --tx-3:#A2A7AF;
   --yel:#FFC400; --yel-2:#FFD84D; --yel-ink:#0D0E10; --yel-dim:rgba(255,196,0,.12);
   --red:#FF4D3D; --red-dim:rgba(255,77,61,.14);
   --amb:#FF9F1A; --amb-dim:rgba(255,159,26,.14);
@@ -41,7 +41,7 @@
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 html,body{margin:0;padding:0;min-height:100%}
 html{background:#0D0E10}
-body{background:var(--bg);color:var(--tx);font:500 15px/1.45 var(--sans);-webkit-font-smoothing:antialiased;overflow-x:hidden}
+body{background:var(--bg);color:var(--tx);font:500 16px/1.45 var(--sans);-webkit-font-smoothing:antialiased;overflow-x:hidden}
 button,input,select,textarea{font:inherit;color:inherit}
 button{cursor:pointer;background:none;border:0;padding:0}
 :focus-visible{outline:2px solid var(--yel);outline-offset:2px}
@@ -62,7 +62,7 @@ svg.i{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:1.9;stro
   font:800 17px/1 var(--cond);letter-spacing:.02em;clip-path:polygon(0 0,100% 0,100% 72%,72% 100%,0 100%)}
 .mark .t{min-width:0}
 .mark .t b{display:block;font:800 21px/1 var(--cond);text-transform:uppercase;letter-spacing:.03em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.mark .t small{display:block;font:600 10.5px/1 var(--mono);color:var(--tx-3);letter-spacing:.06em;margin-top:4px;text-transform:uppercase}
+.mark .t small{display:block;font:600 12.5px/1 var(--sans);color:var(--tx-3);margin-top:4px}
 .back{width:40px;height:40px;flex:0 0 40px;display:flex;align-items:center;justify-content:center;border:1px solid var(--line-2);border-radius:var(--r);color:var(--tx)}
 .back:active{background:var(--panel-2)}
 .hbtn{position:relative;width:40px;height:40px;flex:0 0 40px;display:flex;align-items:center;justify-content:center;border:1px solid var(--line-2);border-radius:var(--r);color:var(--tx-2)}
@@ -84,12 +84,12 @@ main{max-width:1180px;margin:0 auto;padding:calc(103px + var(--st)) 16px calc(96
 .score button:first-child{border-left:0}
 .score button:active{background:var(--panel-2)}
 .score b{display:block;font:700 36px/1 var(--mono);letter-spacing:-.04em}
-.score span{display:flex;align-items:center;gap:6px;margin-top:8px;font:700 12px/1 var(--cond);text-transform:uppercase;letter-spacing:.09em;color:var(--tx-2)}
+.score span{display:flex;align-items:center;gap:6px;margin-top:8px;font:700 14px/1 var(--cond);text-transform:uppercase;letter-spacing:.09em;color:var(--tx-2)}
 .score span i{width:8px;height:8px;display:block}
 .score .r b{color:var(--red)} .score .r i{background:var(--red);animation:blink 1.2s steps(2) infinite}
 .score .a b{color:var(--amb)} .score .a i{background:var(--amb)}
 .score .s b{color:var(--blu)} .score .s i{background:var(--blu)}
-.score .z b{color:var(--tx-3)}
+.score .z b{color:var(--tx)}
 .health{display:flex;align-items:center;gap:12px;margin-top:10px;padding:10px 12px;background:var(--panel);border:1px solid var(--line)}
 .health .lbl{font:700 12px/1 var(--cond);text-transform:uppercase;letter-spacing:.09em;color:var(--tx-2);white-space:nowrap}
 .health .segs{flex:1;display:grid;gap:2px}
@@ -111,7 +111,7 @@ main{max-width:1180px;margin:0 auto;padding:calc(103px + var(--st)) 16px calc(96
 .filters button.on{background:var(--tx);border-color:var(--tx);color:var(--bg)}
 .filters button.on .c{color:#555}
 
-.cap{display:flex;align-items:center;gap:10px;margin:22px 0 8px;font:700 13px/1 var(--cond);text-transform:uppercase;letter-spacing:.12em;color:var(--tx-3)}
+.cap{display:flex;align-items:center;gap:10px;margin:24px 0 10px;font:700 15px/1 var(--cond);text-transform:uppercase;letter-spacing:.1em;color:var(--tx-2)}
 .cap::after{content:"";flex:1;height:1px;background:var(--line)}
 .cap .c{font:600 11px/1 var(--mono);color:var(--tx-3);order:2}
 .cap svg.i{width:16px;height:16px}
@@ -125,10 +125,10 @@ main{max-width:1180px;margin:0 auto;padding:calc(103px + var(--st)) 16px calc(96
 .m .st{background:var(--gry)}
 .m.retard .st{background:var(--red)} .m.bientot .st{background:var(--amb)} .m.ok .st{background:var(--grn)} .m.prog .st{background:var(--blu)}
 .m .body{padding:12px 12px 11px 13px;min-width:0}
-.m .nm{font:700 19px/1.05 var(--cond);text-transform:uppercase;letter-spacing:.02em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.m .sb{display:flex;align-items:center;gap:8px;margin-top:4px;font-size:12.5px;color:var(--tx-3);white-space:nowrap;overflow:hidden}
+.m .nm{font:650 16.5px/1.25 var(--sans);text-transform:none;letter-spacing:-.01em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.m .sb{display:flex;align-items:center;gap:8px;margin-top:4px;font-size:14px;color:var(--tx-3);white-space:nowrap;overflow:hidden}
 .m .nx{display:flex;align-items:center;gap:8px;margin-top:9px}
-.m .nx .lb{font-size:12.5px;color:var(--tx-2);font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0;flex:1}
+.m .nx .lb{font-size:14px;color:var(--tx-2);font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0;flex:1}
 .m .side{display:flex;flex-direction:column;align-items:flex-end;justify-content:space-between;padding:12px 14px 11px 6px;gap:8px}
 .cnt{font:700 15px/1 var(--mono);color:var(--tx);white-space:nowrap}
 .cnt em{font-style:normal;color:var(--tx-3);font-size:11px;margin-left:3px}
@@ -139,7 +139,7 @@ main{max-width:1180px;margin:0 auto;padding:calc(103px + var(--st)) 16px calc(96
 .gauge.lg{width:100%;grid-template-columns:repeat(20,1fr)}
 .gauge.lg i{height:10px}
 
-.tg{display:inline-flex;align-items:center;gap:5px;height:22px;padding:0 7px;border-radius:3px;font:700 12px/1 var(--cond);text-transform:uppercase;letter-spacing:.07em;white-space:nowrap}
+.tg{display:inline-flex;align-items:center;gap:5px;height:26px;padding:0 9px;border-radius:3px;font:700 14px/1 var(--cond);text-transform:uppercase;letter-spacing:.07em;white-space:nowrap}
 .tg.retard{background:var(--red);color:#fff}
 .tg.bientot{background:var(--amb);color:#140B00}
 .tg.ok{background:var(--grn-dim);color:var(--grn)}
@@ -161,8 +161,8 @@ main{max-width:1180px;margin:0 auto;padding:calc(103px + var(--st)) 16px calc(96
 .task .d.retard{border-color:var(--red);color:var(--red)} .task .d.retard small{color:var(--red)}
 .task .d.bientot{border-color:var(--amb);color:var(--amb)} .task .d.bientot small{color:var(--amb)}
 .task .d.prog{border-color:var(--blu);color:var(--blu)} .task .d.prog small{color:var(--blu)}
-.task .t1{display:block;font:700 17px/1.1 var(--cond);text-transform:uppercase;letter-spacing:.02em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.task .t2{display:block;font-size:12.5px;color:var(--tx-3);margin-top:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.task .t1{display:block;font:650 16.5px/1.25 var(--sans);text-transform:none;letter-spacing:-.01em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.task .t2{display:block;font-size:14px;color:var(--tx-3);margin-top:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .task .t2 b{color:var(--tx-2);font-weight:600}
 
 /* ---------- fiche engin ---------- */
@@ -170,7 +170,7 @@ main{max-width:1180px;margin:0 auto;padding:calc(103px + var(--st)) 16px calc(96
 .idp .top{display:flex;gap:14px;padding:16px;align-items:flex-start}
 .idp .ic{width:56px;height:56px;flex:0 0 56px;display:flex;align-items:center;justify-content:center;background:var(--yel);color:var(--yel-ink);clip-path:polygon(0 0,100% 0,100% 76%,76% 100%,0 100%)}
 .idp .ic svg.i{width:32px;height:32px;stroke-width:1.7}
-.idp h1{margin:0;font:800 30px/.98 var(--cond);text-transform:uppercase;letter-spacing:.01em}
+.idp h1{margin:0;font:700 24px/1.15 var(--sans);letter-spacing:-.02em}
 .idp .tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:9px;align-items:center}
 .idp .ed{margin-left:auto}
 .meter{display:grid;grid-template-columns:1fr auto;align-items:end;gap:12px;border-top:1px solid var(--line);padding:14px 16px;background:var(--bg-2)}
@@ -189,7 +189,7 @@ main{max-width:1180px;margin:0 auto;padding:calc(103px + var(--st)) 16px calc(96
 .svc{background:var(--panel);border:1px solid var(--line);margin-top:10px;animation:in .2s var(--ease) both}
 .svc .h{display:flex;align-items:center;gap:10px;padding:12px 14px 0}
 .svc .h .ti{flex:1;min-width:0}
-.svc .h .ti b{display:block;font:700 19px/1.05 var(--cond);text-transform:uppercase;letter-spacing:.02em}
+.svc .h .ti b{display:block;font:650 16.5px/1.25 var(--sans);text-transform:none;letter-spacing:-.01em}
 .svc .h .ti small{display:block;font-size:12px;color:var(--tx-3);margin-top:2px}
 .svc .ico{width:34px;height:34px;flex:0 0 34px;border:1px solid var(--line-2);display:flex;align-items:center;justify-content:center;color:var(--tx-2);border-radius:3px}
 .svc .ico svg.i{width:18px;height:18px}
@@ -213,7 +213,7 @@ main{max-width:1180px;margin:0 auto;padding:calc(103px + var(--st)) 16px calc(96
 .log .e .w b{display:block;font:700 13px/1.2 var(--mono)}
 .log .e .w small{display:block;font:600 11px/1.2 var(--mono);color:var(--tx-3);margin-top:3px}
 .log .e .x{padding:12px 14px;min-width:0}
-.log .e .x b{display:block;font:700 17px/1.1 var(--cond);text-transform:uppercase;letter-spacing:.02em}
+.log .e .x b{display:block;font:650 16.5px/1.25 var(--sans);text-transform:none;letter-spacing:-.01em}
 .log .e .x .p{display:flex;flex-wrap:wrap;gap:4px;margin-top:6px}
 .log .e .x .p span{font-size:11.5px;font-weight:600;color:var(--tx-2);border:1px solid var(--line-2);padding:2px 6px;border-radius:3px}
 .log .e .x .m2{font-size:12px;color:var(--tx-3);margin-top:6px}
@@ -247,7 +247,7 @@ main{max-width:1180px;margin:0 auto;padding:calc(103px + var(--st)) 16px calc(96
 .sk{display:grid;grid-template-columns:1fr auto;gap:10px;align-items:center;background:var(--panel);padding:10px 10px 10px 14px}
 .sk.low{background:linear-gradient(90deg,var(--red-dim),var(--panel) 55%)}
 .sk .tx{min-width:0;text-align:left}
-.sk .tx b{display:block;font:700 17px/1.1 var(--cond);text-transform:uppercase;letter-spacing:.02em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.sk .tx b{display:block;font:650 16.5px/1.25 var(--sans);text-transform:none;letter-spacing:-.01em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .sk .tx small{display:block;font-size:12px;color:var(--tx-3);margin-top:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .qty{display:grid;grid-template-columns:42px 62px 42px;height:44px;border:1px solid var(--line-2);border-radius:var(--r);overflow:hidden}
 .qty button{font:600 22px/1 var(--mono);color:var(--tx-2);display:flex;align-items:center;justify-content:center}
@@ -336,7 +336,7 @@ main{max-width:1180px;margin:0 auto;padding:calc(103px + var(--st)) 16px calc(96
 
 .rl{display:grid;grid-template-columns:1fr 150px;gap:10px;align-items:center;padding:10px 0;border-top:1px solid var(--line)}
 .rl:first-child{border-top:0}
-.rl b{display:block;font:700 17px/1.1 var(--cond);text-transform:uppercase;letter-spacing:.02em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.rl b{display:block;font:650 16.5px/1.25 var(--sans);text-transform:none;letter-spacing:-.01em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .rl small{display:block;font:500 12px/1.2 var(--mono);color:var(--tx-3);margin-top:3px}
 .rl input{width:100%;height:46px;background:var(--panel);border:1px solid var(--line-2);border-radius:var(--r);padding:0 40px 0 10px;font:700 17px/1 var(--mono);outline:none}
 .rl input:focus{border-color:var(--yel)}
@@ -348,7 +348,7 @@ main{max-width:1180px;margin:0 auto;padding:calc(103px + var(--st)) 16px calc(96
 .menu>*:first-child{border-top:0}
 .menu button:active{background:var(--panel-2)}
 .menu .tx{flex:1;min-width:0}
-.menu .tx b{display:block;font:700 17px/1.1 var(--cond);text-transform:uppercase;letter-spacing:.03em}
+.menu .tx b{display:block;font:650 16.5px/1.25 var(--sans);text-transform:none;letter-spacing:-.01em}
 .menu .tx span{display:block;font-size:12.5px;color:var(--tx-3);margin-top:3px}
 
 .void{border:1px dashed var(--line-2);padding:30px 20px;text-align:center;margin-top:14px}
@@ -715,13 +715,13 @@ function creerDemo() {
 /* =============================================================================
    AFFICHAGE — éléments communs
    ============================================================================= */
-const LIB = { retard: "Retard", bientot: "Bientôt", ok: "À jour", inconnu: "À renseigner", prog: "Programmé" };
+const LIB = { retard: "Retard", bientot: "Bientôt", ok: "À jour", inconnu: "À compléter", prog: "Programmé" };
 const RANG = { retard: 0, bientot: 1, prog: 2, inconnu: 3, ok: 4 };
 function statutAff(x) { return x.plan.programme_le && x.etat.statut !== "ok" ? "prog" : x.etat.statut; }
 function etiquette(x) {
   const s = x.etat, st = statutAff(x);
   if (st === "prog") return `<span class="tg prog">Prévu ${fmtD(x.plan.programme_le)}</span>`;
-  if (st === "inconnu") return `<span class="tg inconnu">À renseigner</span>`;
+  if (st === "inconnu") return `<span class="tg inconnu">À compléter</span>`;
   if (st === "ok") return `<span class="tg ok">À jour</span>`;
   const txt = st === "retard" && (s.resteJours == null || s.resteJours >= 0) ? "Dépassé" : rel(s.resteJours) || LIB[st];
   return `<span class="tg ${st}">${esc(txt)}</span>`;
@@ -733,9 +733,9 @@ function jauge(x, lg) {
 }
 function echeanceTxt(x) {
   const s = x.etat, e = x.engin, out = [];
-  if (s.statut === "inconnu") return "Dernier entretien à saisir";
-  if (s.resteCpt != null) out.push(s.resteCpt <= 0 ? `+${fmtN(-s.resteCpt)} ${unite(e)} dépassés` : `${fmtN(s.resteCpt)} ${unite(e)} restants`);
-  if (s.echeance) out.push((s.estimee ? "≈ " : "") + fmtD(s.echeance));
+  if (s.statut === "inconnu") return "Date du dernier entretien à saisir";
+  if (s.resteCpt != null) out.push(s.resteCpt <= 0 ? `dépassé de ${fmtN(-s.resteCpt)} ${unite(e)}` : `${fmtN(s.resteCpt)} ${unite(e)} restants`);
+  if (s.echeance) out.push(fmtD(s.echeance));
   return out.join(" · ");
 }
 const plaque = t => t ? `<span class="plate"><span>${esc(t)}</span></span>` : "";
@@ -793,7 +793,7 @@ async function demarrer() {
   $("#view").innerHTML = '<div style="height:16px"></div>' + '<div class="ghost"></div>'.repeat(6);
   try { await chargerTout(); }
   catch (e) {
-    $("#view").innerHTML = `<div class="void"><b>Base injoignable</b><p>${esc(e.message)}. Vérifiez la connexion internet, ou que le script 37 (accès libre) est bien lancé dans Supabase.</p><button class="btn" onclick="location.reload()">Réessayer</button></div>`;
+    $("#view").innerHTML = `<div class="void"><b>Pas de connexion</b><p>Vérifiez la connexion internet.</p><button class="btn" onclick="location.reload()">Réessayer</button></div>`;
     return;
   }
   route();
@@ -830,7 +830,7 @@ function coquille() {
   $("#bBack").onclick = () => history.length > 1 ? history.back() : (location.hash = "#/parc");
 }
 function entete(t, s, retour) {
-  $("#hT").textContent = t; $("#hS").textContent = s || "HK Terrassement";
+  $("#hT").textContent = t; $("#hS").textContent = s || ""; $("#hS").hidden = !s;
   $("#bBack").hidden = !retour; $("#hMark").hidden = !!retour;
 }
 function compteurs() {
@@ -865,8 +865,8 @@ function ligneTache(x) {
   const st = statutAff(x), d = x.plan.programme_le ? E.versDate(x.plan.programme_le) : x.etat.echeance;
   return `<button class="task" data-plan="${x.plan.id}">
     <span class="d ${st}">${d ? `<b>${String(d.getUTCDate()).padStart(2, "0")}</b><small>${MOIS[d.getUTCMonth()].replace(".", "")}</small>` : "<b>—</b><small>date</small>"}</span>
-    <span style="min-width:0"><span class="t1">${esc(x.engin.nom)}</span><span class="t2"><b>${esc(x.plan.libelle)}</b> · ${esc(echeanceTxt(x))}</span></span>
-    ${etiquette(x)}</button>`;
+    <span style="min-width:0"><span class="t1">${esc(x.engin.nom)}</span><span class="t2">${esc(x.plan.libelle)}${x.etat.resteCpt != null && x.etat.resteCpt <= 0 ? " · dépassé de " + fmtN(-x.etat.resteCpt) + " " + unite(x.engin) : ""}</span></span>
+    ${st === "prog" ? '<span class="tg prog">Prévu</span>' : etiquette(x)}</button>`;
 }
 function vueParc() {
   const A = actifs();
@@ -878,17 +878,13 @@ function vueParc() {
   const col = { retard: "var(--red)", bientot: "var(--amb)", ok: "var(--grn)", prog: "var(--blu)", inconnu: "var(--panel-3)" };
 
   $("#view").innerHTML = `
-  ${Store.demo ? `<div class="note">${ico("zap")}<span>Démo : vrai parc HK, historique fictif. Rien n'est envoyé.</span></div>` : ""}
   <div class="score">
-    <button class="${nR ? "r" : "z"}" data-go="agenda"><b>${String(nR).padStart(2, "0")}</b><span><i></i>En retard</span></button>
-    <button class="${nB ? "a" : "z"}" data-go="agenda"><b>${String(nB).padStart(2, "0")}</b><span><i></i>Sous ${E.ALERTE_JOURS} j</span></button>
-    <button class="${nS ? "s" : "z"}" data-go="stock"><b>${String(nS).padStart(2, "0")}</b><span><i></i>Stock bas</span></button>
+    <button class="${nR ? "r" : "z"}" data-go="agenda"><b>${nR}</b><span><i></i>En retard</span></button>
+    <button class="${nB ? "a" : "z"}" data-go="agenda"><b>${nB}</b><span><i></i>Bientôt</span></button>
+    <button class="${nS ? "s" : "z"}" data-go="stock"><b>${nS}</b><span><i></i>Stock bas</span></button>
   </div>
-  ${A.length ? `<div class="health" title="Un segment par engin">
-    <span class="lbl">État parc</span>
-    <span class="segs" style="grid-template-columns:repeat(${etatEng.length},1fr)">${etatEng.map(([e, s]) => `<i style="background:${col[s]}" title="${esc(e.nom)}"></i>`).join("")}</span>
-    <span class="pc mono">${Math.round(okN / A.length * 100)}%</span></div>` : ""}
-  ${urg.length ? `<div class="cap">${ico("alert")} À traiter<span class="c">${urg.length}</span></div>${nR ? '<div class="hazard"></div>' : ""}
+
+  ${urg.length ? `<div class="cap">${ico("alert")} À traiter<span class="c">${urg.length}</span></div>
     <div class="rows">${urg.slice(0, 6).map(ligneTache).join("")}</div>
     ${urg.length > 6 ? `<button class="btn full sm" style="margin-top:8px" data-go="agenda">Voir les ${urg.length} échéances</button>` : ""}` : ""}
   <div class="tools"><div class="find">${ico("search")}<input id="q" type="search" placeholder="Nom, plaque, marque…" value="${esc(UI.q)}" aria-label="Rechercher"></div>
@@ -907,8 +903,8 @@ function vueParc() {
   const liste = () => {
     const box = $("#lst"), q = UI.q.trim().toLowerCase();
     if (!A.length) {
-      box.innerHTML = `<div class="void"><b>Parc vide</b><p>Importez les ${PARC_HK.length} engins de la liste HK (pelles, camions, chargeuse, camionnettes, bennes, porte-char) : leur programme d'entretien se crée tout seul.</p>
-        <button class="btn y full" id="bImp">${ico("zap")} Importer le parc HK</button><button class="btn full" id="bMan">Ajouter un engin à la main</button></div>`;
+      box.innerHTML = `<div class="void"><b>Aucun engin</b><p>Ajoutez les ${PARC_HK.length} engins HK en un clic.</p>
+        <button class="btn y full" id="bImp">${ico("plus")} Ajouter les engins HK</button><button class="btn full" id="bMan">Ajouter un seul engin</button></div>`;
       $("#bImp").onclick = ev => occupe(ev.currentTarget, async () => { await importerParc(); route(); toast(PARC_HK.length + " engins importés"); });
       $("#bMan").onclick = () => panEngin(null);
       return;
@@ -932,9 +928,9 @@ function ligneMachine(e) {
     <span class="st"></span>
     <span class="body"><span class="nm" style="display:block">${esc(e.nom)}</span>
       <span class="sb">${sub}${e.vgp ? '<span class="tg vgp" style="height:18px">VGP</span>' : ""}</span>
-      ${w ? `<span class="nx">${jauge(w)}<span class="lb">${esc(w.plan.libelle)}${w.etat.echeance ? " · " + (w.etat.estimee ? "≈" : "") + fmtD(w.etat.echeance) : ""}</span></span>` : ""}</span>
+      ${w ? `<span class="nx">${jauge(w)}<span class="lb">${esc(w.plan.libelle)}${w.etat.echeance ? " · " + fmtD(w.etat.echeance) : ""}</span></span>` : ""}</span>
     <span class="side">${e.compteur_type !== "aucun" ? `<span class="cnt">${e.compteur != null ? fmtN(e.compteur) : "—"}<em>${unite(e)}</em></span>` : '<span class="cnt" style="color:var(--tx-3)">—</span>'}
-      ${w ? etiquette(w) : '<span class="tg inconnu">Aucun suivi</span>'}</span></button>`;
+      ${w ? etiquette(w) : ''}</span></button>`;
 }
 
 /* =============================================================================
@@ -953,12 +949,12 @@ function vueEngin(id) {
       <div style="flex:1;min-width:0"><h1>${esc(e.nom)}</h1>
         <div class="tags">${plaque(e.immat)}<span class="tg line">${CAT[e.categorie].nom}${e.poids_t ? " · " + fmtN(e.poids_t) + " t" : ""}</span>${e.vgp ? '<span class="tg vgp">Soumis VGP</span>' : ""}</div></div>
       <button class="hbtn ed" id="bEd" aria-label="Modifier la fiche">${ico("edit")}</button></div>
-    ${e.compteur_type !== "aucun" ? `<div class="meter"><div><small>${e.compteur_type === "km" ? "Odomètre" : "Horamètre"}</small>
+    ${e.compteur_type !== "aucun" ? `<div class="meter"><div><small>${e.compteur_type === "km" ? "Kilométrage" : "Heures"}</small>
         <div class="v mono"><span class="odo">${odo}</span><em>${u}</em></div>
-        <div class="mnote mono">${der ? "Relevé " + fmtD(der.date, true) : "Aucun relevé"}${taux ? ` · ${fmtN(taux * (e.compteur_type === "km" ? 30 : 7))} ${u}/${e.compteur_type === "km" ? "mois" : "sem"}` : ""}</div></div>
+        <div class="mnote mono">${der ? "Relevé le " + fmtD(der.date, true) : "Jamais relevé"}</div></div>
       <button class="btn y sm" id="bCp">${ico("gauge")} Relever</button></div>` : ""}
   </section>
-  <div class="stabs" role="tablist">${[["suivi", "Suivi"], ["carnet", "Carnet"], ["garanties", "Garanties"], ["fiche", "Fiche"]].map(([k, l]) => `<button role="tab" data-o="${k}" class="${UI.onglet === k ? "on" : ""}">${l}</button>`).join("")}</div>
+  <div class="stabs" role="tablist">${[["suivi", "Entretiens"], ["carnet", "Historique"], ["garanties", "Garanties"], ["fiche", "Infos"]].map(([k, l]) => `<button role="tab" data-o="${k}" class="${UI.onglet === k ? "on" : ""}">${l}</button>`).join("")}</div>
   <div id="ong"></div>`;
   $("#bEd").onclick = () => panEngin(e);
   if ($("#bCp")) $("#bCp").onclick = () => panCompteur(e);
@@ -974,13 +970,13 @@ function onglet(e) {
       const regle = [p.intervalle_cpt && e.compteur_type !== "aucun" ? fmtN(p.intervalle_cpt) + " " + u : "", p.intervalle_mois ? p.intervalle_mois + " mois" : ""].filter(Boolean).join(" ou ");
       return `<div class="svc">
         <div class="h"><span class="ico">${ico(t.ic)}</span><span class="ti"><b>${esc(p.libelle)}</b><small>${regle ? "Tous les " + regle : "Sans périodicité"}</small></span>${etiquette(x)}</div>
-        ${s.statut === "inconnu" ? `<div class="msg">Saisissez la date${s.parCompteur ? " ou le compteur" : ""} du dernier entretien pour lancer le suivi.</div>` : `<div class="g">${jauge(x, true)}</div>`}
+        ${s.statut === "inconnu" ? `<div class="msg">Date du dernier entretien à saisir (crayon ci-dessous).</div>` : `<div class="g">${jauge(x, true)}</div>`}
         <div class="kv2"><div><small>Dernier</small><b>${p.derniere_date ? fmtD(p.derniere_date, true) : "—"}${p.dernier_cpt != null && s.parCompteur ? " · " + fmtN(p.dernier_cpt) : ""}</b></div>
-          <div><small>Prochain</small><b>${s.prochainCpt != null ? fmtN(s.prochainCpt) + " " + u : ""}${s.prochainCpt != null && s.echeance ? " · " : ""}${s.echeance ? (s.estimee ? "≈" : "") + fmtD(s.echeance) : s.prochainCpt == null ? "—" : ""}</b></div></div>
+          <div><small>Prochain</small><b>${s.prochainCpt != null ? fmtN(s.prochainCpt) + " " + u : ""}${s.prochainCpt != null && s.echeance ? " · " : ""}${s.echeance ? fmtD(s.echeance) : s.prochainCpt == null ? "—" : ""}</b></div></div>
         <div class="acts"><button data-f="${p.id}">${ico("check")} Fait</button><button data-p="${p.id}">${ico("cal")} Programmer</button><button data-m="${p.id}" aria-label="Modifier ce suivi">${ico("edit")}</button></div>
       </div>`;
-    }).join("") : `<div class="void"><b>Aucun suivi</b><p>Ajoutez ce qu'il faut surveiller : révision, VGP, CT, pneus…</p></div>`) +
-      `<button class="btn full" style="margin-top:10px" id="bNP">${ico("plus")} Ajouter un suivi</button>`;
+    }).join("") : `<div class="void"><b>Aucun entretien prévu</b></div>`) +
+      `<button class="btn full" style="margin-top:10px" id="bNP">${ico("plus")} Ajouter un entretien à suivre</button>`;
     $$("[data-f]", box).forEach(b => b.onclick = () => panIntervention({ engin: e.id, plans: [b.dataset.f] }));
     $$("[data-p]", box).forEach(b => b.onclick = () => panProgrammer(b.dataset.p));
     $$("[data-m]", box).forEach(b => b.onclick = () => panPlan(e, S.plans.find(p => p.id === b.dataset.m)));
@@ -988,9 +984,9 @@ function onglet(e) {
   } else if (UI.onglet === "carnet") {
     const l = S.inter.filter(i => i.engin_id === e.id).sort((a, b) => a.date < b.date ? 1 : a.date > b.date ? -1 : 0);
     const tot = l.reduce((s, i) => s + (+i.cout || 0), 0);
-    box.innerHTML = l.length ? `<div class="spec"><div><small>Interventions</small><b class="mono">${l.length}</b></div><div><small>Coût cumulé</small><b class="mono">${tot ? nfe.format(tot) : "—"}</b></div></div>
+    box.innerHTML = l.length ? `<div class="spec"><div><small>Entretiens</small><b class="mono">${l.length}</b></div><div><small>Coût total</small><b class="mono">${tot ? nfe.format(tot) : "—"}</b></div></div>
       <div class="log">${l.map(i => ligneLog(i, e)).join("")}</div>`
-      : `<div class="void"><b>Carnet vide</b><p>Chaque entretien saisi s'inscrit ici avec ses pièces, son coût et le compteur.</p><button class="btn y" id="bI0">${ico("wrench")} Saisir un entretien</button></div>`;
+      : `<div class="void"><b>Aucun entretien enregistré</b><button class="btn y" id="bI0">${ico("wrench")} Saisir un entretien</button></div>`;
     $$("[data-i]", box).forEach(b => b.onclick = () => panDetail(S.inter.find(i => i.id === b.dataset.i)));
     if ($("#bI0")) $("#bI0").onclick = () => panIntervention({ engin: e.id });
   } else if (UI.onglet === "garanties") {
@@ -1002,7 +998,7 @@ function onglet(e) {
       return `<div class="task" style="cursor:default"><span class="d ${on ? (j < 45 ? "bientot" : "") : ""}" style="${on && j >= 45 ? "border-color:var(--grn);color:var(--grn)" : ""}"><b>${on ? Math.max(0, Math.round(j / 30.4)) : 0}</b><small>mois</small></span>
         <span style="min-width:0"><span class="t1">${esc(pc.nom)}</span><span class="t2">Posée ${fmtD(i.date, true)}${pc.reference ? " · " + esc(pc.reference) : ""}${i.prestataire ? " · " + esc(i.prestataire) : ""}</span></span>
         <span class="tg ${on ? "ok" : "inconnu"}">${on ? "→ " + fmtD(pc.garantie_fin, true) : "Expirée"}</span></div>`;
-    }).join("")}</div>` : `<div class="void"><b>Aucune garantie</b><p>Indiquez la durée de garantie quand vous changez une pièce : si elle casse avant la fin, l'app vous le signale au moment de la remplacer.</p></div>`;
+    }).join("")}</div>` : `<div class="void"><b>Aucune pièce sous garantie</b></div>`;
   } else {
     const kv = [["Catégorie", CAT[e.categorie].nom], ["Plaque", e.immat], ["Marque", e.marque], ["Modèle", e.modele], ["N° de série", e.numero_serie], ["Année", e.annee], ["Poids", e.poids_t ? fmtN(e.poids_t) + " t" : ""], ["VGP", e.vgp ? "Oui" : "Non"], ["Compteur", e.compteur_type === "aucun" ? "Aucun" : e.compteur_type === "km" ? "Kilomètres" : "Heures"], ["Suivis", String(S.plans.filter(p => p.engin_id === e.id).length)]];
     box.innerHTML = `<div class="spec">${kv.map(([k, v]) => `<div><small>${k}</small><b>${esc(v || "—")}</b></div>`).join("")}</div>
@@ -1027,7 +1023,7 @@ function vueAgenda() {
   const auj = E.aujourdhui();
   if (!UI.mois) UI.mois = { a: auj.getUTCFullYear(), m: auj.getUTCMonth() };
   if (!UI.jour) UI.jour = E.iso(auj);
-  entete("Agenda", "Programmation des entretiens");
+  entete("Agenda", "");
   const dateDe = x => x.plan.programme_le || (x.etat.echeance ? E.iso(x.etat.statut === "retard" ? auj : x.etat.echeance) : null);
   const parJour = {};
   ETATS.forEach(x => { if (x.etat.statut === "inconnu" && !x.plan.programme_le) return; const d = dateDe(x); if (d) (parJour[d] = parJour[d] || []).push(x); });
@@ -1050,13 +1046,13 @@ function vueAgenda() {
       return `<button class="dd ${d.getUTCMonth() !== m ? "out" : ""} ${k === E.iso(auj) ? "today" : ""} ${k === UI.jour ? "sel" : ""}" data-d="${k}" aria-label="${fmtD(d, true)} : ${l.length} entretien(s)">
         <span class="n">${d.getUTCDate()}</span><span class="ds">${l.slice(0, 6).map(x => `<i class="${statutAff(x)}"></i>`).join("")}</span>${l.length > 1 ? `<span class="k">${l.length}</span>` : ""}</button>`; }).join("")}
   </div>
-  <div class="legend"><span><i style="background:var(--red)"></i>Retard</span><span><i style="background:var(--amb)"></i>Sous ${E.ALERTE_JOURS} j</span><span><i style="background:var(--blu)"></i>Programmé</span><span><i style="background:var(--grn)"></i>Échéance</span></div>
-  ${retard.length ? `<div class="cap">${ico("alert")} En retard<span class="c">${retard.length}</span></div><div class="hazard"></div><div class="rows">${retard.sort((p, q) => (p.etat.resteJours ?? 0) - (q.etat.resteJours ?? 0)).map(ligneTache).join("")}</div>` : ""}
+  <div class="legend"><span><i style="background:var(--red)"></i>Retard</span><span><i style="background:var(--amb)"></i>Bientôt</span><span><i style="background:var(--blu)"></i>Programmé</span><span><i style="background:var(--grn)"></i>À venir</span></div>
+  ${retard.length ? `<div class="cap">${ico("alert")} En retard<span class="c">${retard.length}</span></div><div class="rows">${retard.sort((p, q) => (p.etat.resteJours ?? 0) - (q.etat.resteJours ?? 0)).map(ligneTache).join("")}</div>` : ""}
   <div class="cap">${fmtD(UI.jour, true)}<span class="c">${sel.length}</span></div>
   ${sel.length ? `<div class="rows">${sel.map(ligneTache).join("")}</div>` : `<div style="color:var(--tx-3);font-size:13.5px;padding:4px 0 2px">Rien de prévu ce jour-là.</div>`}
   <div class="cap">30 prochains jours<span class="c">${prochains.length}</span></div>
   ${prochains.length ? `<div class="rows">${prochains.map(ligneTache).join("")}</div>` : `<div style="color:var(--tx-3);font-size:13.5px">Aucune échéance d'ici un mois.</div>`}
-  ${inconnus.length ? `<div class="cap">À renseigner<span class="c">${inconnus.length}</span></div><div class="rows">${inconnus.slice(0, 30).map(ligneTache).join("")}</div>` : ""}`;
+  ${inconnus.length ? `<div class="cap">À compléter<span class="c">${inconnus.length}</span></div><div class="rows">${inconnus.slice(0, 30).map(ligneTache).join("")}</div>` : ""}`;
   const go = dm => { let mm = m + dm, aa = a; if (mm < 0) { mm = 11; aa--; } if (mm > 11) { mm = 0; aa++; } UI.mois = { a: aa, m: mm }; vueAgenda(); };
   $("#mP").onclick = () => go(-1); $("#mN").onclick = () => go(1);
   $("#mA").onclick = () => { UI.mois = null; UI.jour = null; vueAgenda(); };
@@ -1082,7 +1078,7 @@ function vueStock() {
   };
   const liste = () => {
     const box = $("#sl"), q = UI.sq.trim().toLowerCase();
-    if (!S.stock.length) { box.innerHTML = `<div class="void"><b>Stock vide</b><p>Entrez filtres, huiles et pièces de rechange. Les quantités baissent toutes seules quand une pièce est utilisée dans un entretien.</p><button class="btn y" id="bA0">${ico("plus")} Premier article</button></div>`; $("#bA0").onclick = () => panArticle(null); return; }
+    if (!S.stock.length) { box.innerHTML = `<div class="void"><b>Aucun article</b><button class="btn y" id="bA0">${ico("plus")} Premier article</button></div>`; $("#bA0").onclick = () => panArticle(null); return; }
     let l = S.stock.filter(a => !q || [a.nom, a.reference, a.compatible, a.emplacement].join(" ").toLowerCase().includes(q));
     if (UI.scat === "bas") l = l.filter(a => a.seuil != null && +a.quantite <= +a.seuil);
     else if (UI.scat !== "tout") l = l.filter(a => a.categorie === UI.scat);
@@ -1118,7 +1114,7 @@ function ajuster(id, d) {
    JOURNAL — tous les entretiens
    ============================================================================= */
 function vueJournal() {
-  entete("Journal", "Toutes les interventions");
+  entete("Journal", "");
   $("#view").innerHTML = `<div class="tools"><div class="find">${ico("search")}<input id="jq" type="search" placeholder="Engin, pièce, garage…" value="${esc(UI.jq)}" aria-label="Rechercher"></div></div><div id="jl"></div>`;
   const liste = () => {
     const q = UI.jq.trim().toLowerCase(), byId = new Map(S.engins.map(e => [e.id, e]));
@@ -1127,7 +1123,7 @@ function vueJournal() {
     const an = String(E.aujourdhui().getUTCFullYear()), mo = todayISO().slice(0, 7);
     const tA = S.inter.filter(i => i.date.startsWith(an)).reduce((s, i) => s + (+i.cout || 0), 0), tM = S.inter.filter(i => i.date.startsWith(mo)).reduce((s, i) => s + (+i.cout || 0), 0);
     const box = $("#jl");
-    if (!S.inter.length) { box.innerHTML = `<div class="void"><b>Journal vide</b><p>Les entretiens, réparations et pièces changées apparaîtront ici, tous engins confondus.</p></div>`; return; }
+    if (!S.inter.length) { box.innerHTML = `<div class="void"><b>Aucun entretien enregistré</b></div>`; return; }
     const parMois = {}; l.forEach(i => (parMois[i.date.slice(0, 7)] = parMois[i.date.slice(0, 7)] || []).push(i));
     box.innerHTML = `<div class="spec" style="margin-top:14px"><div><small>Dépenses ${new Date().toLocaleDateString("fr-FR", { month: "long" })}</small><b class="mono">${nfe.format(tM)}</b></div><div><small>Dépenses ${an}</small><b class="mono">${nfe.format(tA)}</b></div></div>` +
       (l.length ? Object.entries(parMois).map(([k, is]) => `<div class="cap">${new Date(k + "-01T12:00:00Z").toLocaleDateString("fr-FR", { month: "long", year: "numeric" })}<span class="c">${is.length}</span></div>
@@ -1163,7 +1159,7 @@ document.addEventListener("keydown", ev => { if (ev.key === "Escape" && pile.len
 function confirmer(titre, texte, libelle, danger) {
   return new Promise(res => {
     let ok = false;
-    const { fermer } = ouvrir(titre, "Confirmation", `<p style="margin:16px 0 0;color:var(--tx-2)">${esc(texte)}</p>`,
+    const { fermer } = ouvrir(titre, "", `<p style="margin:16px 0 0;color:var(--tx-2)">${esc(texte)}</p>`,
       `<button class="btn" data-annuler>Annuler</button><button class="btn ${danger ? "red" : "y"}" data-ok>${esc(libelle)}</button>`,
       (p, f) => { $("[data-ok]", p).onclick = () => { ok = true; f(); }; });
     const t = setInterval(() => { if (!pile.includes(fermer)) { clearInterval(t); res(ok); } }, 100);
@@ -1182,17 +1178,16 @@ function panEngin(e) {
   const neuf = !e;
   e = e || { categorie: CAT[UI.cat] ? UI.cat : "pelle", vgp: false, compteur_type: CAT[CAT[UI.cat] ? UI.cat : "pelle"].cpt };
   let cat = e.categorie, vgpMain = !neuf;
-  ouvrir(neuf ? "Nouvel engin" : "Modifier", neuf ? "Parc" : e.nom, `
+  ouvrir(neuf ? "Nouvel engin" : "Modifier", neuf ? "" : e.nom, `
     <div class="fl"><span class="lab">Type</span><div class="pick" id="cat">${CATS.map(c => `<button type="button" data-c="${c.id}" class="${c.id === cat ? "on" : ""}">${ico(c.id)}${c.nom}</button>`).join("")}</div></div>
-    <div class="fl"><label for="eN">Nom affiché</label><input id="eN" value="${esc(e.nom || "")}" placeholder="ex. Pelle 9 T Case"><div class="help" id="eH">Le parc est classé par nom.</div></div>
+    <div class="fl"><label for="eN">Nom affiché</label><input id="eN" value="${esc(e.nom || "")}" placeholder="ex. Pelle 9 T Case"></div>
     <div class="two"><div class="fl"><label for="eI">Plaque</label><input id="eI" value="${esc(e.immat || "")}" placeholder="AB-123-CD" autocapitalize="characters" class="mono"></div>
       <div class="fl"><label for="eP">Poids</label><div class="u"><input id="eP" inputmode="decimal" value="${e.poids_t ?? ""}"><em>t</em></div></div></div>
     <div class="two"><div class="fl"><label for="eM">Marque</label><input id="eM" value="${esc(e.marque || "")}"></div><div class="fl"><label for="eO">Modèle</label><input id="eO" value="${esc(e.modele || "")}"></div></div>
     <div class="two"><div class="fl"><label for="eS">N° de série</label><input id="eS" value="${esc(e.numero_serie || "")}" class="mono"></div><div class="fl"><label for="eA">Année</label><input id="eA" inputmode="numeric" value="${e.annee ?? ""}"></div></div>
     <div class="two"><div class="fl"><label for="eC">Compteur</label><select id="eC"><option value="heures">Heures</option><option value="km">Kilomètres</option><option value="aucun">Aucun</option></select></div>
       <div class="fl" id="fV"><label for="eV">Valeur actuelle</label><div class="u"><input id="eV" inputmode="decimal" value="${e.compteur ?? ""}" class="mono"><em id="eU">h</em></div></div></div>
-    <label class="sw"><span class="tx"><b>Soumis à la VGP</b><span>Coché d'office à partir de ${VGP_SEUIL} t</span></span><input type="checkbox" id="eG" ${e.vgp ? "checked" : ""}><span class="k"></span></label>
-    ${neuf ? `<div class="alert g" style="margin-top:12px">${ico("check")}<span id="eX"></span></div>` : ""}
+    <label class="sw"><span class="tx"><b>Soumis à la VGP</b></span><input type="checkbox" id="eG" ${e.vgp ? "checked" : ""}><span class="k"></span></label>
     <div class="fl"><label for="eT">Notes</label><textarea id="eT">${esc(e.notes || "")}</textarea></div>
     ${neuf ? "" : `<button class="btn red full" style="margin-top:20px" id="eD">${ico("trash")} Retirer du parc</button>`}`,
     PIED(neuf ? "Ajouter" : "Enregistrer"), (p, fermer) => {
@@ -1201,14 +1196,12 @@ function panEngin(e) {
         const ct = $("#eC", p).value; $("#fV", p).hidden = ct === "aucun"; $("#eU", p).textContent = ct === "km" ? "km" : "h";
         const t = nb($("#eP", p).value);
         if (!vgpMain) $("#eG", p).checked = t != null && t >= VGP_SEUIL && cat !== "camionnette";
-        $("#eH", p).textContent = cat === "benne" || cat === "porte_char" ? "Bennes et porte-char : la plaque peut servir de nom." : "Le parc est classé par nom.";
-        if ($("#eX", p)) $("#eX", p).textContent = "Suivi créé d'office : " + plansParDefaut(cat, $("#eG", p).checked).map(x => x.libelle).join(", ") + ".";
       };
       $$("#cat button", p).forEach(b => b.onclick = () => { cat = b.dataset.c; $$("#cat button", p).forEach(x => x.classList.toggle("on", x === b)); if (neuf) $("#eC", p).value = CAT[cat].cpt; maj(); });
       $("#eP", p).oninput = maj; $("#eC", p).onchange = maj; $("#eG", p).onchange = () => { vgpMain = true; maj(); };
       maj();
       if ($("#eD", p)) $("#eD", p).onclick = async () => {
-        if (!(await confirmer("Retirer du parc ?", `« ${e.nom} » disparaît du parc et de l'agenda. Son carnet est conservé.`, "Retirer", true))) return;
+        if (!(await confirmer("Retirer du parc ?", `« ${e.nom} » sera retiré de la liste.`, "Retirer", true))) return;
         await Store.upd("engins", e.id, { actif: false }); e.actif = false; recalc(); fermer(); toast("Engin retiré"); location.hash = "#/parc";
       };
       $("#ok", p).onclick = ev => occupe(ev.currentTarget, async () => {
@@ -1238,21 +1231,21 @@ function panEngin(e) {
 function panPlan(e, pl) {
   const neuf = !pl; pl = pl || { type: "revision", libelle: "", intervalle_cpt: null, intervalle_mois: 12 };
   const u = unite(e), cpt = e.compteur_type !== "aucun";
-  ouvrir(neuf ? "Nouveau suivi" : "Modifier le suivi", e.nom, `
+  ouvrir(neuf ? "Nouvel entretien à suivre" : "Modifier", e.nom, `
     <div class="fl"><label for="pT">Type</label><select id="pT">${Object.entries(TYPES).filter(([k]) => k !== "reparation").map(([k, t]) => `<option value="${k}" ${pl.type === k ? "selected" : ""}>${t.nom}</option>`).join("")}</select></div>
     <div class="fl"><label for="pL">Libellé</label><input id="pL" value="${esc(pl.libelle)}" placeholder="ex. Révision 500 h"></div>
-    <div class="cap">Périodicité — le premier atteint</div>
+    <div class="cap">À refaire tous les</div>
     <div class="two">${cpt ? `<div class="fl" style="margin-top:0"><label for="pC">Tous les</label><div class="u"><input id="pC" inputmode="decimal" value="${pl.intervalle_cpt ?? ""}" class="mono"><em>${u}</em></div></div>` : ""}
       <div class="fl" style="margin-top:0"><label for="pM">Tous les</label><div class="u"><input id="pM" inputmode="numeric" value="${pl.intervalle_mois ?? ""}" class="mono"><em>mois</em></div></div></div>
-    <div class="cap">Dernier entretien fait</div>
+    <div class="cap">Dernier entretien</div>
     <div class="two"><div class="fl" style="margin-top:0"><label for="pD">Date</label><input id="pD" type="date" value="${pl.derniere_date || ""}"></div>
       ${cpt ? `<div class="fl" style="margin-top:0"><label for="pK">Compteur</label><div class="u"><input id="pK" inputmode="decimal" value="${pl.dernier_cpt ?? ""}" class="mono"><em>${u}</em></div></div>` : ""}</div>
-    ${neuf ? "" : `<button class="btn red full" style="margin-top:20px" id="pX">${ico("trash")} Supprimer ce suivi</button>`}`,
+    ${neuf ? "" : `<button class="btn red full" style="margin-top:20px" id="pX">${ico("trash")} Ne plus suivre</button>`}`,
     PIED("Enregistrer"), (p, fermer) => {
       $("#pT", p).onchange = ev => { const l = $("#pL", p); if (!l.value || l.dataset.a) { l.value = TYPES[ev.target.value].nom; l.dataset.a = 1; } };
       if ($("#pX", p)) $("#pX", p).onclick = async () => {
-        if (!(await confirmer("Supprimer le suivi ?", `« ${pl.libelle} » ne sera plus surveillé. Le carnet reste intact.`, "Supprimer", true))) return;
-        await Store.del("entretien_plans", pl.id); S.plans = S.plans.filter(x => x.id !== pl.id); recalc(); fermer(); route(); toast("Suivi supprimé");
+        if (!(await confirmer("Ne plus suivre ?", `« ${pl.libelle} » ne sera plus suivi.`, "Supprimer", true))) return;
+        await Store.del("entretien_plans", pl.id); S.plans = S.plans.filter(x => x.id !== pl.id); recalc(); fermer(); route(); toast("Supprimé");
       };
       $("#ok", p).onclick = ev => occupe(ev.currentTarget, async () => {
         const ty = $("#pT", p).value;
@@ -1260,7 +1253,7 @@ function panPlan(e, pl) {
         if (!row.intervalle_cpt && !row.intervalle_mois) throw new Error("Indiquez une périodicité");
         if (neuf) S.plans.push(await Store.ins("entretien_plans", Object.assign({ id: uid(), engin_id: e.id, programme_le: null, alerte_cle: null }, row)));
         else Object.assign(pl, await Store.upd("entretien_plans", pl.id, row));
-        recalc(); fermer(); route(); toast("Suivi enregistré");
+        recalc(); fermer(); route(); toast("Enregistré");
       });
     });
 }
@@ -1272,9 +1265,9 @@ function panActions(id) {
     <div class="svc" style="margin-top:16px"><div class="h"><span class="ico">${ico((TYPES[pl.type] || TYPES.autre).ic)}</span><span class="ti"><b>${esc(pl.libelle)}</b><small>${esc(echeanceTxt(x))}</small></span>${etiquette(x)}</div>
       ${x.etat.statut !== "inconnu" ? `<div class="g" style="padding-bottom:14px">${jauge(x, true)}</div>` : '<div style="height:12px"></div>'}</div>
     <div class="menu" style="margin-top:12px">
-      <button id="aF"><span class="svc ico" style="border:0;margin:0;background:var(--yel);color:var(--yel-ink);width:38px;height:38px;display:flex;align-items:center;justify-content:center">${ico("check")}</span><span class="tx"><b>C'est fait</b><span>Saisir l'entretien, les pièces et le compteur</span></span>${ico("chev")}</button>
-      <button id="aP"><span style="width:38px;height:38px;display:flex;align-items:center;justify-content:center;border:1px solid var(--blu);color:var(--blu)">${ico("cal")}</span><span class="tx"><b>Programmer</b><span>${pl.programme_le ? "Prévu le " + fmtD(pl.programme_le, true) : "Bloquer une date atelier / garage"}</span></span>${ico("chev")}</button>
-      <button id="aV"><span style="width:38px;height:38px;display:flex;align-items:center;justify-content:center;border:1px solid var(--line-2)">${ico(e.categorie)}</span><span class="tx"><b>Fiche de l'engin</b><span>Suivi, carnet, garanties</span></span>${ico("chev")}</button>
+      <button id="aF"><span class="svc ico" style="border:0;margin:0;background:var(--yel);color:var(--yel-ink);width:38px;height:38px;display:flex;align-items:center;justify-content:center">${ico("check")}</span><span class="tx"><b>C'est fait</b></span>${ico("chev")}</button>
+      <button id="aP"><span style="width:38px;height:38px;display:flex;align-items:center;justify-content:center;border:1px solid var(--blu);color:var(--blu)">${ico("cal")}</span><span class="tx"><b>Programmer une date</b>${pl.programme_le ? `<span>Prévu le ${fmtD(pl.programme_le, true)}</span>` : ""}</span>${ico("chev")}</button>
+      <button id="aV"><span style="width:38px;height:38px;display:flex;align-items:center;justify-content:center;border:1px solid var(--line-2)">${ico(e.categorie)}</span><span class="tx"><b>Voir la machine</b></span>${ico("chev")}</button>
     </div>`, "", (p, fermer) => {
       $("#aF", p).onclick = () => { fermer(); panIntervention({ engin: e.id, plans: [id] }); };
       $("#aP", p).onclick = () => { fermer(); panProgrammer(id); };
@@ -1287,7 +1280,7 @@ function panProgrammer(id) {
   ouvrir("Programmer", e.nom + " · " + pl.libelle, `
     <div class="fl"><label for="gD">Date de l'intervention</label><input id="gD" type="date" value="${sug}"></div>
     <div class="chk" style="margin-top:10px">${[0, 1, 3, 7, 14].map(n => `<button type="button" data-n="${n}">${n === 0 ? "Aujourd'hui" : n === 1 ? "Demain" : "+" + n + " j"}</button>`).join("")}</div>
-    ${x.etat.echeance ? `<div class="alert g" style="margin-top:16px">${ico("clock")}<span>Échéance ${x.etat.estimee ? "estimée " : ""}: ${fmtD(x.etat.echeance, true)}</span></div>` : ""}
+    ${x.etat.echeance ? `<div class="alert g" style="margin-top:16px">${ico("clock")}<span>Échéance : ${fmtD(x.etat.echeance, true)}</span></div>` : ""}
     ${pl.programme_le ? `<button class="btn full" style="margin-top:20px" id="gX">Retirer la date prévue</button>` : ""}`,
     PIED("Programmer"), (p, fermer) => {
       $$("[data-n]", p).forEach(b => b.onclick = () => { $("#gD", p).value = E.iso(E.ajouterJours(E.aujourdhui(), +b.dataset.n)); });
@@ -1322,8 +1315,8 @@ function panCompteur(e) {
 function panReleves() {
   const l = actifs().filter(e => e.compteur_type !== "aucun").sort(sortNom);
   if (!l.length) return toast("Aucun engin avec compteur", true);
-  ouvrir("Relevé des compteurs", "Tournée du parc", `
-    <p style="margin:14px 0 6px;color:var(--tx-3);font-size:13.5px">Ne remplissez que ce que vous avez relevé. Heures et kilomètres servent à prévoir la date des prochaines révisions.</p>
+  ouvrir("Relever les compteurs", "", `
+<div style="height:6px"></div>
     ${CATS.filter(c => l.some(e => e.categorie === c.id)).map(c => `<div class="cap">${ico(c.id)} ${c.pluriel}</div>${l.filter(e => e.categorie === c.id).map(e => `<div class="rl">
       <div style="min-width:0"><b>${esc(e.nom)}</b><small>${e.compteur != null ? fmtN(e.compteur) + " " + unite(e) : "jamais relevé"}${e.compteur_le ? " · " + fmtD(e.compteur_le) : ""}</small></div>
       <div class="u"><input data-r="${e.id}" inputmode="decimal" aria-label="${esc(e.nom)}"><em>${unite(e)}</em></div></div>`).join("")}`).join("")}`,
@@ -1344,7 +1337,7 @@ function panIntervention(o) {
   let eid = o.engin || null, sel = new Set(o.plans || []), rep = false, pcs = [];
   const A = actifs().sort(sortNom);
   if (!A.length) return toast("Ajoutez d'abord un engin", true);
-  ouvrir("Saisir un entretien", "Carnet", `
+  ouvrir("Saisir un entretien", "", `
     <div class="fl"><label for="iE">Engin</label><select id="iE"><option value="">— Choisir —</option>${CATS.map(c => { const es = A.filter(e => e.categorie === c.id); return es.length ? `<optgroup label="${c.pluriel}">${es.map(e => `<option value="${e.id}" ${e.id === eid ? "selected" : ""}>${esc(e.nom)}</option>`).join("")}</optgroup>` : ""; }).join("")}</select></div>
     <div id="iB"></div>`, PIED("Enregistrer"), (p, fermer) => {
       const corps = () => {
@@ -1357,7 +1350,7 @@ function panIntervention(o) {
           <div class="fl" id="fL" ${rep ? "" : "hidden"}><label for="iL">Description</label><input id="iL" placeholder="ex. Remplacement flexible hydraulique"></div>
           <div class="two"><div class="fl"><label for="iD">Date</label><input id="iD" type="date" value="${todayISO()}"></div>
             ${e.compteur_type !== "aucun" ? `<div class="fl"><label for="iC">Compteur</label><div class="u"><input id="iC" inputmode="decimal" value="${e.compteur ?? ""}" class="mono"><em>${u}</em></div></div>` : ""}</div>
-          <div class="fl"><span class="lab">Pièces & consommables</span><div id="iX"></div>
+          <div class="fl"><span class="lab">Pièces changées</span><div id="iX"></div>
             <div class="find" style="margin-top:6px">${ico("search")}<input id="iQ" placeholder="Chercher dans le stock ou taper un nom" autocomplete="off"></div><div id="iK"></div></div>
           <div class="two"><div class="fl"><label for="iR">Fait par</label><input id="iR" list="dlR" placeholder="Atelier HK, garage…"><datalist id="dlR">${[...new Set(S.inter.map(i => i.prestataire).filter(Boolean))].map(x => `<option value="${esc(x)}">`).join("")}</datalist></div>
             <div class="fl"><label for="iM">Coût</label><div class="u"><input id="iM" inputmode="decimal" class="mono"><em>€</em></div></div></div>
@@ -1423,7 +1416,7 @@ function panDetail(i) {
     ${i.notes ? `<div class="spec" style="grid-template-columns:1fr"><div><small>Remarques</small><b style="white-space:pre-wrap;font-weight:500">${esc(i.notes)}</b></div></div>` : ""}
     <button class="btn red full" style="margin-top:20px" id="dX">${ico("trash")} Supprimer la saisie</button>`, "", (p, fermer) => {
       $("#dX", p).onclick = async () => {
-        if (!(await confirmer("Supprimer la saisie ?", "Les dates des suivis ne bougent pas et le stock n'est pas réintégré.", "Supprimer", true))) return;
+        if (!(await confirmer("Supprimer la saisie ?", "Cette saisie sera définitivement supprimée.", "Supprimer", true))) return;
         await Store.del("entretien_interventions", i.id); S.inter = S.inter.filter(x => x.id !== i.id); fermer(); route(); toast("Saisie supprimée");
       };
     });
@@ -1432,13 +1425,13 @@ function panDetail(i) {
 /* ---------- article ---------- */
 function panArticle(a) {
   const neuf = !a; a = a || { categorie: "Filtres", unite: "pcs", quantite: 0, seuil: 1 };
-  ouvrir(neuf ? "Nouvel article" : "Article", "Stock atelier", `
+  ouvrir(neuf ? "Nouvel article" : "Modifier l'article", "", `
     <div class="fl"><label for="aN">Désignation</label><input id="aN" value="${esc(a.nom || "")}" placeholder="ex. Filtre à huile moteur"></div>
     <div class="two"><div class="fl"><label for="aR">Référence</label><input id="aR" value="${esc(a.reference || "")}" class="mono"></div>
       <div class="fl"><label for="aC">Catégorie</label><select id="aC">${STOCK_CATS.map(c => `<option ${a.categorie === c ? "selected" : ""}>${esc(c)}</option>`).join("")}</select></div></div>
     <div class="two"><div class="fl"><label for="aQ">Quantité</label><input id="aQ" inputmode="decimal" value="${a.quantite ?? 0}" class="mono"></div>
       <div class="fl"><label for="aU">Unité</label><select id="aU">${["pcs", "L", "kg", "cart.", "jeu", "m"].map(u => `<option ${a.unite === u ? "selected" : ""}>${u}</option>`).join("")}</select></div></div>
-    <div class="two"><div class="fl"><label for="aS">Alerte sous</label><input id="aS" inputmode="decimal" value="${a.seuil ?? ""}" class="mono"></div>
+    <div class="two"><div class="fl"><label for="aS">Stock minimum</label><input id="aS" inputmode="decimal" value="${a.seuil ?? ""}" class="mono"></div>
       <div class="fl"><label for="aP">Prix unitaire</label><div class="u"><input id="aP" inputmode="decimal" value="${a.prix ?? ""}" class="mono"><em>€</em></div></div></div>
     <div class="fl"><label for="aK">Pour quels engins</label><input id="aK" value="${esc(a.compatible || "")}" placeholder="ex. Pelle 9 T Case, Camion 8x4 MAN"></div>
     <div class="fl"><label for="aE">Emplacement</label><input id="aE" value="${esc(a.emplacement || "")}" placeholder="ex. Atelier · Étagère A"></div>
@@ -1464,7 +1457,7 @@ function panArticle(a) {
    ============================================================================= */
 function b64(s) { const p = "=".repeat((4 - s.length % 4) % 4); const r = atob((s + p).replace(/-/g, "+").replace(/_/g, "/")); return Uint8Array.from([...r].map(c => c.charCodeAt(0))); }
 async function activerNotifs() {
-  if (!("serviceWorker" in navigator) || !window.Notification) throw new Error("Notifications indisponibles. Sur iPhone : ajoutez l'app à l'écran d'accueil");
+  if (!("serviceWorker" in navigator) || !window.Notification) throw new Error("Notifications impossibles sur ce téléphone");
   if ((await Notification.requestPermission()) !== "granted") throw new Error("Notifications refusées dans les réglages du téléphone");
   const reg = await navigator.serviceWorker.ready;
   if (!Store.demo && "PushManager" in window) {
@@ -1491,34 +1484,30 @@ function panReglages() {
   const installee = window.matchMedia("(display-mode: standalone)").matches || navigator.standalone === true;
   const dispo = !!window.Notification && "serviceWorker" in navigator;
   const perm = dispo ? Notification.permission : "indisponible";
-  const etat = ios && !installee ? ["inconnu", "Pas encore possibles : l'app doit être sur l'écran d'accueil"]
-    : perm === "granted" ? ["ok", "Actives sur ce téléphone"]
-    : perm === "denied" ? ["retard", "Bloquées : Réglages du téléphone › Notifications › HK Entretiens"]
+  const etat = ios && !installee ? ["inconnu", "À activer"]
+    : perm === "granted" ? ["ok", "Activées"]
+    : perm === "denied" ? ["retard", "Bloquées"]
     : !dispo ? ["inconnu", "Ce navigateur ne gère pas les notifications"]
-    : ["bientot", "Pas encore activées sur ce téléphone"];
+    : ["bientot", "À activer"];
   const etape = (n, t) => `<div style="display:flex;gap:12px;align-items:flex-start;padding:12px 14px;border-top:1px solid var(--line);background:var(--panel)">
       <b class="mono" style="flex:0 0 26px;height:26px;display:flex;align-items:center;justify-content:center;background:var(--yel);color:var(--yel-ink);font-size:13px">${n}</b>
       <span style="font-size:14px;line-height:1.4;padding-top:3px">${t}</span></div>`;
-  ouvrir("Alertes", "Réglages", `
+  ouvrir("Alertes", "", `
     <div class="svc" style="margin-top:16px">
       <div class="h" style="padding-bottom:14px"><span class="ico" style="background:var(--yel);color:var(--yel-ink);border:0">${ico("bell")}</span>
-        <span class="ti"><b>Prévenu 1,5 semaine avant</b><small>${etat[1]}</small></span></div>
-      <div class="kv2" style="margin-top:0"><div><small>Quand</small><b>11 j avant · tous les matins</b></div><div><small>Pour</small><b>Révision, VGP, CT, pneus</b></div></div>
+        <span class="ti"><b>Alertes d'entretien</b><small>${etat[1]}</small></span></div>
     </div>
-    ${perm === "granted" && !(ios && !installee) ? `<div class="alert g" style="margin-top:12px">${ico("check")}<span>Ce téléphone recevra les alertes. Rien d'autre à faire.</span></div>`
-    : ios && !installee ? `<div class="cap">Sur iPhone, 3 étapes</div>
+    ${perm === "granted" && !(ios && !installee) ? `<div class="alert g" style="margin-top:12px">${ico("check")}<span>Vous serez prévenu avant chaque entretien.</span></div>`
+    : ios && !installee ? `<div class="cap">Pour les activer</div>
       <div style="border:1px solid var(--line)">
         ${etape(1, "En bas de Safari, touchez <b>Partager</b> (le carré avec la flèche).")}
         ${etape(2, "Choisissez <b>Sur l'écran d'accueil</b>, puis <b>Ajouter</b>.")}
         ${etape(3, "Ouvrez <b>HK Entretiens</b> depuis la nouvelle icône, puis revenez ici et touchez <b>Activer</b>.")}
       </div>
-      <p style="color:var(--tx-3);font-size:12.5px;margin-top:10px">C'est une règle d'Apple : Safari ne peut pas afficher de notifications tant que l'app n'est pas sur l'écran d'accueil. Bonus : l'app s'ouvre alors en plein écran, sans les barres de Safari.</p>`
+`
     : perm === "denied" ? `<div class="alert" style="margin-top:12px">${ico("alert")}<span>Les notifications ont été refusées. Ouvrez les <b>Réglages</b> du téléphone › <b>Notifications</b> › <b>HK Entretiens</b> et autorisez-les.</span></div>`
     : dispo ? `<button class="btn y full" style="margin-top:14px" id="nOn">${ico("bell")} Activer les alertes</button>` : ""}
-    <div class="menu" style="margin-top:22px">
-      <div class="r"><span style="width:38px;height:38px;flex:0 0 38px;display:flex;align-items:center;justify-content:center;border:1px solid var(--line-2)">${ico("zap")}</span>
-        <span class="tx"><b>HK Terrassement</b><span>Accès libre · données partagées par toute l'équipe</span></span></div>
-    </div>`, "", (p, fermer) => {
+`, "", (p, fermer) => {
       if ($("#nOn", p)) $("#nOn", p).onclick = ev => occupe(ev.currentTarget, async () => { await activerNotifs(); fermer(); compteurs(); toast("Alertes activées"); });
     });
 }
