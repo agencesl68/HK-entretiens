@@ -6,7 +6,12 @@ name: Alertes entretiens
 on:
   schedule:
     - cron: "0 5 * * *"        # 7 h en été, 6 h en hiver (heure de Paris)
-  workflow_dispatch: {}
+  workflow_dispatch:
+    inputs:
+      test:
+        description: "Envoyer une notification d'essai à tous les téléphones abonnés"
+        type: boolean
+        default: false
 
 jobs:
   alertes:
@@ -24,6 +29,7 @@ jobs:
           VAPID_PUBLIC_KEY: BEx3Fw-lSV6EB3_8PvyiKgQxwyP5xia-vP4kbB33QDHQAO0xZmEt9oTVaMERHOExwblth_T7j2MS7aMQMuYmzBM
           SUBJECT: mailto:sachamuller79@gmail.com
           APP_URL: https://agencesl68.github.io/HK-entretiens/
+          TEST: ${{ inputs.test }}
         run: |
           npm install --silent --no-save web-push@3.6.7
           node scripts/notifier.js

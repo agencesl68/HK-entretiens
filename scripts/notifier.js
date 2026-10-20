@@ -19,7 +19,29 @@ async function sb(chemin, opt = {}) {
   const t = await r.text(); return t ? JSON.parse(t) : null;
 }
 
+async function envoyer(abonnes, message) {
+  let ok = 0;
+  for (const a of abonnes) {
+    try {
+      await webpush.sendNotification({ endpoint: a.endpoint, keys: { p256dh: a.p256dh, auth: a.auth } }, message, { TTL: 86400 });
+      ok++;
+    } catch (err) {
+      console.log("Échec " + (a.employe_id || "?") + " (" + err.statusCode + ")");
+      if (err.statusCode === 404 || err.statusCode === 410)
+        await sb("entretien_abonnements?endpoint=eq." + encodeURIComponent(a.endpoint), { method: "DELETE" });
+    }
+  }
+  console.log(`Envoyé à ${ok}/${abonnes.length} téléphone(s)`);
+  return ok;
+}
+
 (async () => {
+  if (process.env.TEST === "true") {
+    const abonnes = await sb("entretien_abonnements?select=*");
+    console.log("Mode test : " + abonnes.length + " téléphone(s) abonné(s)");
+    await envoyer(abonnes, JSON.stringify({ title: "HK Entretiens", body: "Test : les alertes fonctionnent sur ce téléphone.", url: APP + "#/parc", tag: "hke-test" }));
+    return;
+  }
   const depuis = E.iso(E.ajouterJours(E.aujourdhui(), -130));
   const [engins, plans, releves, abonnes] = await Promise.all([
     sb("engins?select=*&actif=eq.true"),
@@ -53,18 +75,7 @@ async function sb(chemin, opt = {}) {
     url: APP + "#/planning", tag: "hke-" + E.iso(E.aujourdhui())
   });
 
-  let ok = 0;
-  for (const a of abonnes) {
-    try {
-      await webpush.sendNotification({ endpoint: a.endpoint, keys: { p256dh: a.p256dh, auth: a.auth } }, message, { TTL: 86400 });
-      ok++;
-    } catch (err) {
-      console.log("Échec " + (a.employe_id || "?") + " (" + err.statusCode + ")");
-      if (err.statusCode === 404 || err.statusCode === 410)
-        await sb("entretien_abonnements?endpoint=eq." + encodeURIComponent(a.endpoint), { method: "DELETE" });
-    }
-  }
-  console.log(`Envoyé à ${ok}/${abonnes.length} téléphone(s)`);
+  const ok = await envoyer(abonnes, message);
 
   // on ne marque « prévenu » que si au moins un téléphone a reçu le message
   if (ok) for (const x of nouveaux)
