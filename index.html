@@ -2,11 +2,11 @@
 <html lang="fr">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#0D0E10">
 <meta name="color-scheme" content="dark">
 <meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
 <meta name="apple-mobile-web-app-title" content="HK Entretiens">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="apple-touch-icon" href="icon.png">
@@ -257,7 +257,8 @@ main{max-width:1180px;margin:0 auto;padding:calc(103px + var(--st)) 16px calc(96
 .qty.low b{color:var(--red)}
 
 /* ---------- barre d'action ---------- */
-.dock{position:fixed;left:0;right:0;bottom:0;z-index:50;background:var(--bg);border-top:1px solid var(--line);padding:10px 16px calc(10px + var(--sbm))}
+.dock{position:fixed;left:0;right:0;bottom:0;z-index:50;background-color:#0D0E10;border-top:1px solid var(--line);padding:10px 16px calc(10px + var(--sbm))}
+@media (display-mode:standalone){.dock{padding-bottom:max(22px,calc(10px + var(--sbm)))}main{padding-bottom:calc(110px + var(--sbm))}}
 .dock .in{max-width:1180px;margin:0 auto;display:grid;grid-template-columns:1fr 1.4fr;gap:10px}
 .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;height:50px;padding:0 16px;border-radius:var(--r);border:1px solid var(--line-2);
   font:700 16px/1 var(--cond);text-transform:uppercase;letter-spacing:.09em;color:var(--tx);transition:transform .1s}
@@ -356,7 +357,7 @@ main{max-width:1180px;margin:0 auto;padding:calc(103px + var(--st)) 16px calc(96
 .void .btn+.btn{margin-top:8px}
 .ghost{height:74px;margin-top:1px;background:linear-gradient(90deg,var(--panel) 0,var(--panel-2) 40%,var(--panel) 80%);background-size:400px 100%;animation:slide 1s linear infinite}
 
-.toast{position:fixed;left:50%;bottom:calc(84px + var(--sbm));transform:translate(-50%,12px);opacity:0;z-index:200;background:var(--tx);color:var(--bg);
+.toast{position:fixed;left:50%;top:calc(112px + var(--st));transform:translate(-50%,-10px);opacity:0;z-index:200;background:var(--tx);color:var(--bg);
   padding:12px 16px;border-radius:var(--r);font:700 15px/1.1 var(--cond);text-transform:uppercase;letter-spacing:.06em;display:flex;align-items:center;gap:9px;
   transition:opacity .2s,transform .2s;max-width:92vw;box-shadow:0 10px 30px rgba(0,0,0,.5)}
 .toast.on{opacity:1;transform:translate(-50%,0)}
@@ -836,7 +837,7 @@ function compteurs() {
   const r = ETATS.filter(x => x.etat.statut === "retard").length, b = ETATS.filter(x => x.etat.statut === "bientot").length, sb = stockBas().length;
   const put = (k, n, a) => { const t = $(`.tabs a[data-r="${k}"]`); if (!t) return; const o = t.querySelector(".n"); if (o) o.remove(); if (n) t.insertAdjacentHTML("beforeend", `<span class="n${a ? " a" : ""}">${n}</span>`); };
   put("agenda", r || b, !r); put("stock", sb, false);
-  const d = $("#bDot"); if (d) d.hidden = !(window.Notification && Notification.permission === "default");
+  const d = $("#bDot"); if (d) d.hidden = !!(window.Notification && Notification.permission === "granted");
 }
 
 /* =============================================================================
@@ -1486,17 +1487,38 @@ async function verifierAlertesLocales() {
   reg.showNotification(nv.length > 1 ? nv.length + " entretiens à prévoir" : "Entretien à prévoir", { body: l.join("\n") + (nv.length > 4 ? "\n…" : ""), icon: "icon.png", badge: "icon.png", tag: "hke-local" });
 }
 function panReglages() {
-  const perm = window.Notification ? Notification.permission : "indisponible";
-  ouvrir("Réglages", "HK Entretiens", `
-    <div class="menu" style="margin-top:16px">
-      <div class="r"><span style="width:38px;height:38px;display:flex;align-items:center;justify-content:center;background:var(--yel);color:var(--yel-ink)">${ico("bell")}</span>
-        <span class="tx"><b>Alertes 1,5 semaine avant</b><span>${perm === "granted" ? "Actives sur ce téléphone" : perm === "denied" ? "Bloquées dans les réglages du téléphone" : "Révisions, VGP, CT, pneus, tachy"}</span></span>
-        ${perm === "granted" ? '<span class="tg ok">Actives</span>' : '<button class="btn y sm" id="nOn">Activer</button>'}</div>
-      <div class="r"><span style="width:38px;height:38px;display:flex;align-items:center;justify-content:center;border:1px solid var(--line-2)">${ico("zap")}</span>
-        <span class="tx"><b>HK Terrassement</b><span>Accès libre · données partagées par toute l'équipe</span></span></div>
+  const ios = /iPhone|iPad|iPod/.test(navigator.userAgent) || (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
+  const installee = window.matchMedia("(display-mode: standalone)").matches || navigator.standalone === true;
+  const dispo = !!window.Notification && "serviceWorker" in navigator;
+  const perm = dispo ? Notification.permission : "indisponible";
+  const etat = ios && !installee ? ["inconnu", "Pas encore possibles : l'app doit être sur l'écran d'accueil"]
+    : perm === "granted" ? ["ok", "Actives sur ce téléphone"]
+    : perm === "denied" ? ["retard", "Bloquées : Réglages du téléphone › Notifications › HK Entretiens"]
+    : !dispo ? ["inconnu", "Ce navigateur ne gère pas les notifications"]
+    : ["bientot", "Pas encore activées sur ce téléphone"];
+  const etape = (n, t) => `<div style="display:flex;gap:12px;align-items:flex-start;padding:12px 14px;border-top:1px solid var(--line);background:var(--panel)">
+      <b class="mono" style="flex:0 0 26px;height:26px;display:flex;align-items:center;justify-content:center;background:var(--yel);color:var(--yel-ink);font-size:13px">${n}</b>
+      <span style="font-size:14px;line-height:1.4;padding-top:3px">${t}</span></div>`;
+  ouvrir("Alertes", "Réglages", `
+    <div class="svc" style="margin-top:16px">
+      <div class="h" style="padding-bottom:14px"><span class="ico" style="background:var(--yel);color:var(--yel-ink);border:0">${ico("bell")}</span>
+        <span class="ti"><b>Prévenu 1,5 semaine avant</b><small>${etat[1]}</small></span></div>
+      <div class="kv2" style="margin-top:0"><div><small>Quand</small><b>11 j avant · tous les matins</b></div><div><small>Pour</small><b>Révision, VGP, CT, pneus</b></div></div>
     </div>
-    <p style="color:var(--tx-3);font-size:12.5px;margin-top:12px">Sur iPhone, les notifications ne marchent qu'après « Partager → Sur l'écran d'accueil ».</p>
-`, "", (p, fermer) => {
+    ${perm === "granted" && !(ios && !installee) ? `<div class="alert g" style="margin-top:12px">${ico("check")}<span>Ce téléphone recevra les alertes. Rien d'autre à faire.</span></div>`
+    : ios && !installee ? `<div class="cap">Sur iPhone, 3 étapes</div>
+      <div style="border:1px solid var(--line)">
+        ${etape(1, "En bas de Safari, touchez <b>Partager</b> (le carré avec la flèche).")}
+        ${etape(2, "Choisissez <b>Sur l'écran d'accueil</b>, puis <b>Ajouter</b>.")}
+        ${etape(3, "Ouvrez <b>HK Entretiens</b> depuis la nouvelle icône, puis revenez ici et touchez <b>Activer</b>.")}
+      </div>
+      <p style="color:var(--tx-3);font-size:12.5px;margin-top:10px">C'est une règle d'Apple : Safari ne peut pas afficher de notifications tant que l'app n'est pas sur l'écran d'accueil. Bonus : l'app s'ouvre alors en plein écran, sans les barres de Safari.</p>`
+    : perm === "denied" ? `<div class="alert" style="margin-top:12px">${ico("alert")}<span>Les notifications ont été refusées. Ouvrez les <b>Réglages</b> du téléphone › <b>Notifications</b> › <b>HK Entretiens</b> et autorisez-les.</span></div>`
+    : dispo ? `<button class="btn y full" style="margin-top:14px" id="nOn">${ico("bell")} Activer les alertes</button>` : ""}
+    <div class="menu" style="margin-top:22px">
+      <div class="r"><span style="width:38px;height:38px;flex:0 0 38px;display:flex;align-items:center;justify-content:center;border:1px solid var(--line-2)">${ico("zap")}</span>
+        <span class="tx"><b>HK Terrassement</b><span>Accès libre · données partagées par toute l'équipe</span></span></div>
+    </div>`, "", (p, fermer) => {
       if ($("#nOn", p)) $("#nOn", p).onclick = ev => occupe(ev.currentTarget, async () => { await activerNotifs(); fermer(); compteurs(); toast("Alertes activées"); });
     });
 }
