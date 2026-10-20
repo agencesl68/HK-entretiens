@@ -782,21 +782,16 @@ function vueLogin() {
     demarrer();
   };
 }
+/* Accès libre : pas d'identifiant ni de mot de passe. L'app parle à la base
+   avec la clé publique ; c'est le script 37 qui l'autorise sur ces tables. */
 async function demarrer() {
-  try { session = JSON.parse(localStorage.getItem(CLE_SESSION)); } catch (e) { session = null; }
-  if (!session) return vueLogin();
-  Store.demo = !!session.demo;
-  if (Store.demo && !Store.local()) Store.saveLocal(creerDemo());
+  try { localStorage.removeItem(CLE_SESSION); } catch (e) {}
+  session = null; Store.demo = false;
   coquille();
   $("#view").innerHTML = '<div style="height:16px"></div>' + '<div class="ghost"></div>'.repeat(6);
-  try {
-    if (!Store.demo && !S.moi) {
-      const m = await SB.q("employes?select=id,nom,role&auth_id=eq." + session.uid).catch(() => null);
-      S.moi = m && m[0] ? m[0] : { nom: session.identifiant };
-    }
-    await chargerTout();
-  } catch (e) {
-    $("#view").innerHTML = `<div class="void"><b>Accès impossible</b><p>${esc(e.message)}. Le script SQL des entretiens est-il installé, et ce compte a-t-il l'accès ?</p><button class="btn" onclick="deconnexion()">Se déconnecter</button></div>`;
+  try { await chargerTout(); }
+  catch (e) {
+    $("#view").innerHTML = `<div class="void"><b>Base injoignable</b><p>${esc(e.message)}. Vérifiez la connexion internet, ou que le script 37 (accès libre) est bien lancé dans Supabase.</p><button class="btn" onclick="location.reload()">Réessayer</button></div>`;
     return;
   }
   route();
@@ -1491,20 +1486,17 @@ async function verifierAlertesLocales() {
 }
 function panReglages() {
   const perm = window.Notification ? Notification.permission : "indisponible";
-  ouvrir("Réglages", Store.demo ? "Mode démo" : (S.moi && S.moi.nom) || "", `
+  ouvrir("Réglages", "HK Entretiens", `
     <div class="menu" style="margin-top:16px">
       <div class="r"><span style="width:38px;height:38px;display:flex;align-items:center;justify-content:center;background:var(--yel);color:var(--yel-ink)">${ico("bell")}</span>
         <span class="tx"><b>Alertes 1,5 semaine avant</b><span>${perm === "granted" ? "Actives sur ce téléphone" : perm === "denied" ? "Bloquées dans les réglages du téléphone" : "Révisions, VGP, CT, pneus, tachy"}</span></span>
         ${perm === "granted" ? '<span class="tg ok">Actives</span>' : '<button class="btn y sm" id="nOn">Activer</button>'}</div>
       <div class="r"><span style="width:38px;height:38px;display:flex;align-items:center;justify-content:center;border:1px solid var(--line-2)">${ico("zap")}</span>
-        <span class="tx"><b>${Store.demo ? "Démonstration" : esc((S.moi && S.moi.nom) || "Compte HK")}</b><span>${Store.demo ? "Données sur ce téléphone uniquement" : "Connecté à HK Terrassement"}</span></span></div>
+        <span class="tx"><b>HK Terrassement</b><span>Accès libre · données partagées par toute l'équipe</span></span></div>
     </div>
     <p style="color:var(--tx-3);font-size:12.5px;margin-top:12px">Sur iPhone, les notifications ne marchent qu'après « Partager → Sur l'écran d'accueil ».</p>
-    ${Store.demo ? `<button class="btn full" style="margin-top:16px" id="dR">${ico("trash")} Réinitialiser la démo</button>` : ""}
-    <button class="btn full" style="margin-top:10px" id="lO">${ico("logout")} ${Store.demo ? "Quitter la démo" : "Se déconnecter"}</button>`, "", (p, fermer) => {
+`, "", (p, fermer) => {
       if ($("#nOn", p)) $("#nOn", p).onclick = ev => occupe(ev.currentTarget, async () => { await activerNotifs(); fermer(); compteurs(); toast("Alertes activées"); });
-      if ($("#dR", p)) $("#dR", p).onclick = async () => { Store.saveLocal(creerDemo()); await chargerTout(); fermer(); route(); toast("Démo réinitialisée"); };
-      $("#lO", p).onclick = () => { fermer(); deconnexion(); };
     });
 }
 
