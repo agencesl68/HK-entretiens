@@ -13,7 +13,8 @@
 <link rel="icon" href="icon.png?v=2">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet">
+<!-- police chargée sans bloquer l'affichage (réseau faible) -->
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
 <title>HK Entretiens</title>
 <style>
 /* HK TERRASSEMENT — ENTRETIENS DU PARC */
@@ -546,11 +547,11 @@ let session = null;
 const TABLES = ["engins", "entretien_plans", "entretien_interventions", "entretien_releves", "stock_articles"];
 
 /* Réseau de chantier (4G faible) : une demande bloquée est abandonnée au bout
-   de 8 s ; une lecture est retentée 2 fois avant d'afficher une erreur. */
+   de 5 s ; une lecture est retentée 2 fois avant d'afficher une erreur. */
 async function envoi(url, opt) {
   const essais = (opt.method || "GET") === "GET" ? 3 : 1;
   for (let k = 1; ; k++) {
-    const ctl = new AbortController(), t = setTimeout(() => ctl.abort(), 8000);
+    const ctl = new AbortController(), t = setTimeout(() => ctl.abort(), 5000);
     try { return await fetch(url, Object.assign({ cache: "no-store", signal: ctl.signal }, opt)); }
     catch (e) { if (k >= essais) throw new Error("Pas de connexion"); await new Promise(r => setTimeout(r, 400 * k)); }
     finally { clearTimeout(t); }
@@ -613,6 +614,22 @@ async function chargerTout() {
   recalc();
 }
 
+/* Copie des dernières données sur le téléphone : l'app s'ouvre aussitôt avec
+   elle, puis se met à jour quand le réseau répond (4G faible sur chantier). */
+const CLE_COPIE = "hke_copie";
+function lireCopie() {
+  try {
+    const c = JSON.parse(localStorage.getItem(CLE_COPIE));
+    if (!c || !Array.isArray(c.engins)) return false;
+    Object.assign(S, { engins: c.engins, plans: c.plans, inter: c.inter, releves: c.releves, stock: c.stock, charge: true });
+    recalc(); return true;
+  } catch (e) { return false; }
+}
+function garderCopie() {
+  if (Store.demo || !S.charge) return;
+  try { localStorage.setItem(CLE_COPIE, JSON.stringify({ engins: S.engins, plans: S.plans, inter: S.inter, releves: S.releves, stock: S.stock })); } catch (e) {}
+}
+
 /* Recalcul de toutes les échéances */
 let ETATS = [];
 function recalc() {
@@ -625,6 +642,7 @@ function recalc() {
     const e = actifs.get(p.engin_id);
     return { plan: p, engin: e, etat: E.calculer(p, e, taux[e.id], auj) };
   });
+  garderCopie();
 }
 const etatsDe = id => ETATS.filter(x => x.engin.id === id).sort(triEtat);
 function triEtat(a, b) {
@@ -831,6 +849,13 @@ async function demarrer() {
   try { localStorage.removeItem(CLE_SESSION); } catch (e) {}
   session = null; Store.demo = false;
   coquille();
+  if (lireCopie()) {
+    route();
+    finOuverture();
+    // mise à jour silencieuse ; on ne redessine pas sous un formulaire ouvert
+    chargerTout().then(() => { if (!pile.length) route(); else compteurs(); verifierAlertesLocales(); }).catch(() => {});
+    return;
+  }
   $("#view").innerHTML = '<div style="height:16px"></div>' + '<div class="ghost"></div>'.repeat(6);
   try { await chargerTout(); }
   catch (e) {

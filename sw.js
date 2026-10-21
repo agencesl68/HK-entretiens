@@ -1,7 +1,7 @@
 /* HK Entretiens — service worker
-   . ouverture hors ligne (réseau d'abord, copie locale en secours)
+   . ouverture rapide même en 4G faible (copie locale si le réseau traîne)
    . notifications push envoyées par la GitHub Action « alertes-entretiens » */
-var CACHE = "hke-v12";
+var CACHE = "hke-v14";
 var COQUILLE = ["./", "index.html", "echeances.js", "manifest.webmanifest", "icon.png?v=2"];
 
 self.addEventListener("install", function (e) {
@@ -12,13 +12,29 @@ self.addEventListener("activate", function (e) {
     return Promise.all(k.filter(function (n) { return n !== CACHE; }).map(function (n) { return caches.delete(n); }));
   }).then(function () { return self.clients.claim(); }));
 });
+/* Ouverture : le réseau a 2,5 s pour répondre, sinon on affiche la copie
+   enregistrée sur le téléphone (jamais d'écran blanc en 4G faible). */
 self.addEventListener("fetch", function (e) {
   var u = new URL(e.request.url);
   if (e.request.method !== "GET" || u.origin !== location.origin) return;   // Supabase : jamais en cache
-  e.respondWith(fetch(e.request).then(function (r) {
-    var copie = r.clone(); caches.open(CACHE).then(function (c) { c.put(e.request, copie); });
+  var copie = function () {
+    return caches.match(e.request, { ignoreSearch: e.request.mode === "navigate" }).then(function (r) {
+      if (r || e.request.mode !== "navigate") return r;
+      return caches.match("./").then(function (x) { return x || caches.match("index.html"); });
+    });
+  };
+  var reseau = fetch(e.request).then(function (r) {
+    if (r && r.ok) { var c2 = r.clone(); caches.open(CACHE).then(function (c) { c.put(e.request, c2); }); }
     return r;
-  }).catch(function () { return caches.match(e.request).then(function (r) { return r || caches.match("index.html"); }); }));
+  });
+  e.respondWith(new Promise(function (ok) {
+    var fini = false;
+    var t = setTimeout(function () {
+      copie().then(function (r) { if (!fini && r) { fini = true; ok(r); } });
+    }, 2500);
+    reseau.then(function (r) { if (!fini) { fini = true; clearTimeout(t); ok(r); } })
+      .catch(function () { clearTimeout(t); copie().then(function (r) { if (!fini) { fini = true; ok(r || Response.error()); } }); });
+  }));
 });
 
 self.addEventListener("push", function (event) {
