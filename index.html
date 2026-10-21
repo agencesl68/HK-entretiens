@@ -545,6 +545,17 @@ const CLE_SESSION = "hke_session", CLE_DEMO = "hke_demo";
 let session = null;
 const TABLES = ["engins", "entretien_plans", "entretien_interventions", "entretien_releves", "stock_articles"];
 
+/* Réseau de chantier (4G faible) : une demande bloquée est abandonnée au bout
+   de 8 s ; une lecture est retentée 2 fois avant d'afficher une erreur. */
+async function envoi(url, opt) {
+  const essais = (opt.method || "GET") === "GET" ? 3 : 1;
+  for (let k = 1; ; k++) {
+    const ctl = new AbortController(), t = setTimeout(() => ctl.abort(), 8000);
+    try { return await fetch(url, Object.assign({ cache: "no-store", signal: ctl.signal }, opt)); }
+    catch (e) { if (k >= essais) throw new Error("Pas de connexion"); await new Promise(r => setTimeout(r, 400 * k)); }
+    finally { clearTimeout(t); }
+  }
+}
 const SB = {
   base: () => CFG.supabaseUrl.replace(/\/+$/, ""),
   async auth(corps, type) {
@@ -555,7 +566,7 @@ const SB = {
   async q(chemin, opt = {}, rejoue) {
     const h = { apikey: CFG.supabaseKey, Authorization: "Bearer " + (session ? session.accessToken : CFG.supabaseKey), "Content-Type": "application/json" };
     if (opt.prefer) h.Prefer = opt.prefer;
-    const r = await fetch(SB.base() + "/rest/v1/" + chemin, { method: opt.method || "GET", headers: h, body: opt.body ? JSON.stringify(opt.body) : undefined });
+    const r = await envoi(SB.base() + "/rest/v1/" + chemin, { method: opt.method || "GET", headers: h, body: opt.body ? JSON.stringify(opt.body) : undefined });
     if (r.status === 401 && !rejoue && session && session.refreshToken) {
       const n = await SB.auth({ refresh_token: session.refreshToken }, "refresh_token");
       if (n && n.access_token) {
