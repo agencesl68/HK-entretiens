@@ -382,14 +382,16 @@ main{max-width:1180px;margin:0 auto;padding:calc(103px + var(--st)) 18px calc(10
 @media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
 
 /* ---------- écran d'ouverture ---------- */
-#splash{position:fixed;inset:0;z-index:500;background:#FFFFFF;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:34px;transition:opacity .45s var(--ease),visibility .45s}
+#splash{position:fixed;inset:0;z-index:500;background:#FFFFFF;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:34px;transition:opacity .3s ease-out,visibility .3s}
 #splash.fin{opacity:0;visibility:hidden}
-#splash .lg{width:150px;height:150px;position:relative;overflow:hidden;border-radius:30px;animation:spl-in .7s cubic-bezier(.2,.9,.3,1.2) both}
+#splash .lg{width:150px;height:150px;position:relative;overflow:hidden;border-radius:30px;animation:spl-in .45s cubic-bezier(.22,1,.36,1) both;will-change:transform,opacity}
 #splash .lg img{width:100%;height:100%;display:block}
-#splash .lg::after{content:"";position:absolute;inset:0;background:linear-gradient(105deg,transparent 35%,rgba(255,255,255,.75) 50%,transparent 65%);transform:translateX(-120%);animation:spl-shine 1.1s .55s ease-in-out both}
-#splash .bar{width:180px;height:5px;border-radius:5px;background:#E6EEFC;overflow:hidden;animation:spl-fade .4s .35s both}
-#splash .bar i{display:block;height:100%;width:0;border-radius:5px;background:linear-gradient(90deg,#1E5BD8,#4F86F0);transition:width .5s var(--ease)}
-@keyframes spl-in{from{opacity:0;transform:scale(.82) translateY(10px)}to{opacity:1;transform:none}}
+#splash .lg::after{content:"";position:absolute;inset:0;background:linear-gradient(105deg,transparent 35%,rgba(255,255,255,.75) 50%,transparent 65%);transform:translateX(-120%);animation:spl-shine .7s .25s ease-in-out both}
+#splash .bar{width:180px;height:5px;border-radius:5px;background:#E6EEFC;overflow:hidden;animation:spl-fade .25s .1s both}
+#splash .bar i{display:block;height:100%;width:100%;border-radius:5px;background:linear-gradient(90deg,#1E5BD8,#4F86F0);transform-origin:left;transform:scaleX(0);animation:spl-load .8s .1s cubic-bezier(.3,.7,.4,1) forwards;will-change:transform}
+#splash .bar i.ok{animation:none;transform:scaleX(1);transition:transform .2s ease-out}
+@keyframes spl-load{to{transform:scaleX(.85)}}
+@keyframes spl-in{from{opacity:0;transform:scale(.92)}to{opacity:1;transform:none}}
 @keyframes spl-shine{to{transform:translateX(120%)}}
 @keyframes spl-fade{from{opacity:0}to{opacity:1}}
 @media (prefers-reduced-motion:reduce){#splash .lg,#splash .lg::after,#splash .bar{animation:none}}
@@ -796,21 +798,19 @@ function vueLogin() {
 }
 /* Accès libre : pas d'identifiant ni de mot de passe. L'app parle à la base
    avec la clé publique ; c'est le script 37 qui l'autorise sur ces tables. */
-/* Écran d'ouverture : logo + barre de chargement, au moins 1,4 s pour
-   laisser l'animation se jouer, puis fondu vers l'app. */
+/* Écran d'ouverture : logo + barre de chargement (≈ 1 s), puis fondu vers l'app. */
 function ouverture() {
-  const bar = $("#splBar"), t0 = Date.now();
-  let p = 0;
-  const pas = setInterval(() => { p = Math.min(85, p + (85 - p) * 0.12 + 1); if (bar) bar.style.width = p + "%"; }, 120);
+  const t0 = Date.now();
   let fini = false;
   const fin = async () => {
     if (fini) return; fini = true;
-    const reste = 1400 - (Date.now() - t0);
+    const reste = 850 - (Date.now() - t0);
     if (reste > 0) await new Promise(r => setTimeout(r, reste));
-    clearInterval(pas); if (bar) bar.style.width = "100%";
-    await new Promise(r => setTimeout(r, 420));
+    const bar = $("#splBar");
+    if (bar) { bar.style.transform = getComputedStyle(bar).transform; bar.classList.add("ok"); requestAnimationFrame(() => { bar.style.transform = "scaleX(1)"; }); }
+    await new Promise(r => setTimeout(r, 220));
     const sp = $("#splash"); if (!sp) return;
-    sp.classList.add("fin"); setTimeout(() => sp.remove(), 500);
+    sp.classList.add("fin"); setTimeout(() => sp.remove(), 350);
   };
   setTimeout(fin, 8000);   // connexion lente : on montre l'app quand même
   return fin;
