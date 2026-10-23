@@ -301,7 +301,7 @@ main{max-width:1180px;margin:0 auto;padding:calc(103px + var(--st)) 18px calc(10
 .pick button.on{background:var(--yel);color:var(--yel-ink)}
 
 .chk{display:flex;flex-wrap:wrap;gap:6px}
-.chk button{min-height:42px;padding:0 12px;border:1px solid var(--line-2);border-radius:var(--r);display:flex;align-items:center;gap:8px;font:700 14.5px/1 var(--cond);color:var(--tx-2)}
+.chk button{min-height:42px;padding:0 12px;text-align:left;border:1px solid var(--line-2);border-radius:var(--r);display:flex;align-items:center;gap:8px;font:700 14.5px/1 var(--cond);color:var(--tx-2)}
 .chk button i{width:16px;height:16px;border:2px solid var(--line-2);display:block;position:relative}
 .chk button.on{border-color:var(--yel);color:var(--tx)}
 .chk button.on i{background:var(--yel);border-color:var(--yel)}
@@ -511,6 +511,7 @@ const uid = () => (crypto.randomUUID ? crypto.randomUUID() : "xxxxxxxx-xxxx-4xxx
 const nf = new Intl.NumberFormat("fr-FR", { maximumFractionDigits: 1 });
 const nfe = new Intl.NumberFormat("fr-FR", { style: "currency", currency: "EUR" });
 const fmtN = v => v == null || v === "" ? "—" : nf.format(+v);
+const fmtT = v => new Intl.NumberFormat("fr-FR", { maximumFractionDigits: 2 }).format(+v) + " t";
 const unite = e => e.compteur_type === "km" ? "km" : e.compteur_type === "heures" ? "h" : "";
 const todayISO = () => E.iso(E.aujourdhui());
 const MOIS = ["janv.", "févr.", "mars", "avr.", "mai", "juin", "juil.", "août", "sept.", "oct.", "nov.", "déc."];
@@ -1015,7 +1016,7 @@ function vueEngin(id) {
   <section class="idp">
     <div class="top"><span class="ic">${ico(e.categorie)}</span>
       <div style="flex:1;min-width:0"><h1>${esc(e.nom)}</h1>
-        <div class="tags">${plaque(e.immat)}<span class="tg line">${CAT[e.categorie].nom}${e.poids_t ? " · " + fmtN(e.poids_t) + " t" : ""}</span>${e.vgp ? '<span class="tg vgp">Soumis VGP</span>' : ""}</div></div>
+        <div class="tags">${plaque(e.immat)}<span class="tg line">${CAT[e.categorie].nom}${e.poids_t ? " · " + fmtT(e.poids_t) : ""}</span>${e.vgp ? '<span class="tg vgp">Soumis VGP</span>' : ""}</div></div>
       <button class="hbtn ed" id="bEd" aria-label="Modifier la fiche">${ico("edit")}</button></div>
     ${e.compteur_type !== "aucun" ? `<div class="meter"><div><small>${e.compteur_type === "km" ? "Kilométrage" : "Heures"}</small>
         <div class="v mono"><span class="odo">${odo}</span><em>${u}</em></div>
@@ -1068,13 +1069,19 @@ function onglet(e) {
         <span class="tg ${on ? "ok" : "inconnu"}">${on ? "→ " + fmtD(pc.garantie_fin, true) : "Expirée"}</span></div>`;
     }).join("")}</div>` : `<div class="void"><b>Aucune pièce sous garantie</b></div>`;
   } else {
-    const kv = [["Catégorie", CAT[e.categorie].nom], ["Plaque", e.immat], ["Marque", e.marque], ["Modèle", e.modele], ["N° de série", e.numero_serie], ["Année", e.annee], ["Poids", e.poids_t ? fmtN(e.poids_t) + " t" : ""], ["VGP", e.vgp ? "Oui" : "Non"], ["Compteur", e.compteur_type === "aucun" ? "Aucun" : e.compteur_type === "km" ? "Kilomètres" : "Heures"], ["Suivis", String(S.plans.filter(p => p.engin_id === e.id).length)]];
+    const kv = [["Catégorie", CAT[e.categorie].nom], ["Plaque", e.immat], ["Marque", e.marque], ["Modèle", e.modele], ["N° de série", e.numero_serie], ["Année", e.annee], ["Poids", e.poids_t ? fmtT(e.poids_t) : ""], ["VGP", e.vgp ? "Oui" : "Non"], ["Compteur", e.compteur_type === "aucun" ? "Aucun" : e.compteur_type === "km" ? "Kilomètres" : "Heures"], ["Suivis", String(S.plans.filter(p => p.engin_id === e.id).length)]];
     box.innerHTML = `<div class="spec">${kv.map(([k, v]) => `<div><small>${k}</small><b>${esc(v || "—")}</b></div>`).join("")}</div>
       ${e.notes ? `<div class="spec" style="grid-template-columns:1fr"><div><small>Notes</small><b style="white-space:pre-wrap;font-weight:500">${esc(e.notes)}</b></div></div>` : ""}
-      <button class="btn full" style="margin-top:10px" id="bE2">${ico("edit")} Modifier la fiche</button>`;
+      <button class="btn full" style="margin-top:10px" id="bE2">${ico("edit")} Modifier la fiche</button>
+      ${(f => f.length ? `<div class="cap">Filtres<span class="c">${f.length}</span></div><div class="rows">${f.map(a => `<button class="sk" data-a="${a.id}" style="width:100%;text-align:left">
+        <span class="tx"><b>${esc(a.nom)}</b><small class="mono">${esc(a.reference)}${a.prix ? " · " + nfe.format(a.prix) : ""}</small></span>
+        <span class="tg ${+a.quantite > 0 ? "ok" : "inconnu"}">${+a.quantite > 0 ? fmtN(a.quantite) + " en stock" : "0 en stock"}</span></button>`).join("")}</div>` : "")(filtresDe(e))}`;
     $("#bE2").onclick = () => panEngin(e);
+    $$("[data-a]", box).forEach(b => b.onclick = () => panArticle(S.stock.find(a => a.id === b.dataset.a)));
   }
 }
+const filtresDe = e => S.stock.filter(a => (a.compatible || "").split(",").map(x => x.trim().toLowerCase()).includes(e.nom.toLowerCase()))
+  .sort((a, b) => (a.nom + a.reference).localeCompare(b.nom + b.reference, "fr", { numeric: true }));
 function ligneLog(i, e, avecEngin) {
   const d = E.versDate(i.date);
   return `<button class="e" data-i="${i.id}"><span class="w"><b>${String(d.getUTCDate()).padStart(2, "0")}.${String(d.getUTCMonth() + 1).padStart(2, "0")}.${String(d.getUTCFullYear()).slice(2)}</b>
@@ -1289,7 +1296,14 @@ function panEngin(e) {
           if (cv != null && cv !== +e.compteur) { row.compteur = cv; row.compteur_le = todayISO(); S.releves.push(await Store.ins("entretien_releves", { id: uid(), engin_id: e.id, date: todayISO(), valeur: cv })); }
           if (row.vgp && !S.plans.some(x => x.engin_id === e.id && x.type === "vgp"))
             S.plans.push(await Store.ins("entretien_plans", { id: uid(), engin_id: e.id, type: "vgp", libelle: "VGP", intervalle_cpt: null, intervalle_mois: cat === "pelle" ? 6 : 12, derniere_date: null, dernier_cpt: null, programme_le: null, alerte_cle: null }));
-          Object.assign(e, await Store.upd("engins", e.id, row)); recalc(); fermer(); toast("Fiche enregistrée"); route();
+          const ancien = e.nom;
+          Object.assign(e, await Store.upd("engins", e.id, row));
+          if (ancien !== e.nom) for (const a of S.stock) {
+            const l = (a.compatible || "").split(",").map(x => x.trim());
+            if (l.some(x => x.toLowerCase() === ancien.toLowerCase()))
+              Object.assign(a, await Store.upd("stock_articles", a.id, { compatible: l.map(x => x.toLowerCase() === ancien.toLowerCase() ? e.nom : x).join(", ") }));
+          }
+          recalc(); fermer(); toast("Fiche enregistrée"); route();
         }
       });
     });
@@ -1418,14 +1432,16 @@ function panIntervention(o) {
           <div class="fl" id="fL" ${rep ? "" : "hidden"}><label for="iL">Description</label><input id="iL" placeholder="ex. Remplacement flexible hydraulique"></div>
           <div class="two"><div class="fl"><label for="iD">Date</label><input id="iD" type="date" value="${todayISO()}"></div>
             ${e.compteur_type !== "aucun" ? `<div class="fl"><label for="iC">Compteur</label><div class="u"><input id="iC" inputmode="decimal" value="${e.compteur ?? ""}" class="mono"><em>${u}</em></div></div>` : ""}</div>
-          <div class="fl"><span class="lab">Pièces changées</span><div id="iX"></div>
+          <div class="fl"><span class="lab">Pièces changées</span>
+            ${filtresDe(e).length ? `<div class="chk" id="iF" style="margin-bottom:8px;text-align:left">${filtresDe(e).map(a => `<button type="button" data-fa="${a.id}"><i></i>${esc(a.nom)} <small class="mono" style="color:var(--tx-3);font-weight:600">${esc(a.reference)}</small></button>`).join("")}</div>` : ""}
+            <div id="iX"></div>
             <div class="find" style="margin-top:6px">${ico("search")}<input id="iQ" placeholder="Chercher dans le stock ou taper un nom" autocomplete="off"></div><div id="iK"></div></div>
           <div class="two"><div class="fl"><label for="iR">Fait par</label><input id="iR" list="dlR" placeholder="Atelier HK, garage…"><datalist id="dlR">${[...new Set(S.inter.map(i => i.prestataire).filter(Boolean))].map(x => `<option value="${esc(x)}">`).join("")}</datalist></div>
             <div class="fl"><label for="iM">Coût</label><div class="u"><input id="iM" inputmode="decimal" class="mono"><em>€</em></div></div></div>
           <div class="fl"><label for="iN">Remarques</label><textarea id="iN" placeholder="Observations, pièces à prévoir…"></textarea></div>`;
         $$("#iP [data-p]", b).forEach(x => x.onclick = () => { sel.has(x.dataset.p) ? sel.delete(x.dataset.p) : sel.add(x.dataset.p); x.classList.toggle("on"); });
         $("#iP [data-rep]", b).onclick = ev => { rep = !rep; ev.currentTarget.classList.toggle("on", rep); $("#fL", b).hidden = !rep; if (rep) $("#iL", b).focus(); };
-        const pieces = () => {
+        let pieces = () => {
           const auj = todayISO();
           $("#iX", b).innerHTML = pcs.map((pc, k) => {
             const ant = [];
@@ -1453,6 +1469,15 @@ function panIntervention(o) {
           $$("[data-ad]", box).forEach(x => x.onclick = () => { const a = S.stock.find(y => y.id === x.dataset.ad); pcs.push({ article_id: a.id, nom: a.nom, reference: a.reference || "", quantite: 1, garantie_mois: /pièce/i.test(a.categorie || "") ? 12 : 0 }); $("#iQ", b).value = ""; box.innerHTML = ""; pieces(); });
           $("[data-lib]", box).onclick = () => { pcs.push({ article_id: null, nom: q, reference: "", quantite: 1, garantie_mois: 12 }); $("#iQ", b).value = ""; box.innerHTML = ""; pieces(); };
         };
+        // filtres de la machine : cocher = ajouté aux pièces, décocher = retiré
+        const majFiltres = () => $$("#iF [data-fa]", b).forEach(x => x.classList.toggle("on", pcs.some(pc => pc.article_id === x.dataset.fa)));
+        $$("#iF [data-fa]", b).forEach(x => x.onclick = () => {
+          const k = pcs.findIndex(pc => pc.article_id === x.dataset.fa);
+          if (k >= 0) pcs.splice(k, 1);
+          else { const a = S.stock.find(y => y.id === x.dataset.fa); pcs.push({ article_id: a.id, nom: a.nom, reference: a.reference || "", quantite: 1, garantie_mois: 0 }); }
+          pieces(); majFiltres();
+        });
+        const pieces0 = pieces; pieces = () => { pieces0(); majFiltres(); };
         $("#iQ", b).oninput = chercher;
         $("#iQ", b).onkeydown = ev => { if (ev.key === "Enter") { ev.preventDefault(); const f = $("#iK button", b); if (f) f.click(); } };
         pieces();

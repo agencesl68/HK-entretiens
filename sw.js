@@ -1,7 +1,7 @@
 /* HK Entretiens — service worker
    . ouverture rapide même en 4G faible (copie locale si le réseau traîne)
    . notifications push envoyées par la GitHub Action « alertes-entretiens » */
-var CACHE = "hke-v14";
+var CACHE = "hke-v15";
 var COQUILLE = ["./", "index.html", "echeances.js", "manifest.webmanifest", "icon.png?v=2"];
 
 self.addEventListener("install", function (e) {
