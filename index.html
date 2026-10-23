@@ -366,15 +366,17 @@ main{max-width:1180px;margin:0 auto;padding:calc(103px + var(--st)) 18px calc(10
 .note svg.i{width:18px;height:18px;color:var(--blu)}
 
 /* ---------- connexion ---------- */
-.login{min-height:100vh;display:grid;grid-template-rows:auto 1fr auto;max-width:460px;margin:0 auto;padding:calc(24px + var(--st)) 20px calc(20px + var(--sbm))}
-.login .hk{width:52px;height:52px;background:var(--yel);color:var(--yel-ink);display:flex;align-items:center;justify-content:center;font:800 26px/1 var(--cond);clip-path:polygon(0 0,100% 0,100% 72%,72% 100%,0 100%)}
-.login h1{margin:40px 0 0;font:800 64px/.86 var(--cond);letter-spacing:-.01em}
-.login h1 span{color:var(--yel)}
-.login p.s{margin:16px 0 0;color:var(--tx-2);max-width:32ch}
-.login form{margin-top:28px}
-.login .err{color:var(--red);font-weight:600;font-size:13.5px;margin-top:10px;min-height:20px}
-.login .demo{margin-top:6px;color:var(--tx-2);font:700 14px/1 var(--cond);padding:14px 0;width:100%;text-align:center;border-top:1px solid var(--line)}
-.login .foot{font:600 10.5px/1.4 var(--mono);color:var(--tx-3);margin-top:20px}
+.login{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:0;max-width:420px;margin:0 auto;padding:calc(24px + var(--st)) 24px calc(24px + var(--sbm));text-align:center;animation:in .3s var(--ease) both}
+.login .lg{width:112px;height:112px;border-radius:24px;border:1px solid var(--line);background:#fff;box-shadow:var(--sh)}
+.login h1{margin:26px 0 0;font:800 26px/1.15 var(--sans);letter-spacing:-.02em}
+.login p.s{margin:8px 0 0;color:var(--tx-3);font-size:15px}
+.login form{width:100%;margin-top:28px}
+.login .code{width:100%;height:64px;border:1.5px solid var(--line-2);border-radius:16px;background:#fff;text-align:center;font:800 30px/1 var(--mono);letter-spacing:.5em;padding-left:.5em;outline:none;color:var(--tx)}
+.login .code:focus{border-color:var(--yel);box-shadow:0 0 0 4px var(--yel-dim)}
+.login .code.err{border-color:var(--red);animation:secoue .35s}
+.login .btn{margin-top:14px}
+.login .err{color:var(--red);font-weight:600;font-size:14px;margin-top:12px;min-height:20px}
+@keyframes secoue{20%,60%{transform:translateX(-6px)}40%,80%{transform:translateX(6px)}}
 
 @media (min-width:900px){
   .score b{font-size:44px}
@@ -803,44 +805,47 @@ function pireAff(id) {
 /* =============================================================================
    CONNEXION
    ============================================================================= */
+/* Accès : un code commun à toute l'équipe (compte entretiens@hk.local,
+   vérifié par Supabase). Tapé une fois par téléphone, puis gardé. */
+const COMPTE_CODE = "entretiens@hk.local";
 function deconnexion() {
-  localStorage.removeItem(CLE_SESSION); session = null; Store.demo = false; S.charge = false; S.moi = null;
+  try { localStorage.removeItem(CLE_SESSION); localStorage.removeItem(CLE_COPIE); } catch (e) {}
+  session = null; Store.demo = false; S.charge = false;
+  pile.slice().forEach(f => f());
   location.hash = ""; vueLogin();
 }
 function vueLogin() {
   $("#app").innerHTML = `
   <div class="login">
-    <div class="hk">HK</div>
-    <div>
-      <h1>Carnet<br>d'entre&shy;tien<br><span>du parc.</span></h1>
-      <p class="s">Révisions, VGP, contrôles, pneus, pièces sous garantie et stock atelier — HK Terrassement.</p>
-      <form id="fLogin" autocomplete="on">
-        <div class="fl"><label for="lid">Identifiant</label><input id="lid" autocomplete="username" autocapitalize="none" spellcheck="false" required></div>
-        <div class="fl"><label for="lpw">Mot de passe</label><input id="lpw" type="password" autocomplete="current-password" required></div>
-        <button class="btn y full" style="margin-top:18px" id="bLog">Entrer</button>
-        <div class="err" id="lerr" role="alert"></div>
-      </form>
-    </div>
-    <div><button class="demo" id="bDemo">Essayer avec le parc de démonstration →</button>
-    <div class="foot">Mêmes identifiants que la feuille d'heures</div></div>
+    <img class="lg" src="icon.png?v=2" alt="HK Terrassement">
+    <h1>Entretiens du parc</h1>
+    <p class="s">Entrez le code d'accès</p>
+    <form id="fCode" autocomplete="off">
+      <input class="code" id="code" type="password" inputmode="numeric" pattern="[0-9]*" maxlength="12" autocomplete="one-time-code" aria-label="Code d'accès" required>
+      <button class="btn y full" id="bCode">Entrer</button>
+      <div class="err" id="cErr" role="alert"></div>
+    </form>
   </div>`;
-  $("#fLogin").onsubmit = async ev => {
-    ev.preventDefault();
-    const b = $("#bLog"); b.disabled = true; b.innerHTML = '<span class="spin"></span>';
-    const r = await SB.auth({ email: $("#lid").value.trim().toLowerCase() + CFG.domaine, password: $("#lpw").value }, "password").catch(() => null);
-    if (!r || !r.access_token) { $("#lerr").textContent = "Identifiant ou mot de passe incorrect."; b.disabled = false; b.textContent = "Entrer"; return; }
-    session = { accessToken: r.access_token, refreshToken: r.refresh_token, uid: r.user && r.user.id, identifiant: $("#lid").value.trim().toLowerCase() };
+  const champ = $("#code"), envoyer = async () => {
+    const b = $("#bCode"), code = champ.value.trim();
+    if (code.length < 6) { $("#cErr").textContent = "Le code fait 6 chiffres."; return; }
+    b.disabled = true; b.innerHTML = '<span class="spin"></span>'; $("#cErr").textContent = "";
+    const rep = await SB.auth({ email: COMPTE_CODE, password: code }, "password").catch(() => null);
+    if (!rep || !rep.access_token) {
+      b.disabled = false; b.textContent = "Entrer";
+      $("#cErr").textContent = rep === null && !navigator.onLine ? "Pas de connexion internet." : "Code incorrect.";
+      champ.value = ""; champ.classList.remove("err"); void champ.offsetWidth; champ.classList.add("err"); champ.focus();
+      return;
+    }
+    session = { accessToken: rep.access_token, refreshToken: rep.refresh_token };
     localStorage.setItem(CLE_SESSION, JSON.stringify(session));
     demarrer();
   };
-  $("#bDemo").onclick = () => {
-    if (!Store.local()) Store.saveLocal(creerDemo());
-    localStorage.setItem(CLE_SESSION, JSON.stringify({ demo: true }));
-    demarrer();
-  };
+  $("#fCode").onsubmit = ev => { ev.preventDefault(); envoyer(); };
+  champ.oninput = () => { champ.value = champ.value.replace(/\D/g, ""); if (champ.value.length === 6) envoyer(); };
+  setTimeout(() => champ.focus(), 300);
 }
-/* Accès libre : pas d'identifiant ni de mot de passe. L'app parle à la base
-   avec la clé publique ; c'est le script 37 qui l'autorise sur ces tables. */
+
 /* Écran d'ouverture : logo + barre de chargement (≈ 1 s), puis fondu vers l'app. */
 function ouverture() {
   const t0 = Date.now();
@@ -860,8 +865,9 @@ function ouverture() {
 }
 async function demarrer() {
   const finOuverture = ouverture();
-  try { localStorage.removeItem(CLE_SESSION); } catch (e) {}
-  session = null; Store.demo = false;
+  try { session = JSON.parse(localStorage.getItem(CLE_SESSION)); } catch (e) { session = null; }
+  Store.demo = false;
+  if (!session || !session.refreshToken) { session = null; await finOuverture(); return vueLogin(); }
   coquille();
   if (lireCopie()) {
     route();
@@ -873,8 +879,9 @@ async function demarrer() {
   $("#view").innerHTML = '<div style="height:16px"></div>' + '<div class="ghost"></div>'.repeat(6);
   try { await chargerTout(); }
   catch (e) {
-    $("#view").innerHTML = `<div class="void"><b>Pas de connexion</b><p>Vérifiez la connexion internet.</p><button class="btn" onclick="location.reload()">Réessayer</button></div>`;
     finOuverture();
+    if (!session) return;   // code refusé / expiré : l'écran du code est déjà affiché
+    $("#view").innerHTML = `<div class="void"><b>Pas de connexion</b><p>Vérifiez la connexion internet.</p><button class="btn" onclick="location.reload()">Réessayer</button></div>`;
     return;
   }
   route();
@@ -1654,8 +1661,12 @@ function panReglages() {
 `
     : perm === "denied" ? `<div class="alert" style="margin-top:12px">${ico("alert")}<span>Les notifications ont été refusées. Ouvrez les <b>Réglages</b> du téléphone › <b>Notifications</b> › <b>HK Entretiens</b> et autorisez-les.</span></div>`
     : dispo ? `<button class="btn y full" style="margin-top:14px" id="nOn">${ico("bell")} Activer les alertes</button>` : ""}
+    <button class="btn full" style="margin-top:28px" id="lock">${ico("logout")} Verrouiller l'app</button>
 `, "", (p, fermer) => {
       if ($("#nOn", p)) $("#nOn", p).onclick = ev => occupe(ev.currentTarget, async () => { await activerNotifs(); fermer(); compteurs(); toast("Alertes activées"); });
+      $("#lock", p).onclick = async () => {
+        if (await confirmer("Verrouiller l'app ?", "Le code d'accès sera demandé à la prochaine ouverture.", "Verrouiller")) deconnexion();
+      };
     });
 }
 
