@@ -396,6 +396,14 @@ main{max-width:1180px;margin:0 auto;padding:calc(103px + var(--st)) 18px calc(10
 @keyframes spl-shine{to{transform:translateX(120%)}}
 @keyframes spl-fade{from{opacity:0}to{opacity:1}}
 @media (prefers-reduced-motion:reduce){#splash .lg,#splash .lg::after,#splash .bar{animation:none}}
+
+/* ---------- photos des filtres ---------- */
+.vig{width:52px;height:52px;flex:0 0 52px;object-fit:contain;background:#fff;border:1px solid var(--line);border-radius:10px;padding:3px}
+.vig.sm{width:40px;height:40px;flex-basis:40px;border-radius:8px;padding:2px}
+.vig.lg{display:block;width:100%;height:220px;padding:12px;border-radius:var(--r);margin-top:16px}
+.sk.av-photo{grid-template-columns:auto 1fr auto}
+.sk .tx b{white-space:normal;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.part.av-photo{grid-template-columns:40px 1fr 64px 96px 40px}
 </style>
 </head>
 <body>
@@ -1073,13 +1081,17 @@ function onglet(e) {
     box.innerHTML = `<div class="spec">${kv.map(([k, v]) => `<div><small>${k}</small><b>${esc(v || "—")}</b></div>`).join("")}</div>
       ${e.notes ? `<div class="spec" style="grid-template-columns:1fr"><div><small>Notes</small><b style="white-space:pre-wrap;font-weight:500">${esc(e.notes)}</b></div></div>` : ""}
       <button class="btn full" style="margin-top:10px" id="bE2">${ico("edit")} Modifier la fiche</button>
-      ${(f => f.length ? `<div class="cap">Filtres<span class="c">${f.length}</span></div><div class="rows">${f.map(a => `<button class="sk" data-a="${a.id}" style="width:100%;text-align:left">
+      ${(f => f.length ? `<div class="cap">Filtres<span class="c">${f.length}</span></div><div class="rows">${f.map(a => `<button class="sk${photoRef(a.reference) ? " av-photo" : ""}" data-a="${a.id}" style="width:100%;text-align:left">${vignette(a.reference)}
         <span class="tx"><b>${esc(a.nom)}</b><small class="mono">${esc(a.reference)}${a.prix ? " · " + nfe.format(a.prix) : ""}</small></span>
         <span class="tg ${+a.quantite > 0 ? "ok" : "inconnu"}">${+a.quantite > 0 ? fmtN(a.quantite) + " en stock" : "0 en stock"}</span></button>`).join("")}</div>` : "")(filtresDe(e))}`;
     $("#bE2").onclick = () => panEngin(e);
     $$("[data-a]", box).forEach(b => b.onclick = () => panArticle(S.stock.find(a => a.id === b.dataset.a)));
   }
 }
+/* Photos des filtres : catalogue Hifi Filter, par référence (SH 60870 → photo du SH 776642 qui le remplace). */
+const PHOTOS = {"FS 244": "12fcfe53-4650-4863-bff7-a3edad890020", "FS 327": "99e6c183-07e1-46ee-99e3-ae47c729751f", "SA 11790": "f91b5526-ca0f-492f-81f1-5f659bba5673", "SA 13990": "764e3b45-bb5c-4541-bfcc-3f3647131c04", "SA 14085": "22f62033-738b-45e9-b008-8042398d8a90", "SA 14472": "a225a5fd-1986-4115-b845-6ed8350bf55f", "SA 16074": "3bb37c3a-378e-4201-8e10-8c38a0127136", "SA 16190": "bbc7234a-7ebe-475e-975c-cb73233d5d1c", "SA 16414": "cf4d1c4b-47f3-4807-9efa-c943640dabff", "SA 16673": "89a2a261-5738-44f1-8256-f65352e9166b", "SA 17100": "f5c99929-0923-4dd7-ac67-8fc23b947a12", "SA 17101": "3ff91f64-0a22-4afa-bc04-71ed24461f27", "SA 17561": "02bda7cf-755c-4996-a73d-3ab8e74fff06", "SA 17562": "7f7bcab2-4f04-4a17-a916-de3ac7ec9631", "SAO 8666": "1455a956-ec43-445a-96ef-c233ebcd1312", "SC 50299": "68984fc2-d8ad-488d-8fc0-aabd648d8aef", "SC 50300": "a50c49ea-7d9d-44e1-a906-763f4d3b4caa", "SC 60075": "1171c76d-8047-48aa-ae7c-9825875d495d", "SC 60113": "32a4eca6-f952-463a-8f4b-7de52c1f1c12", "SC 90093": "c9d58d99-8a6d-4a04-84a6-5ae56ce43889", "SC 90367": "b08e47d3-9c63-4914-b44b-f66e1c891dc9", "SD 70380": "57a259aa-e380-4416-814b-e7e2b6a6337c", "SH 56050": "434834c4-c310-4632-ad23-7628906cc591", "SH 60264": "87068304-08e5-4e5f-aa76-406d55849285", "SH 60394": "47b78f48-d717-4c65-9ff2-fee148ec6673", "SH 60870": "bc2fb8d1-8cbf-42a9-a85c-4166a3cb810e", "SH 68103": "567056b6-929d-49d6-8e15-42297e483bb4", "SH 74212 SP": "c92ce663-8ed6-44a1-a8b3-b0958fea7ac1", "SH 74373": "89f3a3e7-e866-4171-8f2e-728b6933e6ce", "SH 74705 SP": "30e7ac0d-4879-4d66-a3b4-cfeca35fd69b", "SN 21589": "052eeb90-84a7-4d1b-8fa1-9eb27e4cf2e6", "SN 25106": "b540b354-6a5a-493e-b9ed-072e9b313d66", "SN 327": "6303884e-3724-4b9b-b1fc-0a6fb533f069", "SN 40709": "4f2deb5b-be3e-4d4f-a626-56c35d013ddf", "SN 40879": "da900301-50b5-40db-b562-41bb42f47c4f", "SN 556": "9060a50e-9ecc-4f44-85d0-7f9b99682eb9", "SN 565": "7f08052b-bf2d-48b8-a68c-0d60a1f58e0d", "SN 70391": "feda8054-dab8-4251-8efb-f18d78c71aac", "SN 70392": "6ebd4179-be06-488b-96bc-be334e393d8d", "SN 70552": "c2ad0a28-cf6c-4011-81b2-5dab99027c16", "SO 10184": "e91e6612-e821-4ab8-ac77-86279794e8e1", "SO 11110": "d9324e74-d76d-4fa2-ba14-3816480befee", "SO 434": "8e9bed55-8bf6-433c-a67b-9f7f5122e116", "SO 6117": "a5743640-319b-4abd-892d-1071c5c92a4e", "SO 673": "1b622fdf-3f79-427c-af90-b7d5585a8617", "WE 2071": "d2e87c88-ef03-4332-a2a0-a4b4cef10c81"};
+const photoRef = ref => { const id = PHOTOS[String(ref || "").trim().toUpperCase().replace(/\s+/g, " ")]; return id ? "https://data.hifi-filter.com/product/photo/md-" + id : ""; };
+const vignette = (ref, taille) => { const u = photoRef(ref); return u ? `<img class="vig${taille ? " " + taille : ""}" src="${u}" alt="" loading="lazy" onerror="this.remove()">` : ""; };
 const filtresDe = e => S.stock.filter(a => (a.compatible || "").split(",").map(x => x.trim().toLowerCase()).includes(e.nom.toLowerCase()))
   .sort((a, b) => (a.nom + a.reference).localeCompare(b.nom + b.reference, "fr", { numeric: true }));
 function ligneLog(i, e, avecEngin) {
@@ -1162,7 +1174,7 @@ function vueStock() {
     const grp = UI.scat === "tout" && !q ? STOCK_CATS.map(c => [c, l.filter(a => (a.categorie || "Autre") === c)]).filter(g => g[1].length) : [[null, l]];
     box.innerHTML = grp.map(([c, as]) => `${c ? `<div class="cap">${esc(c)}<span class="c">${as.length}</span></div>` : '<div style="height:12px"></div>'}
       <div class="rows cols">${as.map(a => { const bas = a.seuil != null && +a.quantite <= +a.seuil;
-        return `<div class="sk ${bas ? "low" : ""}"><button class="tx" data-a="${a.id}"><b>${esc(a.nom)}</b><small class="mono">${[a.reference, a.emplacement].filter(Boolean).map(esc).join(" · ") || "—"}</small>
+        return `<div class="sk ${bas ? "low" : ""}${photoRef(a.reference) ? " av-photo" : ""}">${vignette(a.reference)}<button class="tx" data-a="${a.id}"><b>${esc(a.nom)}</b><small class="mono">${[a.reference, a.emplacement].filter(Boolean).map(esc).join(" · ") || "—"}</small>
           ${a.compatible || bas ? `<small>${bas ? `<span style="color:var(--red);font-weight:700">Seuil ${fmtN(a.seuil)}</span>${a.compatible ? " · " : ""}` : ""}${esc(a.compatible || "")}</small>` : ""}</button>
           <div class="qty ${bas ? "low" : ""}"><button data-m="${a.id}" aria-label="Retirer 1">−</button><b id="q-${a.id}">${fmtN(a.quantite)}<small>${esc(a.unite || "")}</small></b><button data-p="${a.id}" aria-label="Ajouter 1">+</button></div></div>`; }).join("")}</div>`).join("");
     $$("[data-a]", box).forEach(b => b.onclick = () => panArticle(S.stock.find(a => a.id === b.dataset.a)));
@@ -1449,7 +1461,7 @@ function panIntervention(o) {
               if (x.garantie_fin && x.garantie_fin >= auj && ((pc.reference && x.reference && x.reference.toLowerCase() === pc.reference.toLowerCase()) || x.nom.toLowerCase() === pc.nom.toLowerCase())) ant.push({ x, i });
             }));
             const art = pc.article_id ? S.stock.find(a => a.id === pc.article_id) : null;
-            return `<div class="part"><div class="pn">${esc(pc.nom)}<small class="mono">${art ? "stock " + fmtN(art.quantite) + " " + esc(art.unite || "") : "hors stock"}</small></div>
+            return `<div class="part${photoRef(pc.reference) ? " av-photo" : ""}">${vignette(pc.reference, "sm")}<div class="pn">${esc(pc.nom)}<small class="mono">${art ? "stock " + fmtN(art.quantite) + " " + esc(art.unite || "") : "hors stock"}</small></div>
               <input data-q="${k}" inputmode="decimal" value="${pc.quantite}" class="mono" aria-label="Quantité">
               <select data-g="${k}" aria-label="Garantie">${[0, 3, 6, 12, 24, 36].map(m => `<option value="${m}" ${+pc.garantie_mois === m ? "selected" : ""}>${m ? "Gar. " + m + "m" : "Sans gar."}</option>`).join("")}</select>
               <button class="x" data-d="${k}" aria-label="Retirer">${ico("x")}</button></div>
@@ -1519,13 +1531,14 @@ function panDetail(i) {
 function panArticle(a) {
   const neuf = !a; a = a || { categorie: "Filtres", unite: "pcs", quantite: 0, seuil: 1 };
   ouvrir(neuf ? "Nouvel article" : "Modifier l'article", "", `
+    ${neuf ? "" : vignette(a.reference, "lg")}
     <div class="fl"><label for="aN">Désignation</label><input id="aN" value="${esc(a.nom || "")}" placeholder="ex. Filtre à huile moteur"></div>
     <div class="two"><div class="fl"><label for="aR">Référence</label><input id="aR" value="${esc(a.reference || "")}" class="mono"></div>
       <div class="fl"><label for="aC">Catégorie</label><select id="aC">${STOCK_CATS.map(c => `<option ${a.categorie === c ? "selected" : ""}>${esc(c)}</option>`).join("")}</select></div></div>
     <div class="two"><div class="fl"><label for="aQ">Quantité</label><input id="aQ" inputmode="decimal" value="${a.quantite ?? 0}" class="mono"></div>
       <div class="fl"><label for="aU">Unité</label><select id="aU">${["pcs", "L", "kg", "cart.", "jeu", "m"].map(u => `<option ${a.unite === u ? "selected" : ""}>${u}</option>`).join("")}</select></div></div>
     <div class="two"><div class="fl"><label for="aS">Stock minimum</label><input id="aS" inputmode="decimal" value="${a.seuil ?? ""}" class="mono"></div>
-      <div class="fl"><label for="aP">Prix unitaire</label><div class="u"><input id="aP" inputmode="decimal" value="${a.prix ?? ""}" class="mono"><em>€</em></div></div></div>
+      <div class="fl"><label for="aP">Prix unitaire</label><div class="u"><input id="aP" inputmode="decimal" value="${a.prix != null ? (+a.prix).toFixed(2).replace(".", ",") : ""}" class="mono"><em>€</em></div></div></div>
     <div class="fl"><label for="aK">Pour quels engins</label><input id="aK" value="${esc(a.compatible || "")}" placeholder="ex. Pelle 9 T Case, Camion 8x4 MAN"></div>
     <div class="fl"><label for="aE">Emplacement</label><input id="aE" value="${esc(a.emplacement || "")}" placeholder="ex. Atelier · Étagère A"></div>
     ${neuf ? "" : `<button class="btn red full" style="margin-top:20px" id="aX">${ico("trash")} Supprimer l'article</button>`}`,
