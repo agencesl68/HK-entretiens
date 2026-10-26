@@ -245,7 +245,7 @@ main{max-width:1180px;margin:0 auto;padding:calc(103px + var(--st)) 18px calc(10
 .sk .tx{min-width:0;text-align:left}
 .sk .tx b{display:block;font:650 16.5px/1.25 var(--sans);text-transform:none;letter-spacing:-.01em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .sk .tx small{display:block;font-size:12px;color:var(--tx-3);margin-top:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.qty{display:grid;grid-template-columns:42px 62px 42px;height:44px;border:1px solid var(--line-2);border-radius:var(--r);overflow:hidden}
+.qty{display:grid;grid-template-columns:40px 48px 40px;height:44px;border:1px solid var(--line-2);border-radius:var(--r);overflow:hidden}
 .qty button{font:600 22px/1 var(--mono);color:var(--tx-2);display:flex;align-items:center;justify-content:center}
 .qty button:active{background:var(--panel-3)}
 .qty b{display:flex;flex-direction:column;align-items:center;justify-content:center;border-left:1px solid var(--line-2);border-right:1px solid var(--line-2);font:700 16px/1 var(--mono);background:var(--panel-2)}
@@ -404,6 +404,11 @@ main{max-width:1180px;margin:0 auto;padding:calc(103px + var(--st)) 18px calc(10
 .sk.av-photo{grid-template-columns:auto 1fr auto}
 .sk .tx b{white-space:normal;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
 .part.av-photo{grid-template-columns:40px 1fr 64px 96px 40px}
+
+.subcap{display:flex;align-items:center;gap:8px;margin:18px 2px 8px;font:700 14px/1 var(--sans);color:var(--tx)}
+.subcap span{font:600 12px/1 var(--mono);color:var(--tx-3);background:var(--panel-3);padding:3px 7px;border-radius:9px}
+#ssf{margin-top:8px}
+#ssf button{height:32px;font-size:13px}
 </style>
 </head>
 <body>
@@ -920,7 +925,7 @@ function compteurs() {
 /* =============================================================================
    ROUTAGE
    ============================================================================= */
-const UI = { cat: "tout", q: "", scat: "tout", sq: "", jq: "", onglet: "suivi", mois: null, jour: null };
+const UI = { cat: "tout", q: "", scat: "tout", ssub: "tout", sq: "", jq: "", onglet: "suivi", mois: null, jour: null };
 function route() {
   if (!S.charge) return;
   const h = location.hash.replace(/^#\/?/, "").split("/"), r = h[0] || "parc";
@@ -1150,18 +1155,41 @@ function vueAgenda() {
 /* =============================================================================
    STOCK
    ============================================================================= */
+const SOUS_FILTRES = ["Huile", "Gasoil", "Air", "Habitacle", "Hydraulique", "Aération", "Urée", "Refroidissement", "Autres"];
+function sousCat(a) {
+  if ((a.categorie || "") !== "Filtres") return null;
+  const n = (a.nom || "").toLowerCase();
+  if (/reniflard|aération|aeration/.test(n)) return "Aération";
+  if (/huile/.test(n)) return "Huile";
+  if (/gasoil|gazole|carburant/.test(n)) return "Gasoil";
+  if (/urée|uree|adblue/.test(n)) return "Urée";
+  if (/refroidissement/.test(n)) return "Refroidissement";
+  if (/habitacle/.test(n)) return "Habitacle";
+  if (/hydraulique/.test(n)) return "Hydraulique";
+  if (/\bair\b/.test(n)) return "Air";
+  return "Autres";
+}
 function vueStock() {
   entete("Stock atelier", S.stock.length + " références");
   $("#view").innerHTML = `
   <div class="tools"><div class="find">${ico("search")}<input id="sq" type="search" placeholder="Filtre, référence, engin…" value="${esc(UI.sq)}" aria-label="Rechercher un article"></div>
     <button class="btn y sm" id="bNA" style="height:44px">${ico("plus")} Article</button></div>
-  <div class="filters" id="sf"></div><div id="sl"></div>`;
+  <div class="filters" id="sf"></div><div class="filters" id="ssf"></div><div id="sl"></div>`;
   const filtres = () => {
     const nb = stockBas().length;
     $("#sf").innerHTML = `<button data-c="tout" class="${UI.scat === "tout" ? "on" : ""}">Tout <span class="c">${S.stock.length}</span></button>` +
       `<button data-c="bas" class="${UI.scat === "bas" ? "on" : ""}" style="${nb && UI.scat !== "bas" ? "border-color:var(--red);color:var(--red)" : ""}">À commander <span class="c">${nb}</span></button>` +
       STOCK_CATS.filter(c => S.stock.some(a => a.categorie === c)).map(c => `<button data-c="${esc(c)}" class="${UI.scat === c ? "on" : ""}">${esc(c)}</button>`).join("");
-    $$("#sf button").forEach(b => b.onclick = () => { UI.scat = b.dataset.c; filtres(); liste(); });
+    $$("#sf button").forEach(b => b.onclick = () => { UI.scat = b.dataset.c; UI.ssub = "tout"; filtres(); liste(); });
+    // 2e rangée : sous-catégories quand « Filtres » est choisi
+    const sub = $("#ssf"), f = S.stock.filter(a => a.categorie === "Filtres");
+    sub.hidden = UI.scat !== "Filtres";
+    if (!sub.hidden) {
+      UI.ssub = UI.ssub || "tout";
+      sub.innerHTML = `<button data-s="tout" class="${UI.ssub === "tout" ? "on" : ""}">Tous les filtres</button>` +
+        SOUS_FILTRES.filter(x => f.some(a => sousCat(a) === x)).map(x => `<button data-s="${x}" class="${UI.ssub === x ? "on" : ""}">${x} <span class="c">${f.filter(a => sousCat(a) === x).length}</span></button>`).join("");
+      $$("#ssf button").forEach(b => b.onclick = () => { UI.ssub = b.dataset.s; filtres(); liste(); });
+    }
   };
   const liste = () => {
     const box = $("#sl"), q = UI.sq.trim().toLowerCase();
@@ -1169,14 +1197,27 @@ function vueStock() {
     let l = S.stock.filter(a => !q || [a.nom, a.reference, a.compatible, a.emplacement].join(" ").toLowerCase().includes(q));
     if (UI.scat === "bas") l = l.filter(a => a.seuil != null && +a.quantite <= +a.seuil);
     else if (UI.scat !== "tout") l = l.filter(a => a.categorie === UI.scat);
+    if (UI.scat === "Filtres" && UI.ssub && UI.ssub !== "tout") l = l.filter(a => sousCat(a) === UI.ssub);
     if (!l.length) { box.innerHTML = `<div class="void"><b>Aucun article</b><p>Rien ne correspond à ce filtre.</p></div>`; return; }
-    l.sort(sortNom);
-    const grp = UI.scat === "tout" && !q ? STOCK_CATS.map(c => [c, l.filter(a => (a.categorie || "Autre") === c)]).filter(g => g[1].length) : [[null, l]];
-    box.innerHTML = grp.map(([c, as]) => `${c ? `<div class="cap">${esc(c)}<span class="c">${as.length}</span></div>` : '<div style="height:12px"></div>'}
-      <div class="rows cols">${as.map(a => { const bas = a.seuil != null && +a.quantite <= +a.seuil;
-        return `<div class="sk ${bas ? "low" : ""}${photoRef(a.reference) ? " av-photo" : ""}">${vignette(a.reference)}<button class="tx" data-a="${a.id}"><b>${esc(a.nom)}</b><small class="mono">${[a.reference, a.emplacement].filter(Boolean).map(esc).join(" · ") || "—"}</small>
+    const fr = (x, y) => String(x || "").localeCompare(String(y || ""), "fr", { numeric: true, sensitivity: "base" });
+    l.sort((a, b) => a.categorie === "Filtres" && b.categorie === "Filtres" ? fr(a.compatible, b.compatible) || fr(a.reference, b.reference) : sortNom(a, b));
+    // regroupement : catégorie, puis sous-catégorie pour les filtres
+    const grp = [];
+    const cats = UI.scat === "tout" && !q ? STOCK_CATS : [null];
+    for (const c of cats) {
+      const lc = c ? l.filter(a => (a.categorie || "Autre") === c) : l;
+      if (!lc.length) continue;
+      const subs = !q && (c === "Filtres" || (c === null && UI.scat === "Filtres" && (!UI.ssub || UI.ssub === "tout")));
+      if (subs) {
+        if (c) grp.push({ titre: c, n: lc.length, liste: [] });
+        for (const x of SOUS_FILTRES) { const ls = lc.filter(a => sousCat(a) === x); if (ls.length) grp.push({ sous: "Filtres " + (x === "Autres" ? "divers" : x === "Air" ? "à air" : x === "Huile" ? "à huile" : x === "Gasoil" ? "à gasoil" : x === "Urée" ? "à urée" : x === "Aération" ? "d'aération" : x === "Refroidissement" ? "de refroidissement" : x.toLowerCase()), n: ls.length, liste: ls }); }
+      } else grp.push({ titre: c, n: lc.length, liste: lc });
+    }
+    box.innerHTML = grp.map(g => `${g.titre ? `<div class="cap">${esc(g.titre)}<span class="c">${g.n}</span></div>` : g.sous ? `<div class="subcap">${esc(g.sous)}<span>${g.n}</span></div>` : '<div style="height:12px"></div>'}
+      ${g.liste.length ? `<div class="rows cols">${g.liste.map(a => { const bas = a.seuil != null && +a.quantite <= +a.seuil;
+        return `<div class="sk ${bas ? "low" : ""}${photoRef(a.reference) ? " av-photo" : ""}">${vignette(a.reference)}<button class="tx" data-a="${a.id}">${a.reference ? `<b class="mono">${esc(a.reference)}</b><small>${esc(a.nom)}${a.emplacement ? " · " + esc(a.emplacement) : ""}</small>` : `<b>${esc(a.nom)}</b>${a.emplacement ? `<small>${esc(a.emplacement)}</small>` : ""}`}
           ${a.compatible || bas ? `<small>${bas ? `<span style="color:var(--red);font-weight:700">Seuil ${fmtN(a.seuil)}</span>${a.compatible ? " · " : ""}` : ""}${esc(a.compatible || "")}</small>` : ""}</button>
-          <div class="qty ${bas ? "low" : ""}"><button data-m="${a.id}" aria-label="Retirer 1">−</button><b id="q-${a.id}">${fmtN(a.quantite)}<small>${esc(a.unite || "")}</small></b><button data-p="${a.id}" aria-label="Ajouter 1">+</button></div></div>`; }).join("")}</div>`).join("");
+          <div class="qty ${bas ? "low" : ""}"><button data-m="${a.id}" aria-label="Retirer 1">−</button><b id="q-${a.id}">${fmtN(a.quantite)}<small>${esc(a.unite || "")}</small></b><button data-p="${a.id}" aria-label="Ajouter 1">+</button></div></div>`; }).join("")}</div>` : ""}`).join("");
     $$("[data-a]", box).forEach(b => b.onclick = () => panArticle(S.stock.find(a => a.id === b.dataset.a)));
     $$("[data-m],[data-p]", box).forEach(b => b.onclick = () => ajuster(b.dataset.m || b.dataset.p, b.dataset.m ? -1 : 1));
   };
